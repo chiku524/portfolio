@@ -5,6 +5,7 @@ function App() {
   const backgroundCanvasRef = useRef(null)
   const videoRefs = useRef({})
   const trailRef = useRef(null)
+  const rippleLayerRef = useRef(null)
   const audioRef = useRef(null)
   const [isAudioOn, setIsAudioOn] = useState(false)
 
@@ -73,6 +74,29 @@ function App() {
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
     return () => window.removeEventListener('pointermove', handlePointerMove)
+  }, [])
+
+  useEffect(() => {
+    const layer = rippleLayerRef.current
+    if (!layer) return undefined
+
+    const spawnRipple = (event) => {
+      const ripple = document.createElement('span')
+      ripple.className = 'ripple'
+      ripple.style.left = `${event.clientX}px`
+      ripple.style.top = `${event.clientY}px`
+      layer.appendChild(ripple)
+      setTimeout(() => ripple.remove(), 1200)
+    }
+
+    const handlePointerDown = (event) => {
+      if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
+        spawnRipple(event)
+      }
+    }
+
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true })
+    return () => window.removeEventListener('pointerdown', handlePointerDown)
   }, [])
 
   useEffect(() => {
@@ -567,7 +591,7 @@ function App() {
   useEffect(() => {
     const audioEl = audioRef.current
     if (!audioEl) return undefined
-    audioEl.volume = 0.35
+    audioEl.volume = 0.2
     setIsAudioOn(!audioEl.paused)
     const handlePlay = () => setIsAudioOn(true)
     const handlePause = () => setIsAudioOn(false)
@@ -597,7 +621,13 @@ function App() {
     <div className="app">
       <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
       <div className="depth-overlay" aria-hidden="true" />
+      <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
       <div ref={trailRef} className="cursor-trail" aria-hidden="true" />
+      <div className="wave-cluster" aria-hidden="true">
+        <span className="wave wave--far" />
+        <span className="wave wave--mid" />
+        <span className="wave wave--near" />
+      </div>
       <div className="ocean-kelp ocean-kelp--left" aria-hidden="true">
         <span />
         <span />
@@ -614,6 +644,18 @@ function App() {
         <span />
         <span />
         <span />
+      </div>
+      <div className="sea-turtle" aria-hidden="true">
+        <span className="turtle-shell" />
+        <span className="turtle-head" />
+        <span className="turtle-fin turtle-fin--front-left" />
+        <span className="turtle-fin turtle-fin--front-right" />
+        <span className="turtle-fin turtle-fin--back-left" />
+        <span className="turtle-fin turtle-fin--back-right" />
+      </div>
+      <div className="manta-ray" aria-hidden="true">
+        <span className="manta-body" />
+        <span className="manta-tail" />
       </div>
       <div className="jellyfish-field" aria-hidden="true">
         <div className="jellyfish jellyfish--one">
@@ -642,6 +684,29 @@ function App() {
           <span className="jellyfish__tentacle jellyfish__tentacle--one" />
           <span className="jellyfish__tentacle jellyfish__tentacle--three" />
         </div>
+      </div>
+      <div className="coastal-silhouette" aria-hidden="true">
+        <span className="coastline" />
+        <span className="lighthouse">
+          <span className="lighthouse__tower" />
+          <span className="lighthouse__cap" />
+          <span className="lighthouse__light">
+            <span className="lighthouse__beam lighthouse__beam--left" />
+            <span className="lighthouse__beam lighthouse__beam--right" />
+          </span>
+        </span>
+        <span className="palm palm--left">
+          <span className="palm__trunk" />
+          <span className="palm__leaf palm__leaf--one" />
+          <span className="palm__leaf palm__leaf--two" />
+          <span className="palm__leaf palm__leaf--three" />
+        </span>
+        <span className="palm palm--right">
+          <span className="palm__trunk" />
+          <span className="palm__leaf palm__leaf--one" />
+          <span className="palm__leaf palm__leaf--two" />
+          <span className="palm__leaf palm__leaf--three" />
+        </span>
       </div>
       <div className="app__content">
         <header className="nav-wrapper">
@@ -678,6 +743,22 @@ function App() {
           <div className="hero__aurora hero__aurora--three" />
           <div className="hero__ripples hero__ripples--one" />
           <div className="hero__ripples hero__ripples--two" />
+          <div className="hero__spray" aria-hidden="true">
+            <span className="hero__spray-line hero__spray-line--one" />
+            <span className="hero__spray-line hero__spray-line--two" />
+            <span className="hero__spray-line hero__spray-line--three" />
+          </div>
+          <div className="hero__sparkles" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="hero__bubbles" aria-hidden="true">
+            <span className="hero__bubble hero__bubble--one" />
+            <span className="hero__bubble hero__bubble--two" />
+            <span className="hero__bubble hero__bubble--three" />
+          </div>
           <div className="hero__fish-squad" aria-hidden="true">
             <div className="fish fish--one" />
             <div className="fish fish--two" />
@@ -999,7 +1080,13 @@ function App() {
           </div>
         </footer>
       </div>
-      <audio ref={audioRef} src="/audio/ocean-loop.mp3" playsInline loop preload="auto" />
+      <audio
+        ref={audioRef}
+        src="/audio/waves-crashing-on-rock-beach.mp3"
+        playsInline
+        loop
+        preload="auto"
+      />
     </div>
   )
 }

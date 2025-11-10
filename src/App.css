@@ -95,6 +95,26 @@
   pointer-events: none;
 }
 
+.ripple-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+
+.ripple {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  margin-left: -9px;
+  margin-top: -9px;
+  border-radius: 50%;
+  border: 1px solid rgba(148, 197, 255, 0.45);
+  animation: rippleExpand 1.2s ease-out forwards;
+  filter: blur(0.3px);
+}
+
 .ocean-kelp {
   position: fixed;
   bottom: -4vh;
@@ -141,6 +161,48 @@
   animation-duration: 17s;
   animation-delay: -6s;
   transform-origin: bottom left;
+}
+
+.wave-cluster {
+  position: fixed;
+  bottom: 9vh;
+  left: 0;
+  width: 100%;
+  height: 220px;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+
+.wave {
+  position: absolute;
+  width: 240%;
+  height: 160px;
+  left: -70%;
+  background: radial-gradient(circle at 50% 30%, rgba(59, 130, 246, 0.25), rgba(59, 130, 246, 0)),
+    linear-gradient(180deg, rgba(56, 189, 248, 0.35), rgba(12, 74, 110, 0));
+  opacity: 0.45;
+  animation: waveFlow 36s linear infinite;
+  filter: blur(12px);
+}
+
+.wave--far {
+  bottom: 80px;
+  animation-duration: 46s;
+  opacity: 0.28;
+}
+
+.wave--mid {
+  bottom: 40px;
+  animation-duration: 32s;
+  opacity: 0.38;
+}
+
+.wave--near {
+  bottom: 0;
+  animation-duration: 24s;
+  opacity: 0.52;
+  filter: blur(8px);
 }
 
 .ocean-orbs {
@@ -197,6 +259,119 @@
   left: 36%;
   animation-duration: 38s;
   animation-delay: -4s;
+}
+
+.sea-turtle {
+  position: fixed;
+  left: 16vw;
+  bottom: 28vh;
+  width: clamp(160px, 18vw, 260px);
+  height: clamp(110px, 12vw, 180px);
+  pointer-events: none;
+  z-index: 0;
+  animation: turtleSwim 38s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+.turtle-shell {
+  position: absolute;
+  inset: 0;
+  border-radius: 60% 55% 50% 65%;
+  background: radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.82), rgba(14, 116, 144, 0.55));
+  box-shadow: 0 0 32px rgba(34, 197, 94, 0.35);
+}
+
+.turtle-shell::after {
+  content: '';
+  position: absolute;
+  inset: 18% 18% 24%;
+  border-radius: 55% 45% 50% 50%;
+  background: radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.35), rgba(34, 197, 94, 0));
+}
+
+.turtle-head {
+  position: absolute;
+  width: 24%;
+  height: 24%;
+  right: 6%;
+  top: 36%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, rgba(165, 243, 252, 0.85), rgba(14, 116, 144, 0.4));
+}
+
+.turtle-fin {
+  position: absolute;
+  width: 28%;
+  height: 28%;
+  border-radius: 45% 75% 55% 40%;
+  background: linear-gradient(160deg, rgba(20, 184, 166, 0.75), rgba(6, 182, 212, 0.35));
+  transform-origin: top center;
+}
+
+.turtle-fin--front-left {
+  left: 6%;
+  top: 16%;
+  transform: rotate(-26deg);
+  animation: finFlap 3.6s ease-in-out infinite;
+}
+
+.turtle-fin--front-right {
+  right: 6%;
+  top: 18%;
+  transform: rotate(22deg);
+  animation: finFlap 3.6s ease-in-out infinite reverse;
+}
+
+.turtle-fin--back-left {
+  left: 4%;
+  bottom: 12%;
+  transform: rotate(-12deg);
+  animation: finFlap 4.2s ease-in-out infinite;
+}
+
+.turtle-fin--back-right {
+  right: 2%;
+  bottom: 14%;
+  transform: rotate(10deg);
+  animation: finFlap 4.2s ease-in-out infinite reverse;
+}
+
+.manta-ray {
+  position: fixed;
+  right: min(18vw, 280px);
+  bottom: 34vh;
+  width: clamp(140px, 16vw, 220px);
+  height: clamp(90px, 10vw, 160px);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: rayGlide 30s ease-in-out infinite;
+}
+
+.manta-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 50% 50% 60% 60%;
+  background: radial-gradient(circle at 50% 30%, rgba(165, 180, 252, 0.82), rgba(30, 64, 175, 0.4));
+}
+
+.manta-body::after {
+  content: '';
+  position: absolute;
+  inset: 18% 22% 38%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(248, 250, 252, 0.6), rgba(255, 255, 255, 0));
+}
+
+.manta-tail {
+  position: absolute;
+  width: 18%;
+  height: 65%;
+  left: 44%;
+  bottom: -45%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(165, 180, 252, 0.7), rgba(12, 74, 110, 0));
+  transform-origin: top center;
+  animation: tailSway 5s ease-in-out infinite;
 }
 
 .jellyfish-field {
@@ -304,6 +479,143 @@
   transform: scale(0.55);
   animation-duration: 24s;
   animation-delay: -9s;
+}
+
+.coastal-silhouette {
+  position: fixed;
+  bottom: -6vh;
+  left: 0;
+  width: 100%;
+  height: clamp(180px, 18vh, 240px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.coastline {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0), rgba(14, 165, 233, 0.18) 55%, rgba(6, 78, 59, 0.55));
+  clip-path: polygon(0% 32%, 18% 26%, 36% 34%, 55% 28%, 70% 36%, 100% 30%, 100% 100%, 0% 100%);
+  filter: blur(4px);
+}
+
+.lighthouse {
+  position: absolute;
+  left: min(12vw, 200px);
+  bottom: 68px;
+  width: clamp(32px, 4vw, 50px);
+  height: clamp(120px, 16vh, 180px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.lighthouse__tower {
+  width: 60%;
+  height: 80%;
+  border-radius: 12px 12px 4px 4px;
+  background: linear-gradient(180deg, rgba(241, 245, 249, 0.85), rgba(100, 116, 139, 0.4));
+  position: relative;
+  box-shadow: 0 0 24px rgba(148, 163, 184, 0.35);
+}
+
+.lighthouse__tower::after {
+  content: '';
+  position: absolute;
+  inset: 18% 25%;
+  border-top: 3px solid rgba(59, 130, 246, 0.6);
+  border-bottom: 3px solid rgba(59, 130, 246, 0.5);
+}
+
+.lighthouse__cap {
+  position: absolute;
+  bottom: 68%;
+  width: 90%;
+  height: 18%;
+  border-radius: 12px 12px 6px 6px;
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.6));
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+}
+
+.lighthouse__light {
+  position: absolute;
+  bottom: 72%;
+  width: 120%;
+  height: 26%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lighthouse__beam {
+  position: absolute;
+  width: clamp(140px, 22vw, 260px);
+  height: clamp(60px, 8vh, 120px);
+  background: radial-gradient(ellipse at 0% 50%, rgba(191, 219, 254, 0.55), rgba(191, 219, 254, 0));
+  opacity: 0.65;
+  transform-origin: right center;
+  animation: beamSweep 7.5s ease-in-out infinite;
+}
+
+.lighthouse__beam--left {
+  transform: rotate(-10deg);
+}
+
+.lighthouse__beam--right {
+  transform: rotate(12deg);
+  animation-delay: -3.75s;
+}
+
+.palm {
+  position: absolute;
+  bottom: 36px;
+  width: clamp(50px, 6vw, 90px);
+  height: clamp(140px, 16vh, 200px);
+  display: flex;
+  align-items: flex-end;
+}
+
+.palm--left {
+  left: min(24vw, 360px);
+}
+
+.palm--right {
+  left: min(32vw, 420px);
+  transform: scaleX(-1);
+}
+
+.palm__trunk {
+  width: 28%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.45), rgba(100, 116, 139, 0.2));
+  box-shadow: 0 0 18px rgba(148, 163, 184, 0.3);
+  animation: palmSway 6.5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.palm__leaf {
+  position: absolute;
+  width: clamp(100px, 12vw, 160px);
+  height: clamp(40px, 5vw, 70px);
+  border-radius: 50% 0 50% 0;
+  background: linear-gradient(120deg, rgba(34, 197, 94, 0.65), rgba(45, 212, 191, 0.55));
+  top: clamp(12px, 1.5vh, 30px);
+  left: 40%;
+  transform-origin: 0% 50%;
+  animation: frondDrift 7s ease-in-out infinite;
+}
+
+.palm__leaf--two {
+  top: clamp(2px, 1vh, 20px);
+  animation-delay: -2.2s;
+  transform: rotate(-22deg);
+}
+
+.palm__leaf--three {
+  top: clamp(28px, 2.2vh, 42px);
+  animation-delay: -3.8s;
+  transform: rotate(24deg);
 }
 
 body[data-depth='surface'] .background-canvas {
@@ -1617,6 +1929,117 @@ body[data-depth='trench'] .nav-wrapper::after {
   background: radial-gradient(circle at 40% 60%, rgba(45, 212, 191, 0.1), transparent 60%);
 }
 
+.hero__spray {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.hero__spray-line {
+  position: absolute;
+  width: clamp(140px, 16vw, 220px);
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(191, 219, 254, 0), rgba(191, 219, 254, 0.5), rgba(191, 219, 254, 0));
+  filter: blur(1px);
+  animation: sprayDrift 14s ease-in-out infinite;
+}
+
+.hero__spray-line--one {
+  top: 22%;
+  left: 18%;
+}
+
+.hero__spray-line--two {
+  top: 38%;
+  right: 16%;
+  animation-delay: -4s;
+}
+
+.hero__spray-line--three {
+  bottom: 26%;
+  left: 32%;
+  animation-delay: -7s;
+}
+
+.hero__sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.hero__sparkles span {
+  position: absolute;
+  width: clamp(6px, 1vw, 12px);
+  height: clamp(6px, 1vw, 12px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+  opacity: 0.7;
+  animation: sparkleBlink 6s ease-in-out infinite;
+}
+
+.hero__sparkles span:nth-child(1) {
+  top: 18%;
+  left: 28%;
+}
+
+.hero__sparkles span:nth-child(2) {
+  top: 46%;
+  right: 24%;
+  animation-delay: -2s;
+}
+
+.hero__sparkles span:nth-child(3) {
+  bottom: 32%;
+  left: 22%;
+  animation-delay: -4s;
+}
+
+.hero__sparkles span:nth-child(4) {
+  top: 30%;
+  right: 42%;
+  animation-delay: -1s;
+}
+
+.hero__bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.hero__bubble {
+  position: absolute;
+  width: clamp(12px, 1.6vw, 22px);
+  height: clamp(12px, 1.6vw, 22px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(191, 219, 254, 0.55), rgba(191, 219, 254, 0));
+  filter: blur(0.6px);
+  animation: heroBubbleRise 12s ease-in-out infinite;
+}
+
+.hero__bubble--one {
+  left: 18%;
+  bottom: 10%;
+}
+
+.hero__bubble--two {
+  right: 20%;
+  bottom: 18%;
+  animation-delay: -5s;
+}
+
+.hero__bubble--three {
+  right: 42%;
+  bottom: 12%;
+  animation-delay: -2s;
+}
+
 .dot {
   display: inline-flex;
   width: 0.55rem;
@@ -1904,6 +2327,30 @@ body[data-depth='trench'] .nav-wrapper::after {
   }
 }
 
+@keyframes rippleExpand {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.6;
+  }
+  70% {
+    transform: scale(6);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(8.5);
+    opacity: 0;
+  }
+}
+
+@keyframes waveFlow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
+
 @keyframes waveSlide {
   0% {
     background-position: 0 0;
@@ -1968,6 +2415,130 @@ body[data-depth='trench'] .nav-wrapper::after {
   50% {
     transform: translateY(-4px);
     opacity: 1;
+  }
+}
+
+@keyframes turtleSwim {
+  0% {
+    transform: translate3d(-12vw, -2vh, 0) rotate(2deg) scale(0.9);
+  }
+  50% {
+    transform: translate3d(12vw, 4vh, 0) rotate(-2deg) scale(1);
+  }
+  100% {
+    transform: translate3d(-12vw, -2vh, 0) rotate(2deg) scale(0.9);
+  }
+}
+
+@keyframes finFlap {
+  0%,
+  100% {
+    transform: rotate(-6deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes rayGlide {
+  0% {
+    transform: translate3d(10vw, 0, 0) scale(0.85) rotate(3deg);
+  }
+  50% {
+    transform: translate3d(-12vw, 4vh, 0) scale(1) rotate(-4deg);
+  }
+  100% {
+    transform: translate3d(10vw, 0, 0) scale(0.85) rotate(3deg);
+  }
+}
+
+@keyframes tailSway {
+  0%,
+  100% {
+    transform: rotate(4deg);
+  }
+  50% {
+    transform: rotate(-6deg);
+  }
+}
+
+@keyframes beamSweep {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(12deg);
+    opacity: 0.75;
+  }
+}
+
+@keyframes palmSway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes frondDrift {
+  0%,
+  100% {
+    transform: rotate(14deg);
+  }
+  50% {
+    transform: rotate(24deg);
+  }
+}
+
+@keyframes sprayDrift {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateX(24px) translateY(-10px);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(48px) translateY(0);
+    opacity: 0.55;
+  }
+}
+
+@keyframes sparkleBlink {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 0.85;
+    transform: scale(1.15);
+  }
+  60% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+}
+
+@keyframes heroBubbleRise {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  70% {
+    transform: translateY(-90px) scale(1.05);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(-140px) scale(0.9);
+    opacity: 0;
   }
 }
 
@@ -2038,6 +2609,11 @@ body[data-depth='trench'] .nav-wrapper::after {
   .ocean-orbs span,
   .jellyfish,
   .jellyfish__tentacle,
+  .sea-turtle,
+  .manta-ray,
+  .palm__leaf,
+  .palm__trunk,
+  .wave,
   .cursor-spark {
     animation: none !important;
     transition: none !important;
@@ -2056,7 +2632,9 @@ body[data-depth='trench'] .nav-wrapper::after {
   .wave-divider::before,
   .wave-divider::after,
   .ocean-kelp span,
-  .jellyfish__tentacle {
+  .jellyfish__tentacle,
+  .turtle-fin,
+  .manta-tail {
     animation: none !important;
   }
 
@@ -2070,6 +2648,14 @@ body[data-depth='trench'] .nav-wrapper::after {
   }
 
   .jellyfish-field {
+    display: none;
+  }
+
+  .ripple-layer,
+  .wave-cluster,
+  .sea-turtle,
+  .manta-ray,
+  .coastal-silhouette {
     display: none;
   }
 }
