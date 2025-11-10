@@ -615,6 +615,34 @@ function App() {
         <span />
         <span />
       </div>
+      <div className="jellyfish-field" aria-hidden="true">
+        <div className="jellyfish jellyfish--one">
+          <span className="jellyfish__body" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--one" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--two" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--three" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--four" />
+        </div>
+        <div className="jellyfish jellyfish--two">
+          <span className="jellyfish__body" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--one" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--two" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--three" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--four" />
+        </div>
+        <div className="jellyfish jellyfish--three">
+          <span className="jellyfish__body" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--one" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--two" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--three" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--four" />
+        </div>
+        <div className="jellyfish jellyfish--mini">
+          <span className="jellyfish__body" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--one" />
+          <span className="jellyfish__tentacle jellyfish__tentacle--three" />
+        </div>
+      </div>
       <div className="app__content">
         <header className="nav-wrapper">
           <nav className="nav page-shell">
