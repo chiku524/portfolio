@@ -37,6 +37,23 @@
   position: relative;
   min-height: 100vh;
   color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+h3,
+.section__header h2,
+.card h3 {
+  font-family: var(--font-heading);
+}
+
+p,
+li,
+a,
+span,
+button {
+  font-family: var(--font-body);
 }
 
 .app__content {
@@ -869,12 +886,44 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.nav__logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  object-fit: cover;
+  filter: drop-shadow(0 6px 18px rgba(18, 246, 255, 0.35));
+  background: rgba(18, 246, 255, 0.06);
+  border: 1px solid rgba(18, 246, 255, 0.2);
+}
+
+.nav__brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.nav__brand-title {
+  font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.08rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--accent);
-  text-decoration: none;
+}
+
+.nav__brand-tagline {
+  font-family: var(--font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(244, 248, 255, 0.6);
 }
 
 .nav__links {
@@ -890,6 +939,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   color: var(--text-secondary);
   transition: color 0.2s ease, transform 0.2s ease, text-shadow 0.3s ease;
   font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .nav__links a:hover {
@@ -899,19 +950,19 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .nav__cta {
-  background: linear-gradient(120deg, rgba(45, 212, 191, 0.25), rgba(34, 211, 238, 0.35));
-  color: var(--accent);
+  background: linear-gradient(120deg, rgba(18, 246, 255, 0.32), rgba(255, 144, 111, 0.32));
+  color: rgba(17, 23, 43, 0.92);
   padding: 0.65rem 1.4rem;
   border-radius: 999px;
   font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
-  box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.25);
+  box-shadow: 0 0 0 0 rgba(18, 246, 255, 0.3);
 }
 
 .nav__cta:hover {
   transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 12px 30px -18px rgba(45, 212, 191, 0.85);
+  box-shadow: 0 18px 32px -18px rgba(18, 246, 255, 0.65);
 }
 
 .nav__actions {
@@ -1126,12 +1177,22 @@ body[data-depth='trench'] .nav-wrapper::after {
   font-size: clamp(2.75rem, 4vw + 1rem, 4.5rem);
   line-height: 1.05;
   margin: 0;
+  font-family: var(--font-heading);
 }
 
 .hero__content h1 span {
   color: var(--accent);
   text-shadow: 0 0 42px rgba(34, 211, 238, 0.28);
   animation: titlePulse 9s ease-in-out infinite;
+}
+
+.hero__mantra {
+  margin-top: 1rem;
+  font-family: var(--font-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  font-size: 0.78rem;
+  color: rgba(244, 248, 255, 0.68);
 }
 
 .hero__tagline {
@@ -1166,27 +1227,28 @@ body[data-depth='trench'] .nav-wrapper::after {
   font-size: 0.95rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   text-decoration: none;
+  font-family: var(--font-accent);
 }
 
 .button--primary {
-  background: linear-gradient(135deg, rgba(56, 189, 248, 0.95), rgba(14, 165, 233, 0.75));
+  background: linear-gradient(135deg, rgba(18, 246, 255, 0.95), rgba(20, 201, 201, 0.75));
   color: #020617;
-  box-shadow: 0 18px 35px -20px rgba(56, 189, 248, 0.95);
+  box-shadow: 0 18px 35px -20px rgba(18, 246, 255, 0.95);
 }
 
 .button--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 26px 45px -20px rgba(56, 189, 248, 0.9);
+  box-shadow: 0 26px 45px -20px rgba(18, 246, 255, 0.9);
 }
 
 .button--ghost {
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  color: var(--text-primary);
-  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 144, 111, 0.45);
+  color: var(--accent-soft);
+  background: rgba(17, 23, 43, 0.65);
 }
 
 .button--ghost:hover {
-  border-color: rgba(148, 163, 184, 0.5);
+  border-color: rgba(255, 144, 111, 0.65);
   transform: translateY(-2px);
 }
 
@@ -1195,6 +1257,45 @@ body[data-depth='trench'] .nav-wrapper::after {
   color: var(--text-tertiary);
   font-size: 0.9rem;
   letter-spacing: 0.04em;
+}
+
+.hero__values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2.25rem;
+}
+
+.value-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244, 248, 255, 0.78);
+  background: linear-gradient(120deg, rgba(18, 246, 255, 0.14), rgba(20, 201, 201, 0.1));
+  border: 1px solid rgba(18, 246, 255, 0.25);
+  font-family: var(--font-body);
+  box-shadow: 0 14px 30px -24px rgba(18, 246, 255, 0.55);
+}
+
+.value-chip::before,
+.value-chip::after {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+.value-chip::before {
+  content: '{';
+  margin-right: 0.4rem;
+}
+
+.value-chip::after {
+  content: '}';
+  margin-left: 0.35rem;
 }
 
 .reveal {
@@ -1225,6 +1326,13 @@ body[data-depth='trench'] .nav-wrapper::after {
 .section__header h2 {
   margin: 0;
   font-size: clamp(2rem, 3vw, 3rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: linear-gradient(120deg, rgba(18, 246, 255, 0.95), rgba(255, 144, 111, 0.85));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section__header p {
@@ -1245,15 +1353,15 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .card:hover {
   transform: translateY(-6px);
-  border-color: rgba(56, 189, 248, 0.45);
-  box-shadow: 0 22px 40px -30px rgba(56, 189, 248, 0.8);
+  border-color: rgba(18, 246, 255, 0.45);
+  box-shadow: 0 22px 40px -30px rgba(18, 246, 255, 0.7);
 }
 
 .card__badge {
   display: inline-flex;
   padding: 0.4rem 0.85rem;
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
+  background: rgba(18, 246, 255, 0.16);
+  color: #12f6ff;
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -1263,18 +1371,18 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .card__badge--signal {
-  background: rgba(59, 130, 246, 0.18);
-  color: #60a5fa;
+  background: rgba(20, 201, 201, 0.2);
+  color: #12f6ff;
 }
 
 .card__badge--orbit {
-  background: rgba(244, 114, 182, 0.18);
-  color: #f472b6;
+  background: rgba(255, 144, 111, 0.22);
+  color: #ffd0c0;
 }
 
 .card__badge--spark {
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
+  background: rgba(18, 246, 255, 0.18);
+  color: #12f6ff;
 }
 
 .card--project h3 {
@@ -1790,6 +1898,44 @@ body[data-depth='trench'] .nav-wrapper::after {
   text-align: center;
 }
 
+.footer__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  text-align: left;
+}
+
+.footer__logo {
+  width: 62px;
+  height: 62px;
+  border-radius: 22px;
+  object-fit: cover;
+  border: 1px solid rgba(18, 246, 255, 0.22);
+  background: rgba(18, 246, 255, 0.08);
+  filter: drop-shadow(0 12px 28px rgba(18, 246, 255, 0.35));
+}
+
+.footer__brand-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.footer__brand-title {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.92rem;
+  color: var(--accent);
+}
+
+.footer__brand-motto {
+  font-size: 0.9rem;
+  color: rgba(244, 248, 255, 0.72);
+  letter-spacing: 0.06em;
+}
+
 .footer__inner h2 {
   margin: 0;
   font-size: clamp(2rem, 3vw, 3rem);
@@ -1820,6 +1966,11 @@ body[data-depth='trench'] .nav-wrapper::after {
     gap: 1rem;
   }
 
+  .nav__brand {
+    width: 100%;
+    justify-content: center;
+  }
+
   .nav__links {
     width: 100%;
     justify-content: center;
@@ -1846,6 +1997,19 @@ body[data-depth='trench'] .nav-wrapper::after {
     gap: 1rem;
   }
 
+  .nav__brand-text {
+    align-items: center;
+  }
+
+  .nav__brand-tagline {
+    letter-spacing: 0.2em;
+  }
+
+  .nav__logo {
+    width: 40px;
+    height: 40px;
+  }
+
   .hero {
     padding-top: 3rem;
   }
@@ -1865,6 +2029,16 @@ body[data-depth='trench'] .nav-wrapper::after {
   .aspirations__card,
   .footer__inner {
     padding: 1.75rem;
+  }
+
+  .footer__brand {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer__brand-copy {
+    align-items: center;
+    text-align: center;
   }
 }
 

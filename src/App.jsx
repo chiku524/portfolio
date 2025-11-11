@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
+import logoMark from './assets/generated-image.png'
 
 function App() {
   const backgroundCanvasRef = useRef(null)
@@ -43,8 +44,18 @@ function App() {
       },
     )
 
+    const maxStep = 6
     revealEls.forEach((el, index) => {
-      el.style.setProperty('--reveal-delay', `${index * 60}ms`)
+      const customDelay = el.dataset.revealDelay
+      if (customDelay) {
+        el.style.setProperty('--reveal-delay', customDelay)
+      } else {
+        const parsedStep = Number(el.dataset.revealStep)
+        const hasCustomStep = !Number.isNaN(parsedStep)
+        const step = hasCustomStep ? parsedStep : Math.min(index, maxStep)
+        const clampedStep = Math.max(0, Math.min(step, maxStep))
+        el.style.setProperty('--reveal-delay', `${clampedStep * 60}ms`)
+      }
       observer.observe(el)
     })
 
@@ -712,7 +723,11 @@ function App() {
         <header className="nav-wrapper">
           <nav className="nav page-shell">
             <a className="nav__brand" href="#top">
-              nico.builds
+              <img className="nav__logo" src={logoMark} alt="Nico Chikuji oceanic logo" />
+              <span className="nav__brand-text">
+                <span className="nav__brand-title">nico.builds</span>
+                <span className="nav__brand-tagline">Flow Beyond Limits</span>
+              </span>
             </a>
             <div className="nav__links">
               <a href="#proof">Proof</a>
@@ -771,11 +786,12 @@ function App() {
             <div className="hero__content reveal">
               <div className="hero__eyebrow">
                 <span className="dot dot--cyan" />
-                full-stack oceanographer
+                full-stack developer
               </div>
               <h1>
                 Designing future internet habitats <span>with tide-tested precision.</span>
               </h1>
+              <p className="hero__mantra">Flow beyond limits. Stay playful, ship serious.</p>
               <p className="hero__tagline">
                 From web3 reefs to AI-powered currents, I craft products that perform, delight, and echo
                 community culture. Every launch: charted, memorable, seaworthy.
@@ -794,6 +810,12 @@ function App() {
                 <span>
                   Currently collaborating with AI copilots, founders, and legendary crews on the next big wave.
                 </span>
+              </div>
+              <div className="hero__values">
+                <span className="value-chip">Innovation × Precision</span>
+                <span className="value-chip">Community-First Collaboration</span>
+                <span className="value-chip">Playful Seriousness</span>
+                <span className="value-chip">Adaptive Ecosystem Design</span>
               </div>
             </div>
           </div>
@@ -920,26 +942,26 @@ function App() {
             <div className="aspirations">
               <div className="aspirations__card reveal">
                 <span className="aspirations__label">01</span>
-                <h3>Invent the Flagship</h3>
+                <h3>Innovation × Precision</h3>
                 <p>
-                  I chase products that feel like lore—fast launches, adaptive loops, and experiences that entire
-                  ecosystems rally behind.
+                  Future habitats deserve engineering rigor. I prototype fast, validate with data, and polish
+                  relentlessly so every release feels tide tested.
                 </p>
               </div>
               <div className="aspirations__card reveal">
                 <span className="aspirations__label">02</span>
-                <h3>Build Legendary Crews</h3>
+                <h3>Community-First Collaboration</h3>
                 <p>
-                  Collaboration keeps the waters exciting. I thrive pairing with founders, DAOs, and teams that
-                  obsess over craft and culture in equal measure.
+                  Co-creating with founders, DAOs, and creators keeps the reef thriving—open comms, async rituals,
+                  and transparent roadmaps invite everyone on deck.
                 </p>
               </div>
               <div className="aspirations__card reveal">
                 <span className="aspirations__label">03</span>
-                <h3>Stay Playful, Ship Serious</h3>
+                <h3>Playful Seriousness</h3>
                 <p>
-                  Humor in the chat, discipline in the codebase. Every milestone earns trust and tees up the
-                  next experiment.
+                  Tone stays light, craft stays sharp. Humor, lore, and trust weave into every ship date so teams
+                  feel energized to chase the next wave together.
                 </p>
               </div>
             </div>
@@ -947,7 +969,7 @@ function App() {
           <div className="wave-divider wave-divider--deep" aria-hidden="true" />
 
           <section className="section section--contact page-shell" id="contact" data-snappable="true" data-depth="trench">
-            <div className="section__header reveal">
+            <div className="section__header reveal" data-reveal-step="0">
               <h2>Signal the Crew</h2>
               <p>
                 Plotting a stealth launch, growth sprint, or content wave? Drop a signal—we’ll chart the map
@@ -955,7 +977,7 @@ function App() {
               </p>
             </div>
             <div className="contact-grid">
-              <div className="card card--contact reveal">
+              <div className="card card--contact reveal" data-reveal-step="1">
                 <span className="card__badge card__badge--signal">Direct line</span>
                 <h3>Email</h3>
                 <a className="contact-email" href="mailto:nico.chikuji@gmail.com">
@@ -963,7 +985,7 @@ function App() {
                 </a>
                 <p>Send the plan, the problem, or the meme. I’ll respond faster than the tide changes.</p>
               </div>
-              <div className="card card--contact reveal">
+              <div className="card card--contact reveal" data-reveal-step="2">
                 <span className="card__badge card__badge--orbit">Signal buoys</span>
                 <h3>Social channels</h3>
                 <ul className="contact-socials">
@@ -982,7 +1004,7 @@ function App() {
                   ))}
                 </ul>
               </div>
-              <div className="card card--contact reveal">
+              <div className="card card--contact reveal" data-reveal-step="3">
                 <span className="card__badge card__badge--signal">Message</span>
                 <h3>Drop a message</h3>
                 <form
@@ -1060,11 +1082,18 @@ function App() {
       </main>
 
         <footer className="footer">
-          <div className="footer__inner reveal">
+          <div className="footer__inner reveal" data-reveal-step="0">
+            <div className="footer__brand">
+              <img className="footer__logo" src={logoMark} alt="Nico builds wave logo" />
+              <div className="footer__brand-copy">
+                <span className="footer__brand-title">Flow Beyond Limits</span>
+                <span className="footer__brand-motto">Full-stack developer for playful, precision builds.</span>
+              </div>
+            </div>
             <h2>Let’s build something that breaks the timeline.</h2>
             <p>
               Slide into my DMs or drop a line via any project above. I love teaming up with curious builders,
-              founders, and designers who want to remix the future.
+              founders, and designers who want to remix the future with transparency and trust.
             </p>
             <div className="footer__actions">
               <a className="button button--primary" href={calendlyLink} target="_blank" rel="noreferrer">
@@ -1075,7 +1104,7 @@ function App() {
               </a>
             </div>
             <span className="footer__note">
-            © {new Date().getFullYear()} nico.builds — fueled by AI copilots and meme-grade imagination.
+              © {new Date().getFullYear()} nico.builds — fueled by AI copilots and meme-grade imagination.
             </span>
           </div>
         </footer>
