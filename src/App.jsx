@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import logoMark from './assets/generated-image.png'
+import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
+import { measureWebVitals } from './utils/webVitals'
 
 function App() {
   const backgroundCanvasRef = useRef(null)
@@ -9,6 +11,11 @@ function App() {
   const rippleLayerRef = useRef(null)
   const audioRef = useRef(null)
   const [isAudioOn, setIsAudioOn] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [formErrors, setFormErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState(null)
 
   useEffect(() => {
     const existingScript = document.querySelector('script[data-calendly]')
@@ -115,6 +122,7 @@ function App() {
     if (!canvas) return undefined
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
     const ctx = canvas.getContext('2d', { alpha: true })
     const colors = [
       'rgba(56, 189, 248, 0.35)',
@@ -124,7 +132,8 @@ function App() {
       'rgba(8, 145, 178, 0.26)',
     ]
 
-    const blobCount = prefersReducedMotion.matches ? 5 : 12
+    // Reduce blob count on mobile for better performance
+    const blobCount = prefersReducedMotion.matches ? 5 : isTouchDevice ? 6 : 12
     const blobs = Array.from({ length: blobCount }).map((_, index) => ({
       baseX: Math.random(),
       baseY: Math.random(),
@@ -136,7 +145,9 @@ function App() {
       phase: Math.random() * Math.PI * 2,
       color: colors[index % colors.length],
     }))
-    const caustics = Array.from({ length: prefersReducedMotion.matches ? 2 : 5 }).map((_, index) => ({
+    // Reduce caustics on mobile
+    const causticCount = prefersReducedMotion.matches ? 2 : isTouchDevice ? 3 : 5
+    const caustics = Array.from({ length: causticCount }).map((_, index) => ({
       baseX: Math.random(),
       baseY: Math.random(),
       scale: 0.6 + Math.random() * 0.8,
@@ -145,7 +156,9 @@ function App() {
       rotation: Math.random() * Math.PI * 2,
       color: `rgba(126, 211, 255, ${0.04 + index * 0.01})`,
     }))
-    const bubbles = Array.from({ length: prefersReducedMotion.matches ? 16 : 42 }).map(() => ({
+    // Reduce bubbles on mobile
+    const bubbleCount = prefersReducedMotion.matches ? 16 : isTouchDevice ? 24 : 42
+    const bubbles = Array.from({ length: bubbleCount }).map(() => ({
       x: Math.random(),
       y: Math.random(),
       radius: 0.01 + Math.random() * 0.02,
@@ -157,11 +170,27 @@ function App() {
 
     let width = window.innerWidth
     let height = window.innerHeight
-    let motionFactor = prefersReducedMotion.matches ? 0.35 : 1
+    let motionFactor = prefersReducedMotion.matches ? 0.35 : isTouchDevice ? 0.6 : 1
+    let isPageVisible = true
+    let lastFrameTime = 0
+    const targetFPS = isTouchDevice ? 30 : 60
+    const frameInterval = 1000 / targetFPS
 
     const setCanvasOpacity = () => {
-      canvas.style.opacity = prefersReducedMotion.matches ? '0.5' : '0.92'
+      if (prefersReducedMotion.matches) {
+        canvas.style.opacity = '0.5'
+      } else if (isTouchDevice) {
+        canvas.style.opacity = '0.6'
+      } else {
+        canvas.style.opacity = '0.92'
+      }
     }
+
+    // Pause rendering when page is not visible
+    const handleVisibilityChange = () => {
+      isPageVisible = !document.hidden
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     const resize = () => {
       width = window.innerWidth
@@ -185,11 +214,16 @@ function App() {
     window.addEventListener('resize', resize)
 
     const handleMotionChange = () => {
-      motionFactor = prefersReducedMotion.matches ? 0.35 : 1
+      const updatedIsTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      motionFactor = prefersReducedMotion.matches ? 0.35 : updatedIsTouch ? 0.6 : 1
       setCanvasOpacity()
     }
 
     prefersReducedMotion.addEventListener('change', handleMotionChange)
+
+    // Check for touch device changes
+    const touchMediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
+    touchMediaQuery.addEventListener('change', handleMotionChange)
 
     const startTime = performance.now()
 
@@ -200,7 +234,20 @@ function App() {
     }
 
     let animationFrameId
-    const render = () => {
+    const render = (currentTime) => {
+      // Skip frame if page is not visible
+      if (!isPageVisible) {
+        animationFrameId = requestAnimationFrame(render)
+        return
+      }
+
+      // Throttle frames on mobile devices
+      if (isTouchDevice && currentTime - lastFrameTime < frameInterval) {
+        animationFrameId = requestAnimationFrame(render)
+        return
+      }
+      lastFrameTime = currentTime
+
       const elapsed = (performance.now() - startTime) / 1000
       ctx.globalCompositeOperation = 'source-over'
       ctx.clearRect(0, 0, width, height)
@@ -285,21 +332,133 @@ function App() {
       cancelAnimationFrame(animationFrameId)
       window.removeEventListener('resize', resize)
       prefersReducedMotion.removeEventListener('change', handleMotionChange)
+      touchMediaQuery.removeEventListener('change', handleMotionChange)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
   }, [])
 
   useEffect(() => {
+    let ticking = false
     const updateScrollProgress = () => {
       const maxScroll = document.body.scrollHeight - window.innerHeight
       const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0
+      const progressPercent = progress * 100
       document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(3))
+      setScrollProgress(progressPercent)
+      ticking = false
+    }
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollProgress)
+        ticking = true
+      }
     }
 
     updateScrollProgress()
-    window.addEventListener('scroll', updateScrollProgress, { passive: true })
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
-    return () => window.removeEventListener('scroll', updateScrollProgress)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Close mobile menu when clicking outside, on link, or pressing Escape
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('.nav')) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    const handleLinkClick = () => {
+      setIsMobileMenuOpen(false)
+    }
+
+    const handleEscape = (event) => {
+      if (isMobileMenuOpen && event.key === 'Escape') {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('click', handleClickOutside)
+      document.addEventListener('keydown', handleEscape)
+      const navLinks = document.querySelectorAll('.nav__links a')
+      navLinks.forEach((link) => link.addEventListener('click', handleLinkClick))
+      return () => {
+        document.removeEventListener('click', handleClickOutside)
+        document.removeEventListener('keydown', handleEscape)
+        navLinks.forEach((link) => link.removeEventListener('click', handleLinkClick))
+      }
+    }
+    return undefined
+  }, [isMobileMenuOpen])
+
+  // Initialize analytics and web vitals
+  useEffect(() => {
+    initAnalytics()
+    measureWebVitals()
+
+    // Track page view on mount
+    trackPageView(window.location.pathname)
+  }, [])
+
+  // Form validation
+  const validateForm = (formData) => {
+    const errors = {}
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+    if (!formData.get('name') || formData.get('name').trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters'
+    }
+
+    if (!formData.get('email') || !emailRegex.test(formData.get('email'))) {
+      errors.email = 'Please enter a valid email address'
+    }
+
+    if (!formData.get('message') || formData.get('message').trim().length < 10) {
+      errors.message = 'Message must be at least 10 characters'
+    }
+
+    return errors
+  }
+
+  const handleFormSubmit = async (event) => {
+    event.preventDefault()
+    setFormErrors({})
+    setSubmitStatus(null)
+    setIsSubmitting(true)
+
+    const formData = new FormData(event.target)
+    const errors = validateForm(formData)
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors)
+      setIsSubmitting(false)
+      trackEvent('form_validation_error', { errors: Object.keys(errors) })
+      return
+    }
+
+    try {
+      // Track form submission
+      trackEvent('form_submit', {
+        topic: formData.get('topic'),
+        hasMessage: !!formData.get('message'),
+      })
+
+      // Let the form submit normally
+      // In production, you might want to handle this with fetch/axios
+      event.target.submit()
+      
+      setSubmitStatus('success')
+      trackEvent('form_submit_success')
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setSubmitStatus('error')
+      trackEvent('form_submit_error', { error: error.message })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   const buildMediaPaths = (base) => {
     const safe = encodeURIComponent(base)
@@ -729,23 +888,41 @@ function App() {
         </span>
       </div>
       <div className="app__content">
+        {/* Scroll Progress Indicator */}
+        <div className="scroll-progress" role="progressbar" aria-valuenow={scrollProgress} aria-valuemin="0" aria-valuemax="100" aria-label="Page scroll progress">
+          <div className="scroll-progress__bar" style={{ width: `${scrollProgress}%` }} />
+        </div>
         <header className="nav-wrapper">
           <nav className="nav page-shell">
-            <a className="nav__brand" href="#top">
-              <img className="nav__logo" src={logoMark} alt="Nico Chikuji oceanic logo" />
+            <a className="nav__brand" href="#top" aria-label="Nico Chikuji portfolio homepage">
+              <img className="nav__logo" src={logoMark} alt="Nico Chikuji oceanic logo" loading="eager" fetchPriority="high" />
               <span className="nav__brand-text">
                 <span className="nav__brand-title">nico.builds</span>
                 <span className="nav__brand-tagline">Flow Beyond Limits</span>
               </span>
             </a>
-            <div className="nav__links">
-              <a href="#proof">Proof</a>
-              <a href="#skills">Skills</a>
-              <a href="#aspirations">Aspirations</a>
-              <a href="#contact">Contact</a>
+            <button
+              type="button"
+              className="nav__menu-toggle"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-expanded={isMobileMenuOpen}
+              aria-label="Toggle navigation menu"
+              aria-controls="nav-menu"
+            >
+              <span className="nav__menu-icon">
+                <span className={`nav__menu-line nav__menu-line--1 ${isMobileMenuOpen ? 'nav__menu-line--open' : ''}`} />
+                <span className={`nav__menu-line nav__menu-line--2 ${isMobileMenuOpen ? 'nav__menu-line--open' : ''}`} />
+                <span className={`nav__menu-line nav__menu-line--3 ${isMobileMenuOpen ? 'nav__menu-line--open' : ''}`} />
+              </span>
+            </button>
+            <div className={`nav__links ${isMobileMenuOpen ? 'nav__links--open' : ''}`} id="nav-menu">
+              <a href="#proof" aria-label="View proof of work" onClick={() => trackEvent('nav_click', { link: 'proof' })}>Proof</a>
+              <a href="#skills" aria-label="View skills" onClick={() => trackEvent('nav_click', { link: 'skills' })}>Skills</a>
+              <a href="#aspirations" aria-label="View aspirations" onClick={() => trackEvent('nav_click', { link: 'aspirations' })}>Aspirations</a>
+              <a href="#contact" aria-label="View contact information" onClick={() => trackEvent('nav_click', { link: 'contact' })}>Contact</a>
             </div>
             <div className="nav__actions">
-              <a className="nav__cta" href={calendlyLink} target="_blank" rel="noreferrer">
+              <a className="nav__cta" href={calendlyLink} target="_blank" rel="noreferrer" aria-label="Book a build sprint on Calendly">
                 Book a build sprint
               </a>
               <button
@@ -1026,11 +1203,26 @@ function App() {
                   className="contact-form"
                   action="https://formsubmit.co/nico.chikuji@gmail.com"
                   method="POST"
+                  onSubmit={handleFormSubmit}
+                  noValidate
                 >
                   <input type="hidden" name="_captcha" value="false" />
                   <div className="form-field">
                     <label htmlFor="name">Name</label>
-                    <input id="name" name="name" type="text" placeholder="Avery Finley" required />
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      placeholder="Avery Finley"
+                      required
+                      aria-invalid={formErrors.name ? 'true' : 'false'}
+                      aria-describedby={formErrors.name ? 'name-error' : undefined}
+                    />
+                    {formErrors.name && (
+                      <span className="form-error" id="name-error" role="alert">
+                        {formErrors.name}
+                      </span>
+                    )}
                   </div>
                   <div className="form-field">
                     <label htmlFor="email">Email</label>
@@ -1040,7 +1232,14 @@ function App() {
                       type="email"
                       placeholder="you@crew.xyz"
                       required
+                      aria-invalid={formErrors.email ? 'true' : 'false'}
+                      aria-describedby={formErrors.email ? 'email-error' : undefined}
                     />
+                    {formErrors.email && (
+                      <span className="form-error" id="email-error" role="alert">
+                        {formErrors.email}
+                      </span>
+                    )}
                   </div>
                   <div className="form-field">
                     <label htmlFor="topic">Mission type</label>
@@ -1060,11 +1259,33 @@ function App() {
                       placeholder="What waters are we charting together?"
                       rows={4}
                       required
+                      aria-invalid={formErrors.message ? 'true' : 'false'}
+                      aria-describedby={formErrors.message ? 'message-error' : undefined}
                     />
+                    {formErrors.message && (
+                      <span className="form-error" id="message-error" role="alert">
+                        {formErrors.message}
+                      </span>
+                    )}
                   </div>
-                  <button className="button button--primary form-submit" type="submit">
-                    Send the signal
-        </button>
+                  {submitStatus === 'success' && (
+                    <div className="form-success" role="alert">
+                      Message sent successfully! I'll get back to you soon.
+                    </div>
+                  )}
+                  {submitStatus === 'error' && (
+                    <div className="form-error" role="alert">
+                      Something went wrong. Please try again or email directly.
+                    </div>
+                  )}
+                  <button
+                    className="button button--primary form-submit"
+                    type="submit"
+                    disabled={isSubmitting}
+                    aria-busy={isSubmitting}
+                  >
+                    {isSubmitting ? 'Sending...' : 'Send the signal'}
+                  </button>
                   <p className="form-footnote">
                     Powered by FormSubmit for now—happy to sync via Matrix, Warpcast, or Discord if you prefer.
                   </p>
@@ -1099,7 +1320,7 @@ function App() {
         <footer className="footer">
           <div className="footer__inner reveal" data-reveal-step="0">
             <div className="footer__brand">
-              <img className="footer__logo" src={logoMark} alt="Nico builds wave logo" />
+              <img className="footer__logo" src={logoMark} alt="Nico builds wave logo" loading="lazy" />
               <div className="footer__brand-copy">
                 <span className="footer__brand-title">Flow Beyond Limits</span>
                 <span className="footer__brand-motto">Full-stack developer for playful, precision builds.</span>
