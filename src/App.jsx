@@ -523,7 +523,11 @@ function App() {
   // Close mobile menu when clicking outside, on link, or pressing Escape
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isMobileMenuOpen && !event.target.closest('.nav')) {
+      // Don't close if clicking the toggle button itself
+      if (event.target.closest('.nav__menu-toggle')) {
+        return
+      }
+      if (isMobileMenuOpen && !event.target.closest('.nav__links') && !event.target.closest('.nav__menu-toggle')) {
         setIsMobileMenuOpen(false)
       }
     }
@@ -539,18 +543,27 @@ function App() {
     }
 
     if (isMobileMenuOpen) {
-      document.addEventListener('click', handleClickOutside)
+      // Use capture phase and delay to avoid immediate close
+      setTimeout(() => {
+        document.addEventListener('click', handleClickOutside, true)
+      }, 0)
       document.addEventListener('keydown', handleEscape)
       const navLinks = document.querySelectorAll('.nav__links a')
       navLinks.forEach((link) => link.addEventListener('click', handleLinkClick))
       return () => {
-        document.removeEventListener('click', handleClickOutside)
+        document.removeEventListener('click', handleClickOutside, true)
         document.removeEventListener('keydown', handleEscape)
         navLinks.forEach((link) => link.removeEventListener('click', handleLinkClick))
       }
     }
     return undefined
   }, [isMobileMenuOpen])
+
+  const handleMenuToggle = (event) => {
+    event.stopPropagation()
+    event.preventDefault()
+    setIsMobileMenuOpen((prev) => !prev)
+  }
 
   // Initialize analytics and web vitals
   useEffect(() => {
@@ -1067,7 +1080,7 @@ function App() {
             <button
               type="button"
               className="nav__menu-toggle"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={handleMenuToggle}
               aria-expanded={isMobileMenuOpen}
               aria-label="Toggle navigation menu"
               aria-controls="nav-menu"
