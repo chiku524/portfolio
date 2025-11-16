@@ -997,12 +997,13 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .nav__menu-line {
-  width: 100%;
+  width: 1.4rem;
   height: 3px;
   background: var(--accent);
   border-radius: 2px;
   transition: all 0.3s ease;
   transform-origin: center;
+  margin-inline: auto;
 }
 
 .nav__menu-line--1 {
@@ -1018,7 +1019,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .nav__menu-line--1.nav__menu-line--open {
-  transform: translateY(8px) rotate(45deg);
+  transform: translateY(6px) rotate(45deg);
 }
 
 .nav__menu-line--2.nav__menu-line--open {
@@ -1027,7 +1028,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .nav__menu-line--3.nav__menu-line--open {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .nav__menu-toggle:focus-visible {
