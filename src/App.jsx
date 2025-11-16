@@ -561,7 +561,7 @@ function App() {
 
   const handleMenuToggle = (event) => {
     event.stopPropagation()
-    event.preventDefault()
+    // Don't preventDefault - allow button to work normally
     setIsMobileMenuOpen((prev) => !prev)
   }
 
