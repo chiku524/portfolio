@@ -935,11 +935,104 @@ function App() {
       scrollToIndex(targetIndex)
     }
 
+    // Touch handling for mobile scroll snapping
+    let touchStartY = 0
+    let touchEndY = 0
+    let touchStartTime = 0
+    let isScrolling = false
+
+    const handleTouchStart = (event) => {
+      touchStartY = event.touches[0].clientY
+      touchStartTime = Date.now()
+      isScrolling = false
+    }
+
+    const handleTouchMove = (event) => {
+      if (isAnimating) {
+        event.preventDefault()
+        return
+      }
+      isScrolling = true
+    }
+
+    const handleTouchEnd = (event) => {
+      if (!isScrolling || isAnimating) return
+      
+      touchEndY = event.changedTouches[0].clientY
+      const touchDuration = Date.now() - touchStartTime
+      const swipeDistance = touchStartY - touchEndY
+      const minSwipeDistance = 50
+      const maxSwipeDuration = 500
+
+      // Only trigger snap for quick, significant swipes
+      if (Math.abs(swipeDistance) > minSwipeDistance && touchDuration < maxSwipeDuration) {
+        const active = getClosestSection()
+        const currentIndex = snappables.indexOf(active)
+        if (currentIndex === -1) return
+
+        // Check if we're near the edge of current section
+        const rect = active.getBoundingClientRect()
+        const isNearTop = rect.top > -50 && rect.top < 50
+        const isNearBottom = rect.bottom > window.innerHeight - 50 && rect.bottom < window.innerHeight + 50
+        
+        if (swipeDistance > 0 && isNearBottom) {
+          // Swipe down - go to next section
+          const nextIndex = Math.min(currentIndex + 1, snappables.length - 1)
+          if (nextIndex !== currentIndex) {
+            event.preventDefault()
+            scrollToIndex(nextIndex)
+          }
+        } else if (swipeDistance < 0 && isNearTop) {
+          // Swipe up - go to previous section
+          const prevIndex = Math.max(currentIndex - 1, 0)
+          if (prevIndex !== currentIndex) {
+            event.preventDefault()
+            scrollToIndex(prevIndex)
+          }
+        }
+      }
+    }
+
+    // Debounced scroll end handler for mobile snap
+    let scrollTimeout
+    const handleScrollEnd = () => {
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(() => {
+        if (isAnimating) return
+        
+        const active = getClosestSection()
+        const currentIndex = snappables.indexOf(active)
+        if (currentIndex === -1) return
+
+        const rect = active.getBoundingClientRect()
+        const viewportCenter = window.innerHeight / 2
+        const sectionCenter = rect.top + rect.height / 2
+        
+        // If section is not centered well, snap to it
+        const distanceFromCenter = Math.abs(sectionCenter - viewportCenter)
+        if (distanceFromCenter > window.innerHeight * 0.15) {
+          scrollToIndex(currentIndex)
+        }
+      }, 150)
+    }
+
     window.addEventListener('wheel', handleWheel, { passive: false })
     window.addEventListener('keydown', handleKeydown, { passive: false })
+    
+    // Mobile touch events
+    window.addEventListener('touchstart', handleTouchStart, { passive: true })
+    window.addEventListener('touchmove', handleTouchMove, { passive: false })
+    window.addEventListener('touchend', handleTouchEnd, { passive: false })
+    window.addEventListener('scroll', handleScrollEnd, { passive: true })
+    
     return () => {
       window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('keydown', handleKeydown)
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchmove', handleTouchMove)
+      window.removeEventListener('touchend', handleTouchEnd)
+      window.removeEventListener('scroll', handleScrollEnd)
+      clearTimeout(scrollTimeout)
     }
   }, [])
 
@@ -1091,11 +1184,50 @@ function App() {
                 <span className={`nav__menu-line nav__menu-line--3 ${isMobileMenuOpen ? 'nav__menu-line--open' : ''}`} />
               </span>
             </button>
-            <div className={`nav__links ${isMobileMenuOpen ? 'nav__links--open' : ''}`} id="nav-menu">
-              <a href="#proof" aria-label="View proof of work" onClick={() => trackEvent('nav_click', { link: 'proof' })}>Proof</a>
-              <a href="#skills" aria-label="View skills" onClick={() => trackEvent('nav_click', { link: 'skills' })}>Skills</a>
-              <a href="#aspirations" aria-label="View aspirations" onClick={() => trackEvent('nav_click', { link: 'aspirations' })}>Aspirations</a>
-              <a href="#contact" aria-label="View contact information" onClick={() => trackEvent('nav_click', { link: 'contact' })}>Contact</a>
+            <div 
+              className={`nav__links ${isMobileMenuOpen ? 'nav__links--open' : ''}`} 
+              id="nav-menu"
+            >
+              <a 
+                href="#proof" 
+                aria-label="View proof of work" 
+                onClick={(e) => {
+                  trackEvent('nav_click', { link: 'proof' })
+                  setIsMobileMenuOpen(false)
+                }}
+              >
+                Proof
+              </a>
+              <a 
+                href="#skills" 
+                aria-label="View skills" 
+                onClick={(e) => {
+                  trackEvent('nav_click', { link: 'skills' })
+                  setIsMobileMenuOpen(false)
+                }}
+              >
+                Skills
+              </a>
+              <a 
+                href="#aspirations" 
+                aria-label="View aspirations" 
+                onClick={(e) => {
+                  trackEvent('nav_click', { link: 'aspirations' })
+                  setIsMobileMenuOpen(false)
+                }}
+              >
+                Aspirations
+              </a>
+              <a 
+                href="#contact" 
+                aria-label="View contact information" 
+                onClick={(e) => {
+                  trackEvent('nav_click', { link: 'contact' })
+                  setIsMobileMenuOpen(false)
+                }}
+              >
+                Contact
+              </a>
             </div>
             <div className="nav__actions">
               <a className="nav__cta" href={calendlyLink} target="_blank" rel="noreferrer" aria-label="Book a build sprint on Calendly">
