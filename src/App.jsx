@@ -72,39 +72,112 @@ function App() {
   useEffect(() => {
     const container = trailRef.current
     if (!container) return undefined
+    
+    // Disable cursor trail on mobile to save memory
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    if (isTouchDevice) {
+      return undefined
+    }
+
     let ticking = false
+    const sparkPool = []
+    const MAX_SPARKS = 20 // Limit active sparks to prevent memory buildup
+
+    const createSpark = () => {
+      const spark = document.createElement('span')
+      spark.className = 'cursor-spark'
+      return spark
+    }
+
+    const getSpark = () => {
+      return sparkPool.pop() || createSpark()
+    }
 
     const handlePointerMove = (event) => {
       if (ticking) return
       ticking = true
       requestAnimationFrame(() => {
-        const spark = document.createElement('span')
-        spark.className = 'cursor-spark'
+        // Limit number of active sparks
+        const activeSparks = container.querySelectorAll('.cursor-spark').length
+        if (activeSparks >= MAX_SPARKS) {
+          ticking = false
+          return
+        }
+
+        const spark = getSpark()
         spark.style.left = `${event.clientX}px`
         spark.style.top = `${event.clientY}px`
         container.appendChild(spark)
+        
         setTimeout(() => {
           spark.remove()
+          // Return to pool if pool is small
+          if (sparkPool.length < 10) {
+            sparkPool.push(spark)
+          }
+          ticking = false
         }, 650)
         ticking = false
       })
     }
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
-    return () => window.removeEventListener('pointermove', handlePointerMove)
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      // Clean up spark pool
+      sparkPool.length = 0
+      if (container) {
+        const sparks = container.querySelectorAll('.cursor-spark')
+        sparks.forEach((spark) => spark.remove())
+      }
+    }
   }, [])
 
   useEffect(() => {
     const layer = rippleLayerRef.current
     if (!layer) return undefined
 
-    const spawnRipple = (event) => {
+    // Disable ripple on mobile to save memory
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    if (isTouchDevice) {
+      return undefined
+    }
+
+    const ripplePool = []
+    const MAX_RIPPLES = 10 // Limit active ripples
+
+    const createRipple = () => {
       const ripple = document.createElement('span')
       ripple.className = 'ripple'
+      return ripple
+    }
+
+    const getRipple = () => {
+      return ripplePool.pop() || createRipple()
+    }
+
+    const spawnRipple = (event) => {
+      // Limit number of active ripples
+      const activeRipples = layer.querySelectorAll('.ripple').length
+      if (activeRipples >= MAX_RIPPLES) {
+        return
+      }
+
+      const ripple = getRipple()
       ripple.style.left = `${event.clientX}px`
       ripple.style.top = `${event.clientY}px`
       layer.appendChild(ripple)
-      setTimeout(() => ripple.remove(), 1200)
+      
+      const timeoutId = setTimeout(() => {
+        ripple.remove()
+        // Return to pool if pool is small
+        if (ripplePool.length < 5) {
+          ripplePool.push(ripple)
+        }
+      }, 1200)
+      
+      // Store timeout ID for cleanup
+      ripple.dataset.timeoutId = timeoutId
     }
 
     const handlePointerDown = (event) => {
@@ -114,7 +187,19 @@ function App() {
     }
 
     window.addEventListener('pointerdown', handlePointerDown, { passive: true })
-    return () => window.removeEventListener('pointerdown', handlePointerDown)
+    return () => {
+      window.removeEventListener('pointerdown', handlePointerDown)
+      // Clean up all ripples and timeouts
+      if (layer) {
+        const ripples = layer.querySelectorAll('.ripple')
+        ripples.forEach((ripple) => {
+          const timeoutId = ripple.dataset.timeoutId
+          if (timeoutId) clearTimeout(parseInt(timeoutId, 10))
+          ripple.remove()
+        })
+      }
+      ripplePool.length = 0
+    }
   }, [])
 
   useEffect(() => {
@@ -132,8 +217,14 @@ function App() {
       'rgba(8, 145, 178, 0.26)',
     ]
 
+    // Disable canvas entirely on mobile to prevent crashes
+    if (isTouchDevice) {
+      canvas.style.display = 'none'
+      return undefined
+    }
+
     // Reduce blob count on mobile for better performance
-    const blobCount = prefersReducedMotion.matches ? 5 : isTouchDevice ? 6 : 12
+    const blobCount = prefersReducedMotion.matches ? 5 : 12
     const blobs = Array.from({ length: blobCount }).map((_, index) => ({
       baseX: Math.random(),
       baseY: Math.random(),
@@ -233,95 +324,154 @@ function App() {
       return value
     }
 
+    // Optimize: Create gradients outside render loop and reuse them
+    const gradientCache = new Map()
+    let frameSkipCount = 0
+    const FRAME_SKIP = 1 // Render every 2nd frame for better performance
+
     let animationFrameId
+    let isRendering = true
+    
     const render = (currentTime) => {
-      // Skip frame if page is not visible
+      // Stop rendering loop if component unmounted
+      if (!isRendering) return
+
+      // Skip frame if page is not visible - don't even request next frame
       if (!isPageVisible) {
+        // Check visibility periodically instead of constant loop
+        setTimeout(() => {
+          if (isRendering && isPageVisible) {
+            animationFrameId = requestAnimationFrame(render)
+          }
+        }, 100)
+        return
+      }
+
+      // Skip every Nth frame to reduce load
+      frameSkipCount++
+      if (frameSkipCount % (FRAME_SKIP + 1) !== 0) {
         animationFrameId = requestAnimationFrame(render)
         return
       }
 
-      // Throttle frames on mobile devices
-      if (isTouchDevice && currentTime - lastFrameTime < frameInterval) {
+      // Throttle frames
+      if (currentTime - lastFrameTime < frameInterval) {
         animationFrameId = requestAnimationFrame(render)
         return
       }
       lastFrameTime = currentTime
 
-      const elapsed = (performance.now() - startTime) / 1000
-      ctx.globalCompositeOperation = 'source-over'
-      ctx.clearRect(0, 0, width, height)
-      ctx.globalCompositeOperation = 'lighter'
-      const alphaStrength = Math.max(0.16, 0.55 * motionFactor)
-      ctx.globalAlpha = alphaStrength
-      caustics.forEach((wave, index) => {
-        const drift = elapsed * wave.speed
-        const offsetX = wrap(wave.baseX + Math.sin(drift + wave.phase + index) * 0.25)
-        const offsetY = wrap(wave.baseY + Math.cos(drift * 0.75 + wave.phase) * 0.2)
-        const size = Math.max(width, height) * (wave.scale * (prefersReducedMotion.matches ? 0.8 : 1.05))
+      try {
+        const elapsed = (performance.now() - startTime) / 1000
+        ctx.globalCompositeOperation = 'source-over'
+        ctx.clearRect(0, 0, width, height)
+        ctx.globalCompositeOperation = 'lighter'
+        const alphaStrength = Math.max(0.16, 0.55 * motionFactor)
+        ctx.globalAlpha = alphaStrength
+        
+        // Render caustics with optimized gradient creation
+        caustics.forEach((wave, index) => {
+          const drift = elapsed * wave.speed
+          const offsetX = wrap(wave.baseX + Math.sin(drift + wave.phase + index) * 0.25)
+          const offsetY = wrap(wave.baseY + Math.cos(drift * 0.75 + wave.phase) * 0.2)
+          const size = Math.max(width, height) * (wave.scale * (prefersReducedMotion.matches ? 0.8 : 1.05))
 
-        const x = offsetX * width
-        const y = offsetY * height
-        const gradient = ctx.createRadialGradient(x, y, size * 0.1, x, y, size)
-        gradient.addColorStop(0, wave.color)
-        gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.05)')
-        gradient.addColorStop(1, 'rgba(15, 23, 42, 0)')
+          const x = offsetX * width
+          const y = offsetY * height
+          
+          // Use simpler rendering on mobile - no complex gradients
+          const cacheKey = `wave-${index}-${Math.floor(drift * 0.1)}`
+          let gradient = gradientCache.get(cacheKey)
+          
+          if (!gradient) {
+            gradient = ctx.createRadialGradient(x, y, size * 0.1, x, y, size)
+            gradient.addColorStop(0, wave.color)
+            gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.05)')
+            gradient.addColorStop(1, 'rgba(15, 23, 42, 0)')
+            // Cache for a short time, then clear old entries
+            if (gradientCache.size > 10) {
+              const firstKey = gradientCache.keys().next().value
+              gradientCache.delete(firstKey)
+            }
+            gradientCache.set(cacheKey, gradient)
+          }
 
-        ctx.save()
-        ctx.translate(x, y)
-        ctx.rotate(wave.rotation + Math.sin(drift) * 0.2)
-        ctx.translate(-x, -y)
-        ctx.fillStyle = gradient
-        ctx.fillRect(x - size, y - size, size * 2, size * 2)
-        ctx.restore()
-      })
+          ctx.save()
+          ctx.translate(x, y)
+          ctx.rotate(wave.rotation + Math.sin(drift) * 0.2)
+          ctx.translate(-x, -y)
+          ctx.fillStyle = gradient
+          ctx.fillRect(x - size, y - size, size * 2, size * 2)
+          ctx.restore()
+        })
 
-      ctx.globalAlpha = alphaStrength
-      blobs.forEach((blob, index) => {
-        const drift = elapsed * blob.speed
-        const pulse = Math.sin(drift + blob.phase)
-        const secondary = Math.cos(drift * 0.7 + blob.phase)
+        ctx.globalAlpha = alphaStrength
+        blobs.forEach((blob, index) => {
+          const drift = elapsed * blob.speed
+          const pulse = Math.sin(drift + blob.phase)
+          const secondary = Math.cos(drift * 0.7 + blob.phase)
 
-        const x = wrap(blob.baseX + Math.sin(drift * 2.2 + blob.phase + index) * blob.amplitudeX)
-        const y = wrap(blob.baseY + Math.cos(drift * 1.8 + blob.phase * 1.2) * blob.amplitudeY)
-        const wobbleRadius = blob.radius * (1 + pulse * blob.wobble * 0.35)
+          const x = wrap(blob.baseX + Math.sin(drift * 2.2 + blob.phase + index) * blob.amplitudeX)
+          const y = wrap(blob.baseY + Math.cos(drift * 1.8 + blob.phase * 1.2) * blob.amplitudeY)
+          const wobbleRadius = blob.radius * (1 + pulse * blob.wobble * 0.35)
 
-        const gradient = ctx.createRadialGradient(
-          x * width,
-          y * height,
-          0,
-          x * width,
-          y * height,
-          Math.max(width, height) * wobbleRadius * (0.85 + secondary * 0.15) * (0.75 + motionFactor * 0.5),
-        )
-        gradient.addColorStop(0, blob.color)
-        gradient.addColorStop(1, 'rgba(15, 23, 42, 0)')
-        ctx.fillStyle = gradient
-        ctx.fillRect(0, 0, width, height)
-      })
+          // Simplified blob rendering
+          const radius = Math.max(width, height) * wobbleRadius * (0.85 + secondary * 0.15) * (0.75 + motionFactor * 0.5)
+          const cacheKey = `blob-${index}-${Math.floor(drift * 0.1)}`
+          let gradient = gradientCache.get(cacheKey)
+          
+          if (!gradient) {
+            gradient = ctx.createRadialGradient(
+              x * width,
+              y * height,
+              0,
+              x * width,
+              y * height,
+              radius,
+            )
+            gradient.addColorStop(0, blob.color)
+            gradient.addColorStop(1, 'rgba(15, 23, 42, 0)')
+            if (gradientCache.size > 20) {
+              const firstKey = gradientCache.keys().next().value
+              gradientCache.delete(firstKey)
+            }
+            gradientCache.set(cacheKey, gradient)
+          }
 
-      ctx.globalAlpha = Math.max(0.12, 0.4 * motionFactor)
-      ctx.globalCompositeOperation = 'lighter'
-      bubbles.forEach((bubble) => {
-        bubble.y -= bubble.speed * motionFactor * 0.6
-        bubble.x += Math.cos(elapsed * bubble.speed * 8 + bubble.phase) * bubble.sway * 0.6
-        if (bubble.y < -0.08) {
-          bubble.y = 1.05
-          bubble.x = Math.random()
-          bubble.phase = Math.random() * Math.PI * 2
-        }
+          ctx.fillStyle = gradient
+          ctx.fillRect(0, 0, width, height)
+        })
 
-        const bx = wrap(bubble.x) * width
-        const by = bubble.y * height
-        const radius = Math.max(width, height) * bubble.radius * (prefersReducedMotion.matches ? 0.8 : 1.1)
-        const bubbleGradient = ctx.createRadialGradient(bx, by, 0, bx, by, radius)
-        const alpha = bubble.alpha * (prefersReducedMotion.matches ? 0.7 : 1)
-        bubbleGradient.addColorStop(0, `rgba(255, 255, 255, ${alpha})`)
-        bubbleGradient.addColorStop(0.55, `rgba(255, 255, 255, ${alpha * 0.35})`)
-        bubbleGradient.addColorStop(1, 'rgba(255, 255, 255, 0)')
-        ctx.fillStyle = bubbleGradient
-        ctx.fillRect(bx - radius, by - radius, radius * 2, radius * 2)
-      })
+        // Simplified bubble rendering - reduce bubble count dynamically
+        const activeBubbles = Math.min(bubbles.length, prefersReducedMotion.matches ? 10 : 20)
+        ctx.globalAlpha = Math.max(0.12, 0.4 * motionFactor)
+        ctx.globalCompositeOperation = 'lighter'
+        bubbles.slice(0, activeBubbles).forEach((bubble) => {
+          bubble.y -= bubble.speed * motionFactor * 0.6
+          bubble.x += Math.cos(elapsed * bubble.speed * 8 + bubble.phase) * bubble.sway * 0.6
+          if (bubble.y < -0.08) {
+            bubble.y = 1.05
+            bubble.x = Math.random()
+            bubble.phase = Math.random() * Math.PI * 2
+          }
+
+          const bx = wrap(bubble.x) * width
+          const by = bubble.y * height
+          const radius = Math.max(width, height) * bubble.radius * (prefersReducedMotion.matches ? 0.8 : 1.1)
+          
+          // Use simpler bubble rendering - solid fill instead of gradient
+          ctx.fillStyle = `rgba(255, 255, 255, ${bubble.alpha * 0.3})`
+          ctx.beginPath()
+          ctx.arc(bx, by, radius, 0, Math.PI * 2)
+          ctx.fill()
+        })
+      } catch (error) {
+        console.error('Canvas rendering error:', error)
+        // Stop rendering on error to prevent crash loop
+        isRendering = false
+        canvas.style.display = 'none'
+        return
+      }
 
       animationFrameId = requestAnimationFrame(render)
     }
@@ -329,11 +479,20 @@ function App() {
     animationFrameId = requestAnimationFrame(render)
 
     return () => {
-      cancelAnimationFrame(animationFrameId)
+      isRendering = false
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId)
+      }
       window.removeEventListener('resize', resize)
       prefersReducedMotion.removeEventListener('change', handleMotionChange)
       touchMediaQuery.removeEventListener('change', handleMotionChange)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
+      // Clear gradient cache
+      gradientCache.clear()
+      // Clear canvas
+      if (ctx) {
+        ctx.clearRect(0, 0, width, height)
+      }
     }
   }, [])
 
@@ -396,10 +555,14 @@ function App() {
   // Initialize analytics and web vitals
   useEffect(() => {
     initAnalytics()
-    measureWebVitals()
+    const cleanupWebVitals = measureWebVitals()
 
     // Track page view on mount
     trackPageView(window.location.pathname)
+    
+    return () => {
+      if (cleanupWebVitals) cleanupWebVitals()
+    }
   }, [])
 
   // Form validation

@@ -25,6 +25,8 @@ export const measureWebVitals = () => {
     inp: null,
   }
 
+  const observers = []
+
   // Measure FCP (First Contentful Paint)
   if (typeof PerformanceObserver !== 'undefined') {
     try {
@@ -33,22 +35,40 @@ export const measureWebVitals = () => {
           if (entry.name === 'first-contentful-paint') {
             vitals.fcp = Math.round(entry.startTime)
             trackMetric('FCP', vitals.fcp)
+            // Disconnect after first paint to save memory
+            paintObserver.disconnect()
           }
         }
       })
       paintObserver.observe({ entryTypes: ['paint'] })
+      observers.push(paintObserver)
 
-      // Measure LCP (Largest Contentful Paint)
+      // Measure LCP (Largest Contentful Paint) - disconnect after measurement
       const lcpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries()
         const lastEntry = entries[entries.length - 1]
         vitals.lcp = Math.round(lastEntry.renderTime || lastEntry.loadTime)
         trackMetric('LCP', vitals.lcp)
+        
+        // Disconnect after 10 seconds to prevent memory buildup
+        if (performance.now() > 10000) {
+          lcpObserver.disconnect()
+        }
       })
       lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] })
+      observers.push(lcpObserver)
+      
+      // Auto-disconnect LCP after page load
+      const lcpLoadHandler = () => {
+        setTimeout(() => {
+          if (lcpObserver) lcpObserver.disconnect()
+        }, 5000)
+      }
+      window.addEventListener('load', lcpLoadHandler, { once: true })
 
-      // Measure CLS (Cumulative Layout Shift)
+      // Measure CLS (Cumulative Layout Shift) - limit duration
       let clsValue = 0
+      let clsStartTime = performance.now()
       const clsObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           if (!entry.hadRecentInput) {
@@ -57,27 +77,37 @@ export const measureWebVitals = () => {
           }
         }
         trackMetric('CLS', vitals.cls)
+        
+        // Disconnect after 30 seconds to prevent memory buildup
+        if (performance.now() - clsStartTime > 30000) {
+          clsObserver.disconnect()
+        }
       })
       clsObserver.observe({ entryTypes: ['layout-shift'] })
+      observers.push(clsObserver)
 
-      // Measure TTFB (Time to First Byte)
+      // Measure TTFB (Time to First Byte) - disconnect immediately after
       const navigationObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
           if (entry.entryType === 'navigation') {
-            const navEntry = entry as PerformanceNavigationTiming
-            vitals.ttfb = Math.round(navEntry.responseStart - navEntry.requestStart)
-            trackMetric('TTFB', vitals.ttfb)
+            const navEntry = entry
+            if (navEntry.responseStart && navEntry.requestStart) {
+              vitals.ttfb = Math.round(navEntry.responseStart - navEntry.requestStart)
+              trackMetric('TTFB', vitals.ttfb)
+              navigationObserver.disconnect()
+            }
           }
         }
       })
       navigationObserver.observe({ entryTypes: ['navigation'] })
+      observers.push(navigationObserver)
     } catch (error) {
       console.warn('Web Vitals measurement not fully supported:', error)
     }
   }
 
-  // Log metrics after page load
-  window.addEventListener('load', () => {
+  // Log metrics after page load and clean up
+  const loadHandler = () => {
     setTimeout(() => {
       console.log('Web Vitals:', vitals)
       
@@ -85,10 +115,35 @@ export const measureWebVitals = () => {
       if (window.analytics) {
         window.analytics.track('web_vitals', vitals)
       }
+      
+      // Clean up all observers after 10 seconds
+      setTimeout(() => {
+        observers.forEach((observer) => {
+          try {
+            observer.disconnect()
+          } catch (e) {
+            // Already disconnected
+          }
+        })
+        observers.length = 0
+      }, 10000)
     }, 3000)
-  })
+  }
 
-  return vitals
+  window.addEventListener('load', loadHandler, { once: true })
+
+  // Return cleanup function
+  return () => {
+    window.removeEventListener('load', loadHandler)
+    observers.forEach((observer) => {
+      try {
+        observer.disconnect()
+      } catch (e) {
+        // Ignore errors
+      }
+    })
+    observers.length = 0
+  }
 }
 
 const trackMetric = (metricName, value) => {

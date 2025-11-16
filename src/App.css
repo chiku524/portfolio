@@ -3029,10 +3029,18 @@ body[data-depth='trench'] .nav-wrapper::after {
     box-shadow: 0 0 4px rgba(18, 246, 255, 0.5);
   }
 
-  /* Simplify animations on touch devices */
+  /* Disable canvas entirely on mobile to prevent crashes */
   .background-canvas {
-    opacity: 0.6;
-    filter: blur(60px);
+    display: none !important;
+  }
+  
+  /* Disable heavy animations on mobile */
+  .cursor-trail {
+    display: none !important;
+  }
+  
+  .ripple-layer {
+    display: none !important;
   }
 
   .hero__aurora,
