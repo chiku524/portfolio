@@ -520,21 +520,10 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu when clicking outside, on link, or pressing Escape
+  // Close mobile menu on Escape (desktop / non-touch only)
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      // Don't close if clicking the toggle button itself
-      if (event.target.closest('.nav__menu-toggle')) {
-        return
-      }
-      if (isMobileMenuOpen && !event.target.closest('.nav__links') && !event.target.closest('.nav__menu-toggle')) {
-        setIsMobileMenuOpen(false)
-      }
-    }
-
-    const handleLinkClick = () => {
-      setIsMobileMenuOpen(false)
-    }
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    if (isTouchDevice) return undefined
 
     const handleEscape = (event) => {
       if (isMobileMenuOpen && event.key === 'Escape') {
@@ -543,17 +532,9 @@ function App() {
     }
 
     if (isMobileMenuOpen) {
-      // Use capture phase and delay to avoid immediate close
-      setTimeout(() => {
-        document.addEventListener('click', handleClickOutside, true)
-      }, 0)
       document.addEventListener('keydown', handleEscape)
-      const navLinks = document.querySelectorAll('.nav__links a')
-      navLinks.forEach((link) => link.addEventListener('click', handleLinkClick))
       return () => {
-        document.removeEventListener('click', handleClickOutside, true)
         document.removeEventListener('keydown', handleEscape)
-        navLinks.forEach((link) => link.removeEventListener('click', handleLinkClick))
       }
     }
     return undefined
@@ -561,7 +542,7 @@ function App() {
 
   const handleMenuToggle = (event) => {
     event.stopPropagation()
-    // Don't preventDefault - allow button to work normally
+    // Allow default button behavior and just toggle state
     setIsMobileMenuOpen((prev) => !prev)
   }
 
@@ -818,6 +799,13 @@ function App() {
   useEffect(() => {
     const snappables = Array.from(document.querySelectorAll('[data-snappable="true"]'))
     if (!snappables.length) return undefined
+
+    // Disable scroll snapping entirely on touch devices (mobile)
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    if (isTouchDevice) {
+      return undefined
+    }
+
     let isAnimating = false
 
     const composedPath = (event) => {
@@ -935,104 +923,12 @@ function App() {
       scrollToIndex(targetIndex)
     }
 
-    // Touch handling for mobile scroll snapping
-    let touchStartY = 0
-    let touchEndY = 0
-    let touchStartTime = 0
-    let isScrolling = false
-
-    const handleTouchStart = (event) => {
-      touchStartY = event.touches[0].clientY
-      touchStartTime = Date.now()
-      isScrolling = false
-    }
-
-    const handleTouchMove = (event) => {
-      if (isAnimating) {
-        event.preventDefault()
-        return
-      }
-      isScrolling = true
-    }
-
-    const handleTouchEnd = (event) => {
-      if (!isScrolling || isAnimating) return
-      
-      touchEndY = event.changedTouches[0].clientY
-      const touchDuration = Date.now() - touchStartTime
-      const swipeDistance = touchStartY - touchEndY
-      const minSwipeDistance = 50
-      const maxSwipeDuration = 500
-
-      // Only trigger snap for quick, significant swipes
-      if (Math.abs(swipeDistance) > minSwipeDistance && touchDuration < maxSwipeDuration) {
-        const active = getClosestSection()
-        const currentIndex = snappables.indexOf(active)
-        if (currentIndex === -1) return
-
-        // Check if we're near the edge of current section
-        const rect = active.getBoundingClientRect()
-        const isNearTop = rect.top > -50 && rect.top < 50
-        const isNearBottom = rect.bottom > window.innerHeight - 50 && rect.bottom < window.innerHeight + 50
-        
-        if (swipeDistance > 0 && isNearBottom) {
-          // Swipe down - go to next section
-          const nextIndex = Math.min(currentIndex + 1, snappables.length - 1)
-          if (nextIndex !== currentIndex) {
-            event.preventDefault()
-            scrollToIndex(nextIndex)
-          }
-        } else if (swipeDistance < 0 && isNearTop) {
-          // Swipe up - go to previous section
-          const prevIndex = Math.max(currentIndex - 1, 0)
-          if (prevIndex !== currentIndex) {
-            event.preventDefault()
-            scrollToIndex(prevIndex)
-          }
-        }
-      }
-    }
-
-    // Debounced scroll end handler for mobile snap
-    let scrollTimeout
-    const handleScrollEnd = () => {
-      clearTimeout(scrollTimeout)
-      scrollTimeout = setTimeout(() => {
-        if (isAnimating) return
-        
-        const active = getClosestSection()
-        const currentIndex = snappables.indexOf(active)
-        if (currentIndex === -1) return
-
-        const rect = active.getBoundingClientRect()
-        const viewportCenter = window.innerHeight / 2
-        const sectionCenter = rect.top + rect.height / 2
-        
-        // If section is not centered well, snap to it
-        const distanceFromCenter = Math.abs(sectionCenter - viewportCenter)
-        if (distanceFromCenter > window.innerHeight * 0.15) {
-          scrollToIndex(currentIndex)
-        }
-      }, 150)
-    }
-
     window.addEventListener('wheel', handleWheel, { passive: false })
     window.addEventListener('keydown', handleKeydown, { passive: false })
-    
-    // Mobile touch events
-    window.addEventListener('touchstart', handleTouchStart, { passive: true })
-    window.addEventListener('touchmove', handleTouchMove, { passive: false })
-    window.addEventListener('touchend', handleTouchEnd, { passive: false })
-    window.addEventListener('scroll', handleScrollEnd, { passive: true })
-    
+
     return () => {
       window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('keydown', handleKeydown)
-      window.removeEventListener('touchstart', handleTouchStart)
-      window.removeEventListener('touchmove', handleTouchMove)
-      window.removeEventListener('touchend', handleTouchEnd)
-      window.removeEventListener('scroll', handleScrollEnd)
-      clearTimeout(scrollTimeout)
     }
   }, [])
 
