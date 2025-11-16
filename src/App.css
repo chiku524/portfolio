@@ -896,7 +896,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   background: rgba(2, 6, 23, 0.75);
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
   transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
-  overflow: hidden;
+  overflow: visible;
   contain: layout style paint;
 }
 
@@ -1421,15 +1421,18 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .reveal {
   opacity: 0;
-  transform: translate3d(0, 32px, 0) scale(0.98);
-  transition-delay: var(--reveal-delay, 0s);
+  transform: translate3d(0, 24px, 0) scale(1);
+  transition:
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
 .reveal.is-visible {
-  animation: revealIn 0.85s cubic-bezier(0.21, 0.65, 0.38, 0.96) var(--reveal-delay, 0s) forwards;
-  will-change: opacity, transform;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  transition-delay: var(--reveal-delay, 0s);
 }
 
 .section {
@@ -2200,18 +2203,11 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 @keyframes revealIn {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 36px, 0) scale(0.96);
-  }
-  60% {
-    opacity: 1;
-    transform: translate3d(0, -4px, 0) scale(1.02);
-  }
+  /* Deprecated: kept for backward compatibility, but no longer used */
+  0%,
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-    will-change: auto;
+    transform: none;
   }
 }
 
