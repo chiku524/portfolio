@@ -1602,8 +1602,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Portfolio />} />
       <Route path="/the-blockchain-circus" element={<TheBlockchainCircus />} />
-      <Route path="/terms-of-service" element={<TermsOfService />} />
-      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/the-blockchain-circus/terms-of-service" element={<TermsOfService />} />
+      <Route path="/the-blockchain-circus/privacy-policy" element={<PrivacyPolicy />} />
     </Routes>
   )
 }

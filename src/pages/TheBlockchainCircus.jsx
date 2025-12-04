@@ -191,14 +191,14 @@ export default function TheBlockchainCircus() {
             </p>
             <div className="legal-links">
               <Link 
-                to="/terms-of-service" 
+                to="/the-blockchain-circus/terms-of-service" 
                 className="legal-link"
                 onClick={handleTermsClick}
               >
                 Terms of Service
               </Link>
               <Link 
-                to="/privacy-policy" 
+                to="/the-blockchain-circus/privacy-policy" 
                 className="legal-link"
                 onClick={handlePrivacyClick}
               >

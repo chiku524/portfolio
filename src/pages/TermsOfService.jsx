@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
 import './LegalPages.css'
 
 export default function TermsOfService() {
   useEffect(() => {
     document.title = 'Terms of Service | The Blockchain Circus (TBC) | nico.builds'
-    trackPageView('/terms-of-service')
+    trackPageView('/the-blockchain-circus/terms-of-service')
   }, [])
 
   return (
@@ -180,7 +181,7 @@ export default function TermsOfService() {
         </div>
 
         <footer className="legal-page__footer">
-          <a href="/" className="legal-page__back-link">← Back to Portfolio</a>
+          <Link to="/the-blockchain-circus" className="legal-page__back-link">← Back to The Blockchain Circus</Link>
         </footer>
       </div>
     </div>

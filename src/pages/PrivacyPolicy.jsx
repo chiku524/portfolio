@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
 import './LegalPages.css'
 
 export default function PrivacyPolicy() {
   useEffect(() => {
     document.title = 'Privacy Policy | The Blockchain Circus (TBC) | nico.builds'
-    trackPageView('/privacy-policy')
+    trackPageView('/the-blockchain-circus/privacy-policy')
   }, [])
 
   return (
@@ -261,7 +262,7 @@ export default function PrivacyPolicy() {
         </div>
 
         <footer className="legal-page__footer">
-          <a href="/" className="legal-page__back-link">← Back to Portfolio</a>
+          <Link to="/the-blockchain-circus" className="legal-page__back-link">← Back to The Blockchain Circus</Link>
         </footer>
       </div>
     </div>
