@@ -1,9 +1,12 @@
 {
   "rewrites": [
     {
+      "source": "/tiktok-callback",
+      "destination": "/api/tiktok-callback"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
 }
-

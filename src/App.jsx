@@ -7,6 +7,7 @@ import { measureWebVitals } from './utils/webVitals'
 import TermsOfService from './pages/TermsOfService'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TheBlockchainCircus from './pages/TheBlockchainCircus'
+import TikTokCallback from './pages/TikTokCallback'
 
 function Portfolio() {
   const backgroundCanvasRef = useRef(null)
@@ -1604,6 +1605,7 @@ function App() {
       <Route path="/the-blockchain-circus" element={<TheBlockchainCircus />} />
       <Route path="/the-blockchain-circus/terms-of-service" element={<TermsOfService />} />
       <Route path="/the-blockchain-circus/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/tiktok-callback" element={<TikTokCallback />} />
     </Routes>
   )
 }
