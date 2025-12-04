@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import './App.css'
 import logoMark from './assets/generated-image.png'
 import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
@@ -8,7 +8,7 @@ import TermsOfService from './pages/TermsOfService'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TheBlockchainCircus from './pages/TheBlockchainCircus'
 
-function App() {
+function Portfolio() {
   const backgroundCanvasRef = useRef(null)
   const videoRefs = useRef({})
   const trailRef = useRef(null)
@@ -563,6 +563,15 @@ function App() {
     }
   }, [])
 
+  // Track route changes for analytics
+  useEffect(() => {
+    const handleRouteChange = () => {
+      trackPageView(window.location.pathname)
+    }
+    window.addEventListener('popstate', handleRouteChange)
+    return () => window.removeEventListener('popstate', handleRouteChange)
+  }, [])
+
   // Form validation
   const validateForm = (formData) => {
     const errors = {}
@@ -974,7 +983,7 @@ function App() {
     }
   }, [])
 
-  const PortfolioContent = () => (
+  return (
     <div className="app">
       <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
       <div className="depth-overlay" aria-hidden="true" />
@@ -1586,10 +1595,12 @@ function App() {
       />
     </div>
   )
+}
 
+function App() {
   return (
     <Routes>
-      <Route path="/" element={<PortfolioContent />} />
+      <Route path="/" element={<Portfolio />} />
       <Route path="/the-blockchain-circus" element={<TheBlockchainCircus />} />
       <Route path="/terms-of-service" element={<TermsOfService />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
