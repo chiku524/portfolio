@@ -4,6 +4,7 @@ import './LegalPages.css'
 
 export default function TermsOfService() {
   useEffect(() => {
+    document.title = 'Terms of Service | The Blockchain Circus (TBC) | nico.builds'
     trackPageView('/terms-of-service')
   }, [])
 
@@ -12,7 +13,7 @@ export default function TermsOfService() {
       <div className="legal-page__container">
         <header className="legal-page__header">
           <h1>Terms of Service</h1>
-          <p className="legal-page__subtitle">The Blockchain Circus TikTok Automation</p>
+          <p className="legal-page__subtitle">The Blockchain Circus (TBC) - TikTok Automation</p>
           <p className="legal-page__last-updated">Last Updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
         </header>
 

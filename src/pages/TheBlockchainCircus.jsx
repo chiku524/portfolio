@@ -6,6 +6,7 @@ import './TheBlockchainCircus.css'
 
 export default function TheBlockchainCircus() {
   useEffect(() => {
+    document.title = 'The Blockchain Circus (TBC) | TikTok AI Automation | nico.builds'
     trackPageView('/the-blockchain-circus')
   }, [])
 
