@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import logoMark from './assets/generated-image.png'
 import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
 import { measureWebVitals } from './utils/webVitals'
+import TermsOfService from './pages/TermsOfService'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TheBlockchainCircus from './pages/TheBlockchainCircus'
 
 function App() {
   const backgroundCanvasRef = useRef(null)
@@ -666,6 +670,15 @@ function App() {
         highlight: 'Automation pipelines, AI content flows, analytics stack.',
         media: buildMediaPaths('BlockchainVibe News'),
       },
+      {
+        name: 'The Blockchain Circus',
+        url: '/the-blockchain-circus',
+        badge: 'AI automation',
+        description:
+          'Automated TikTok content generation system powered by n8n workflows and AI. Creates educational blockchain videos and publishes them automatically to @TheBlockchainCircus.',
+        highlight: 'n8n automation, AI video generation, TikTok API integration.',
+        media: null, // No media for this project card
+      },
     ],
     [],
   )
@@ -961,7 +974,7 @@ function App() {
     }
   }, [])
 
-  return (
+  const PortfolioContent = () => (
     <div className="app">
       <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
       <div className="depth-overlay" aria-hidden="true" />
@@ -1222,62 +1235,77 @@ function App() {
               <p>Production ecosystems sailing today—dive in to see them operating in the wild.</p>
             </div>
             <div className="project-grid">
-              {proofOfWork.map((project) => (
-                <article key={project.name} className="project-card reveal" data-project-name={project.name}>
-                  <a
-                    className="project-card__preview"
-                    href={project.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={
-                      project.media?.thumbnail
-                        ? { '--project-thumb': `url(${project.media.thumbnail})` }
-                        : undefined
-                    }
-                    onMouseEnter={() => handlePreviewEnter(project.name)}
-                    onMouseLeave={() => handlePreviewLeave(project.name)}
-                    onFocus={() => handlePreviewEnter(project.name)}
-                    onBlur={() => handlePreviewLeave(project.name)}
-                    onTouchStart={() => handlePreviewEnter(project.name)}
-                    onTouchEnd={() => handlePreviewLeave(project.name)}
-                    onTouchCancel={() => handlePreviewLeave(project.name)}
-                  >
-                    {(project.media?.webm || project.media?.mp4) && (
-                      <video
-                        ref={(node) => {
-                          if (node) {
-                            videoRefs.current[project.name] = node
-                          }
-                        }}
-                        className="project-card__video"
-                        playsInline
-                        muted
-                        loop
-                        preload="none"
-                        poster={project.media.thumbnail}
-                      >
-                        {project.media.webm && <source data-src={project.media.webm} type="video/webm" />}
-                        {project.media.mp4 && <source data-src={project.media.mp4} type="video/mp4" />}
-                      </video>
-                    )}
-                    <div className="project-card__overlay">
-                      <span>Visit reef ↗</span>
+              {proofOfWork.map((project) => {
+                const isInternalLink = project.url.startsWith('/')
+                const PreviewLink = isInternalLink ? Link : 'a'
+                const previewProps = isInternalLink
+                  ? { to: project.url }
+                  : { href: project.url, target: '_blank', rel: 'noreferrer' }
+                const MetaLink = isInternalLink ? Link : 'a'
+                const metaProps = isInternalLink
+                  ? { to: project.url }
+                  : { href: project.url, target: '_blank', rel: 'noreferrer' }
+
+                return (
+                  <article key={project.name} className="project-card reveal" data-project-name={project.name}>
+                    <PreviewLink
+                      className="project-card__preview"
+                      {...previewProps}
+                      style={
+                        project.media?.thumbnail
+                          ? { '--project-thumb': `url(${project.media.thumbnail})` }
+                          : project.name === 'The Blockchain Circus'
+                          ? {
+                              background: 'linear-gradient(135deg, rgba(18, 246, 255, 0.2) 0%, rgba(125, 211, 252, 0.15) 50%, rgba(255, 0, 80, 0.1) 100%)',
+                              backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(18, 246, 255, 0.3) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(255, 0, 80, 0.2) 0%, transparent 50%)',
+                            }
+                          : undefined
+                      }
+                      onMouseEnter={() => handlePreviewEnter(project.name)}
+                      onMouseLeave={() => handlePreviewLeave(project.name)}
+                      onFocus={() => handlePreviewEnter(project.name)}
+                      onBlur={() => handlePreviewLeave(project.name)}
+                      onTouchStart={() => handlePreviewEnter(project.name)}
+                      onTouchEnd={() => handlePreviewLeave(project.name)}
+                      onTouchCancel={() => handlePreviewLeave(project.name)}
+                    >
+                      {(project.media?.webm || project.media?.mp4) && (
+                        <video
+                          ref={(node) => {
+                            if (node) {
+                              videoRefs.current[project.name] = node
+                            }
+                          }}
+                          className="project-card__video"
+                          playsInline
+                          muted
+                          loop
+                          preload="none"
+                          poster={project.media.thumbnail}
+                        >
+                          {project.media.webm && <source data-src={project.media.webm} type="video/webm" />}
+                          {project.media.mp4 && <source data-src={project.media.mp4} type="video/mp4" />}
+                        </video>
+                      )}
+                      <div className="project-card__overlay">
+                        <span>{isInternalLink ? 'View project →' : 'Visit reef ↗'}</span>
+                      </div>
+                      <div className="project-card__shimmer" aria-hidden="true" />
+                    </PreviewLink>
+                    <div className="project-card__body">
+                      <span className="card__badge">{project.badge}</span>
+                      <h3>{project.name}</h3>
+                      <p>{project.description}</p>
+                      <div className="project-card__meta">
+                        <span>{project.highlight}</span>
+                        <MetaLink {...metaProps}>
+                          {isInternalLink ? 'View project →' : 'Open project ↗'}
+                        </MetaLink>
+                      </div>
                     </div>
-                    <div className="project-card__shimmer" aria-hidden="true" />
-                  </a>
-                  <div className="project-card__body">
-                    <span className="card__badge">{project.badge}</span>
-                    <h3>{project.name}</h3>
-                    <p>{project.description}</p>
-                    <div className="project-card__meta">
-                      <span>{project.highlight}</span>
-                      <a href={project.url} target="_blank" rel="noreferrer">
-                        Open project ↗
-        </a>
-      </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                )
+              })}
             </div>
           </section>
           <div className="wave-divider wave-divider--shallow" aria-hidden="true" />
@@ -1557,6 +1585,15 @@ function App() {
         preload="auto"
       />
     </div>
+  )
+
+  return (
+    <Routes>
+      <Route path="/" element={<PortfolioContent />} />
+      <Route path="/the-blockchain-circus" element={<TheBlockchainCircus />} />
+      <Route path="/terms-of-service" element={<TermsOfService />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+    </Routes>
   )
 }
 
