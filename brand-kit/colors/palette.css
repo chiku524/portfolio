@@ -1,0 +1,46 @@
+/* nico.builds Brand Color Palette - CSS Variables */
+
+:root {
+  /* Primary Colors */
+  --brand-accent: #12f6ff;
+  --brand-accent-soft: #ff906f;
+  --brand-accent-deep: #14c9c9;
+  --brand-accent-lagoon: #14c9c9;
+  
+  /* Background Colors */
+  --brand-bg: #11172b;
+  --brand-midnight: #0b1224;
+  --brand-indigo: #153b6d;
+  
+  /* Text Colors */
+  --brand-text-primary: #f4f8ff;
+  --brand-text-secondary: #c5d8ff;
+  --brand-text-tertiary: #9fb4d8;
+  
+  /* Accent Variations */
+  --brand-sand: #ff906f;
+  
+  /* Gradient Backgrounds */
+  --gradient-midnight-start: #0b1224;
+  --gradient-midnight-mid: #0d1a33;
+  --gradient-midnight-end: #071021;
+  
+  /* Glow Effects */
+  --glow-cyan: rgba(18, 246, 255, 0.28);
+  --glow-teal: rgba(20, 201, 201, 0.14);
+  --glow-orange: rgba(255, 144, 111, 0.12);
+}
+
+/* Color Usage Classes */
+.bg-primary { background-color: var(--brand-bg); }
+.bg-midnight { background-color: var(--brand-midnight); }
+.bg-indigo { background-color: var(--brand-indigo); }
+
+.text-primary { color: var(--brand-text-primary); }
+.text-secondary { color: var(--brand-text-secondary); }
+.text-tertiary { color: var(--brand-text-tertiary); }
+
+.accent-cyan { color: var(--brand-accent); }
+.accent-orange { color: var(--brand-accent-soft); }
+.accent-teal { color: var(--brand-accent-deep); }
+

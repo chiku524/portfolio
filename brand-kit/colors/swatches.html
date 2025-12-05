@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>nico.builds Color Swatches</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Comfortaa', sans-serif;
+      background: linear-gradient(180deg, #0b1224, #0d1a33 55%, #071021);
+      color: #f4f8ff;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #12f6ff;
+    }
+    .tagline {
+      color: #c5d8ff;
+      margin-bottom: 3rem;
+      font-size: 1.1rem;
+    }
+    .color-group {
+      margin-bottom: 3rem;
+    }
+    .group-title {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #12f6ff;
+    }
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .swatch {
+      background: rgba(8, 47, 73, 0.78);
+      border: 1px solid rgba(34, 211, 238, 0.18);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .swatch:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(18, 246, 255, 0.2);
+      border-color: rgba(34, 211, 238, 0.4);
+    }
+    .swatch-color {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .swatch-info h3 {
+      font-family: 'Comfortaa', sans-serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: #f4f8ff;
+    }
+    .swatch-info p {
+      font-size: 0.9rem;
+      color: #c5d8ff;
+      margin-bottom: 0.25rem;
+    }
+    .swatch-code {
+      font-family: 'Courier New', monospace;
+      background: rgba(11, 18, 36, 0.6);
+      padding: 0.5rem;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+      color: #12f6ff;
+      font-size: 0.85rem;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>nico.builds</h1>
+    <p class="tagline">Color Palette Swatches</p>
+
+    <div class="color-group">
+      <h2 class="group-title">Primary Accents</h2>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #12f6ff;"></div>
+          <div class="swatch-info">
+            <h3>Cyan Accent</h3>
+            <p>Primary call-to-action, links, highlights</p>
+            <div class="swatch-code">#12f6ff</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #ff906f;"></div>
+          <div class="swatch-info">
+            <h3>Coral Accent</h3>
+            <p>Secondary accents, hover states</p>
+            <div class="swatch-code">#ff906f</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #14c9c9;"></div>
+          <div class="swatch-info">
+            <h3>Teal Lagoon</h3>
+            <p>Deep water accents, gradients</p>
+            <div class="swatch-code">#14c9c9</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-group">
+      <h2 class="group-title">Background Colors</h2>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #11172b;"></div>
+          <div class="swatch-info">
+            <h3>Deep Ocean</h3>
+            <p>Primary background</p>
+            <div class="swatch-code">#11172b</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #0b1224;"></div>
+          <div class="swatch-info">
+            <h3>Midnight Depths</h3>
+            <p>Deepest backgrounds</p>
+            <div class="swatch-code">#0b1224</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #153b6d;"></div>
+          <div class="swatch-info">
+            <h3>Indigo Reef</h3>
+            <p>Card backgrounds, surfaces</p>
+            <div class="swatch-code">#153b6d</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-group">
+      <h2 class="group-title">Text Colors</h2>
+      <div class="swatch-grid">
+        <div class="swatch">
+          <div class="swatch-color" style="background: #f4f8ff;"></div>
+          <div class="swatch-info">
+            <h3>Light Surface</h3>
+            <p>Primary text, headings</p>
+            <div class="swatch-code">#f4f8ff</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #c5d8ff;"></div>
+          <div class="swatch-info">
+            <h3>Sky Reflection</h3>
+            <p>Secondary text, descriptions</p>
+            <div class="swatch-code">#c5d8ff</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background: #9fb4d8;"></div>
+          <div class="swatch-info">
+            <h3>Mist</h3>
+            <p>Tertiary text, subtle info</p>
+            <div class="swatch-code">#9fb4d8</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

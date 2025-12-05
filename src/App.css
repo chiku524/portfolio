@@ -1896,7 +1896,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .contact-handle {
-  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  font-family: var(--font-accent);
   color: var(--accent);
   font-weight: 500;
 }
@@ -2563,7 +2563,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .aspirations__label {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-accent);
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;

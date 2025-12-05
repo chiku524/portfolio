@@ -1,0 +1,90 @@
+{
+  "brand": {
+    "name": "nico.builds",
+    "tagline": "Flow Beyond Limits"
+  },
+  "colors": {
+    "primary": {
+      "accent": {
+        "name": "Cyan Accent",
+        "hex": "#12f6ff",
+        "rgb": "rgb(18, 246, 255)",
+        "usage": "Primary call-to-action, links, highlights"
+      },
+      "accentSoft": {
+        "name": "Coral Accent",
+        "hex": "#ff906f",
+        "rgb": "rgb(255, 144, 111)",
+        "usage": "Secondary accents, hover states, warm highlights"
+      },
+      "accentDeep": {
+        "name": "Teal Lagoon",
+        "hex": "#14c9c9",
+        "rgb": "rgb(20, 201, 201)",
+        "usage": "Deep water accents, gradients, depth effects"
+      }
+    },
+    "background": {
+      "bg": {
+        "name": "Deep Ocean",
+        "hex": "#11172b",
+        "rgb": "rgb(17, 23, 43)",
+        "usage": "Primary background color"
+      },
+      "midnight": {
+        "name": "Midnight Depths",
+        "hex": "#0b1224",
+        "rgb": "rgb(11, 18, 36)",
+        "usage": "Deepest backgrounds, contrast sections"
+      },
+      "indigo": {
+        "name": "Indigo Reef",
+        "hex": "#153b6d",
+        "rgb": "rgb(21, 59, 109)",
+        "usage": "Card backgrounds, elevated surfaces"
+      }
+    },
+    "text": {
+      "primary": {
+        "name": "Light Surface",
+        "hex": "#f4f8ff",
+        "rgb": "rgb(244, 248, 255)",
+        "usage": "Primary text, headings, important content"
+      },
+      "secondary": {
+        "name": "Sky Reflection",
+        "hex": "#c5d8ff",
+        "rgb": "rgb(197, 216, 255)",
+        "usage": "Secondary text, descriptions, metadata"
+      },
+      "tertiary": {
+        "name": "Mist",
+        "hex": "#9fb4d8",
+        "rgb": "rgb(159, 180, 216)",
+        "usage": "Tertiary text, subtle information"
+      }
+    },
+    "gradients": {
+      "midnight": {
+        "start": "#0b1224",
+        "mid": "#0d1a33",
+        "end": "#071021",
+        "usage": "Background gradients, depth effects"
+      },
+      "aurora": {
+        "cyan": "rgba(20, 201, 201, 0.14)",
+        "orange": "rgba(255, 144, 111, 0.12)",
+        "bright": "rgba(18, 246, 255, 0.08)",
+        "usage": "Ambient lighting, glow effects"
+      }
+    }
+  },
+  "accessibility": {
+    "contrast": {
+      "textPrimary_on_bg": "WCAG AAA",
+      "textSecondary_on_bg": "WCAG AA",
+      "accent_on_bg": "WCAG AA"
+    }
+  }
+}
+
