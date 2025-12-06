@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Routes, Route, Link, useLocation } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import logoMark from './assets/generated-image.png'
 import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
@@ -34,12 +34,11 @@ function Portfolio() {
         document.body.removeChild(script)
       }
     }
-    return undefined
   }, [])
 
   useEffect(() => {
     const revealEls = document.querySelectorAll('.reveal')
-    if (!revealEls.length) return undefined
+    if (!revealEls.length) return
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -76,12 +75,12 @@ function Portfolio() {
 
   useEffect(() => {
     const container = trailRef.current
-    if (!container) return undefined
+    if (!container) return
     
     // Disable cursor trail on mobile to save memory
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
     if (isTouchDevice) {
-      return undefined
+      return
     }
 
     let ticking = false
@@ -140,12 +139,12 @@ function Portfolio() {
 
   useEffect(() => {
     const layer = rippleLayerRef.current
-    if (!layer) return undefined
+    if (!layer) return
 
     // Disable ripple on mobile to save memory
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
     if (isTouchDevice) {
-      return undefined
+      return
     }
 
     const ripplePool = []
@@ -209,7 +208,7 @@ function Portfolio() {
 
   useEffect(() => {
     const canvas = backgroundCanvasRef.current
-    if (!canvas) return undefined
+    if (!canvas) return
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
@@ -225,7 +224,7 @@ function Portfolio() {
     // Disable canvas entirely on mobile to prevent crashes
     if (isTouchDevice) {
       canvas.style.display = 'none'
-      return undefined
+      return
     }
 
     // Reduce blob count on mobile for better performance
@@ -528,7 +527,7 @@ function Portfolio() {
   // Close mobile menu on Escape (desktop / non-touch only)
   useEffect(() => {
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-    if (isTouchDevice) return undefined
+    if (isTouchDevice) return
 
     const handleEscape = (event) => {
       if (isMobileMenuOpen && event.key === 'Escape') {
@@ -542,7 +541,6 @@ function Portfolio() {
         document.removeEventListener('keydown', handleEscape)
       }
     }
-    return undefined
   }, [isMobileMenuOpen])
 
   const handleMenuToggle = (event) => {
@@ -773,7 +771,7 @@ function Portfolio() {
 
   useEffect(() => {
     const cards = document.querySelectorAll('[data-project-name]')
-    if (!cards.length) return undefined
+    if (!cards.length) return
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -796,7 +794,7 @@ function Portfolio() {
 
   useEffect(() => {
     const sections = Array.from(document.querySelectorAll('[data-depth]'))
-    if (!sections.length) return undefined
+    if (!sections.length) return
 
     document.body.dataset.depth = sections[0]?.dataset.depth || 'surface'
 
@@ -821,12 +819,12 @@ function Portfolio() {
 
   useEffect(() => {
     const snappables = Array.from(document.querySelectorAll('[data-snappable="true"]'))
-    if (!snappables.length) return undefined
+    if (!snappables.length) return
 
     // Disable scroll snapping entirely on touch devices (mobile)
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
     if (isTouchDevice) {
-      return undefined
+      return
     }
 
     let isAnimating = false
@@ -957,7 +955,7 @@ function Portfolio() {
 
   useEffect(() => {
     const audioEl = audioRef.current
-    if (!audioEl) return undefined
+    if (!audioEl) return
     audioEl.volume = 0.2
     setIsAudioOn(!audioEl.paused)
     const handlePlay = () => setIsAudioOn(true)
