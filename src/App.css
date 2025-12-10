@@ -929,13 +929,13 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .nav__logo {
-  width: 44px;
+  width: auto;
   height: 44px;
-  border-radius: 16px;
-  object-fit: cover;
+  border-radius: 0;
+  object-fit: contain;
   filter: drop-shadow(0 6px 18px rgba(18, 246, 255, 0.35));
-  background: rgba(18, 246, 255, 0.06);
-  border: 1px solid rgba(18, 246, 255, 0.2);
+  background: transparent;
+  border: none;
 }
 
 .nav__brand-text {
@@ -2039,12 +2039,12 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .footer__logo {
-  width: 62px;
+  width: auto;
   height: 62px;
-  border-radius: 22px;
-  object-fit: cover;
-  border: 1px solid rgba(18, 246, 255, 0.22);
-  background: rgba(18, 246, 255, 0.08);
+  border-radius: 0;
+  object-fit: contain;
+  border: none;
+  background: transparent;
   filter: drop-shadow(0 12px 28px rgba(18, 246, 255, 0.35));
 }
 
@@ -2138,7 +2138,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   }
 
   .nav__logo {
-    width: 40px;
+    width: auto;
     height: 40px;
   }
 
@@ -2203,14 +2203,6 @@ body[data-depth='trench'] .nav-wrapper::after {
   }
 }
 
-@keyframes revealIn {
-  /* Deprecated: kept for backward compatibility, but no longer used */
-  0%,
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
 
 /* Oceanic theme enhancements */
 .hero__ripples {
@@ -2992,7 +2984,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   }
 
   .nav__logo {
-    width: 36px;
+    width: auto;
     height: 36px;
   }
 

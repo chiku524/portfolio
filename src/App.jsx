@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import './App.css'
 import logoMark from './assets/generated-image.png'
 import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
@@ -1081,7 +1081,7 @@ function Portfolio() {
         <header className="nav-wrapper">
           <nav className="nav page-shell">
             <a className="nav__brand" href="#top" aria-label="Nico Chikuji portfolio homepage">
-              <img className="nav__logo" src={logoMark} alt="Nico Chikuji oceanic logo" loading="eager" fetchPriority="high" />
+              <img className="nav__logo" src={logoMark} alt="nico.builds logo" loading="eager" fetchPriority="high" />
               <span className="nav__brand-text">
                 <span className="nav__brand-title">nico.builds</span>
                 <span className="nav__brand-tagline">Flow Beyond Limits</span>
@@ -1560,7 +1560,7 @@ function Portfolio() {
         <footer className="footer">
           <div className="footer__inner reveal" data-reveal-step="0">
             <div className="footer__brand">
-              <img className="footer__logo" src={logoMark} alt="Nico builds wave logo" loading="lazy" />
+              <img className="footer__logo" src={logoMark} alt="nico.builds logo" loading="lazy" />
               <div className="footer__brand-copy">
                 <span className="footer__brand-title">Flow Beyond Limits</span>
                 <span className="footer__brand-motto">Full-stack developer for playful, precision builds.</span>
