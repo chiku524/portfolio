@@ -1,5 +1,5 @@
 // Service Worker for PWA capabilities
-const CACHE_NAME = 'nico-builds-v1'
+const CACHE_NAME = 'nico-builds-v2'
 const urlsToCache = [
   '/',
   '/index.html',
@@ -33,9 +33,11 @@ self.addEventListener('activate', (event) => {
           }
         })
       )
+    }).then(() => {
+      // Force claim all clients to use new service worker
+      return self.clients.claim()
     })
   )
-  return self.clients.claim()
 })
 
 // Fetch event - serve from cache, fallback to network
@@ -51,26 +53,25 @@ self.addEventListener('fetch', (event) => {
   }
 
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Return cached version or fetch from network
-      return (
-        response ||
-        fetch(event.request).then((response) => {
-          // Don't cache non-successful responses
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response
-          }
-
-          // Clone the response
-          const responseToCache = response.clone()
-
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache)
-          })
-
+    fetch(event.request)
+      .then((response) => {
+        // Don't cache non-successful responses
+        if (!response || response.status !== 200 || response.type !== 'basic') {
           return response
+        }
+
+        // Clone the response
+        const responseToCache = response.clone()
+
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache)
         })
-      )
-    })
+
+        return response
+      })
+      .catch(() => {
+        // If network fails, try cache as fallback
+        return caches.match(event.request)
+      })
   )
 })
