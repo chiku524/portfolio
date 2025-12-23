@@ -930,12 +930,19 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .nav__logo {
   width: auto;
-  height: 44px;
+  height: 56px;
   border-radius: 0;
   object-fit: contain;
   filter: drop-shadow(0 6px 18px rgba(18, 246, 255, 0.35));
   background: transparent;
   border: none;
+  transition: transform 0.3s ease;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.nav__logo:hover {
+  transform: scale(1.05) translateZ(0);
 }
 
 .nav__brand-text {
@@ -1129,6 +1136,9 @@ body[data-depth='trench'] .nav-wrapper::after {
     radial-gradient(circle at 80% 0%, rgba(244, 114, 182, 0.16), rgba(2, 6, 23, 0.7) 60%),
     rgba(2, 6, 23, 0.85);
   scroll-margin-top: calc(var(--nav-height) + 1rem);
+  scroll-snap-align: start;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .hero__inner {
@@ -1441,8 +1451,11 @@ body[data-depth='trench'] .nav-wrapper::after {
   padding: 0 0 4rem;
   width: 100%;
   scroll-margin-top: calc(var(--nav-height) + 1.25rem);
+  scroll-snap-align: start;
   content-visibility: auto;
   contain-intrinsic-size: auto 500px;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .section__header {
@@ -1535,6 +1548,19 @@ body[data-depth='trench'] .nav-wrapper::after {
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-grid {
+    gap: 1.25rem;
+  }
 }
 
 .project-card {
@@ -2018,6 +2044,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .footer {
   padding: 0 0 4rem;
+  scroll-snap-align: end;
 }
 
 .footer__inner {
@@ -2040,12 +2067,19 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .footer__logo {
   width: auto;
-  height: 62px;
+  height: 80px;
   border-radius: 0;
   object-fit: contain;
   border: none;
   background: transparent;
   filter: drop-shadow(0 12px 28px rgba(18, 246, 255, 0.35));
+  transition: transform 0.3s ease;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.footer__logo:hover {
+  transform: scale(1.05) translateZ(0);
 }
 
 .footer__brand-copy {
@@ -2139,7 +2173,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
   .nav__logo {
     width: auto;
-    height: 40px;
+    height: 48px;
   }
 
   .hero {
@@ -2166,6 +2200,10 @@ body[data-depth='trench'] .nav-wrapper::after {
   .footer__brand {
     flex-direction: column;
     text-align: center;
+  }
+  
+  .footer__logo {
+    height: 70px;
   }
 
   .footer__brand-copy {
@@ -2985,7 +3023,11 @@ body[data-depth='trench'] .nav-wrapper::after {
 
   .nav__logo {
     width: auto;
-    height: 36px;
+    height: 44px;
+  }
+  
+  .footer__logo {
+    height: 60px;
   }
 
   .nav__brand-title {
@@ -3134,12 +3176,27 @@ body[data-depth='trench'] .nav-wrapper::after {
   html {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: auto;
+    scroll-padding-top: calc(var(--nav-height) + 0.5rem);
   }
 
   body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: contain;
+  }
+  
+  /* Improve touch scrolling on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: pan-y;
+  }
+  
+  /* Optimize images and media for mobile */
+  img, video {
+    max-width: 100%;
+    height: auto;
   }
 }
 

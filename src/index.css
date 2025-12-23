@@ -39,6 +39,14 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-top: calc(var(--nav-height) + 1rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -50,6 +58,8 @@ body {
     linear-gradient(180deg, var(--brand-midnight), #0d1a33 55%, #071021);
   padding: calc(var(--nav-height) + var(--page-padding)) var(--page-padding) 5rem;
   overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 a {

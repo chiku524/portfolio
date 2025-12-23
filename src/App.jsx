@@ -811,12 +811,12 @@ function Portfolio() {
         media: buildMediaPaths('BlockchainVibe News'),
       },
       {
-        name: 'The Blockchain Circus',
-        url: '/the-blockchain-circus',
-        badge: 'AI automation',
+        name: 'The Studio Circus',
+        url: 'https://thestudiocircus.io/',
+        badge: 'Creative platform',
         description:
-          'Automated TikTok content generation system powered by n8n workflows and AI. Creates educational blockchain videos and publishes them automatically to @TheBlockchainCircus.',
-        highlight: 'n8n automation, AI video generation, TikTok API integration.',
+          'A creative platform and community hub. Built with modern web technologies to showcase creative work and foster collaboration.',
+        highlight: 'Modern web platform, community features, creative showcase.',
         media: null, // No media for this project card
       },
     ],
@@ -1446,10 +1446,10 @@ function Portfolio() {
                       style={
                         project.media?.thumbnail
                           ? { '--project-thumb': `url(${project.media.thumbnail})` }
-                          : project.name === 'The Blockchain Circus'
+                          : project.name === 'The Studio Circus'
                           ? {
-                              background: 'linear-gradient(135deg, rgba(18, 246, 255, 0.2) 0%, rgba(125, 211, 252, 0.15) 50%, rgba(255, 0, 80, 0.1) 100%)',
-                              backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(18, 246, 255, 0.3) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(255, 0, 80, 0.2) 0%, transparent 50%)',
+                              background: 'linear-gradient(135deg, rgba(18, 246, 255, 0.2) 0%, rgba(125, 211, 252, 0.15) 50%, rgba(255, 144, 111, 0.1) 100%)',
+                              backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(18, 246, 255, 0.3) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(255, 144, 111, 0.2) 0%, transparent 50%)',
                             }
                           : undefined
                       }
