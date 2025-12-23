@@ -12,13 +12,24 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('Error caught by boundary:', error, errorInfo)
+    console.error('Error stack:', error.stack)
+    console.error('Component stack:', errorInfo.componentStack)
+    console.error('Error name:', error.name)
+    console.error('Error message:', error.message)
+    
+    // Log user agent for debugging
+    if (typeof navigator !== 'undefined') {
+      console.error('User agent:', navigator.userAgent)
+      console.error('Platform:', navigator.platform)
+    }
+    
     this.setState({
       error,
       errorInfo,
     })
 
     // Log to analytics if available
-    if (window.gtag) {
+    if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'exception', {
         description: error.toString(),
         fatal: false,
@@ -51,16 +62,38 @@ class ErrorBoundary extends Component {
             </div>
             {this.state.error && (
               <details className="error-boundary__details" open>
-                <summary>Error Details</summary>
-                <pre>{this.state.error.toString()}</pre>
-                {this.state.errorInfo && (
-                  <>
-                    <pre>{this.state.errorInfo.componentStack}</pre>
-                    {this.state.errorInfo.componentStack && (
-                      <pre>Stack: {JSON.stringify(this.state.errorInfo, null, 2)}</pre>
-                    )}
-                  </>
-                )}
+                <summary>Error Details (Click to expand)</summary>
+                <div style={{ marginTop: '1rem' }}>
+                  <strong>Error:</strong>
+                  <pre style={{ background: '#1e1e1e', padding: '1rem', borderRadius: '4px', overflow: 'auto' }}>
+                    {this.state.error.toString()}
+                  </pre>
+                  {this.state.error.stack && (
+                    <>
+                      <strong>Stack Trace:</strong>
+                      <pre style={{ background: '#1e1e1e', padding: '1rem', borderRadius: '4px', overflow: 'auto', fontSize: '12px' }}>
+                        {this.state.error.stack}
+                      </pre>
+                    </>
+                  )}
+                  {this.state.errorInfo && this.state.errorInfo.componentStack && (
+                    <>
+                      <strong>Component Stack:</strong>
+                      <pre style={{ background: '#1e1e1e', padding: '1rem', borderRadius: '4px', overflow: 'auto', fontSize: '12px' }}>
+                        {this.state.errorInfo.componentStack}
+                      </pre>
+                    </>
+                  )}
+                  {typeof navigator !== 'undefined' && (
+                    <>
+                      <strong>Browser Info:</strong>
+                      <pre style={{ background: '#1e1e1e', padding: '1rem', borderRadius: '4px', overflow: 'auto', fontSize: '12px' }}>
+                        User Agent: {navigator.userAgent}
+                        Platform: {navigator.platform}
+                      </pre>
+                    </>
+                  )}
+                </div>
               </details>
             )}
           </div>

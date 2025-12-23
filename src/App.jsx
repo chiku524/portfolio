@@ -10,11 +10,6 @@ import TheBlockchainCircus from './pages/TheBlockchainCircus'
 import TikTokCallback from './pages/TikTokCallback'
 
 function Portfolio() {
-  // Early return if critical APIs are not available (SSR safety)
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
-    return null
-  }
-
   const backgroundCanvasRef = useRef(null)
   const videoRefs = useRef({})
   const trailRef = useRef(null)
@@ -1165,7 +1160,7 @@ function Portfolio() {
     }
   }, [])
 
-  // Safety check before render
+  // Safety check - ensure we're in browser environment
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return <div>Loading...</div>
   }
