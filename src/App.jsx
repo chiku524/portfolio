@@ -1008,8 +1008,8 @@ function Portfolio() {
 
     let isAnimating = false
     let scrollTimeout = null
-    let scrollDirection = 0 // Accumulated scroll direction: positive = down, negative = up
-    let isScrolling = false
+    let lastScrollTime = 0
+    let scrollVelocity = 0
 
     const composedPath = (event) => {
       if (typeof event.composedPath === 'function') {
@@ -1026,18 +1026,22 @@ function Portfolio() {
     }
 
     const getClosestSection = () => {
-      const midpoint = window.scrollY + window.innerHeight / 2
+      const viewportCenter = window.scrollY + window.innerHeight / 2
       let closest = snappables[0]
       let minDist = Infinity
+      
       snappables.forEach((section) => {
         const rect = section.getBoundingClientRect()
-        const center = rect.top + window.scrollY + rect.height / 2
-        const dist = Math.abs(center - midpoint)
+        const sectionTop = rect.top + window.scrollY
+        const sectionCenter = sectionTop + rect.height / 2
+        const dist = Math.abs(sectionCenter - viewportCenter)
+        
         if (dist < minDist) {
           minDist = dist
           closest = section
         }
       })
+      
       return closest
     }
 
@@ -1063,114 +1067,73 @@ function Portfolio() {
       return false
     }
 
-    const scrollToIndex = (targetIndex) => {
+    const scrollToIndex = (targetIndex, immediate = false) => {
       const clampedIndex = Math.max(0, Math.min(targetIndex, snappables.length - 1))
       const target = snappables[clampedIndex]
       if (!target) return
+      
       isAnimating = true
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      setTimeout(() => {
-        isAnimating = false
-      }, 900)
+      
+      if (immediate) {
+        // Immediate scroll for keyboard navigation
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        setTimeout(() => {
+          isAnimating = false
+        }, 800)
+      } else {
+        // Smooth scroll with better timing
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        setTimeout(() => {
+          isAnimating = false
+        }, 700)
+      }
     }
 
-    const handleScrollEnd = () => {
-      isScrolling = false
-      
-      // Check if we're in or near the contact section - if so, don't snap
-      const contactSection = document.querySelector('.section--contact')
-      if (contactSection) {
-        const contactRect = contactSection.getBoundingClientRect()
-        const isInContactSection = contactRect.top < window.innerHeight && contactRect.bottom > 0
-        if (isInContactSection) {
-          scrollDirection = 0
-          return
-        }
-      }
-      
-      // Only snap if there's a clear scroll direction accumulated
-      if (Math.abs(scrollDirection) < 3) {
-        scrollDirection = 0
-        return
-      }
-      
-      if (isAnimating) {
-        scrollDirection = 0
-        return
-      }
-      
-      const active = getClosestSection()
-      const currentIndex = snappables.indexOf(active)
-      if (currentIndex === -1) {
-        scrollDirection = 0
-        return
-      }
-      
-      const rect = active.getBoundingClientRect()
-      const sectionHeight = rect.height
+    const canScrollWithinSection = (section, direction) => {
+      const rect = section.getBoundingClientRect()
       const viewportHeight = window.innerHeight
       const sectionTop = rect.top
       const sectionBottom = rect.bottom
+      const sectionHeight = rect.height
       
-      // Calculate how much of the section is visible and how much is hidden
+      // Calculate visible portion
       const visibleTop = Math.max(0, -sectionTop)
       const visibleBottom = Math.min(sectionHeight, viewportHeight - sectionTop)
       const hiddenBelow = sectionHeight - visibleBottom
       const hiddenAbove = visibleTop
       
-      // Allow normal scrolling if there's substantial hidden content
-      const canScrollDown = hiddenBelow > 50
-      const canScrollUp = hiddenAbove > 50
-      
-      // If there's content to scroll within the section, don't snap
-      if ((scrollDirection > 0 && canScrollDown) || (scrollDirection < 0 && canScrollUp)) {
-        scrollDirection = 0
-        return
+      // Allow scrolling if there's more than 80px of hidden content
+      if (direction > 0) {
+        return hiddenBelow > 80
+      } else {
+        return hiddenAbove > 80
       }
-      
-      // Special case: if we're at the last snappable section and scrolling down,
-      // don't snap (allow scrolling to footer)
-      if (scrollDirection > 0 && currentIndex === snappables.length - 1) {
-        const documentHeight = document.documentElement.scrollHeight
-        const currentScrollBottom = window.scrollY + window.innerHeight
-        const distanceToBottom = documentHeight - currentScrollBottom
-        if (distanceToBottom > 20) {
-          scrollDirection = 0
-          return
-        }
-      }
-      
-      // Determine target section based on accumulated scroll direction
-      const targetIndex = scrollDirection > 0 
-        ? Math.min(currentIndex + 1, snappables.length - 1)
-        : Math.max(currentIndex - 1, 0)
-      
-      if (targetIndex !== currentIndex) {
-        scrollToIndex(targetIndex)
-      }
-      
-      scrollDirection = 0
     }
 
     const handleWheel = (event) => {
-      if (Math.abs(event.deltaY) < 25) return
+      // Ignore small scroll movements
+      if (Math.abs(event.deltaY) < 15) return
       
-      // Check if we're in or near the contact section - if so, always allow normal scrolling
+      // Always allow normal scrolling in contact section
       const contactSection = document.querySelector('.section--contact')
       if (contactSection) {
         const contactRect = contactSection.getBoundingClientRect()
         const isInContactSection = contactRect.top < window.innerHeight && contactRect.bottom > 0
         if (isInContactSection) {
-          // Always allow normal scrolling in contact section
+          if (scrollTimeout) {
+            clearTimeout(scrollTimeout)
+            scrollTimeout = null
+          }
           return
         }
       }
       
+      // Don't interfere with scrollable parents
       if (hasScrollableParent(event)) {
         return
       }
       
-      // Prevent default scrolling during active scroll snapping animation
+      // Prevent default only during animation
       if (isAnimating) {
         event.preventDefault()
         return
@@ -1180,68 +1143,74 @@ function Portfolio() {
       const currentIndex = snappables.indexOf(active)
       if (currentIndex === -1) return
       
-      const rect = active.getBoundingClientRect()
-      const sectionHeight = rect.height
-      const viewportHeight = window.innerHeight
-      const sectionTop = rect.top
+      const scrollDirection = event.deltaY > 0 ? 1 : -1
+      const canScroll = canScrollWithinSection(active, scrollDirection)
       
-      // Calculate how much of the section is visible and how much is hidden
-      const visibleTop = Math.max(0, -sectionTop)
-      const visibleBottom = Math.min(sectionHeight, viewportHeight - sectionTop)
-      const hiddenBelow = sectionHeight - visibleBottom
-      const hiddenAbove = visibleTop
-      
-      // Allow normal scrolling if there's substantial hidden content
-      const canScrollDown = hiddenBelow > 50
-      const canScrollUp = hiddenAbove > 50
-      
-      // If there's content to scroll within the section, allow normal scrolling
-      if ((event.deltaY > 0 && canScrollDown) || (event.deltaY < 0 && canScrollUp)) {
+      // Allow normal scrolling if there's content to scroll within the section
+      if (canScroll) {
         // Clear any pending snap
         if (scrollTimeout) {
           clearTimeout(scrollTimeout)
           scrollTimeout = null
         }
-        scrollDirection = 0
         return
       }
       
-      // Special case: if we're at the last snappable section and scrolling down,
-      // allow normal scrolling to reach footer
-      if (event.deltaY > 0 && currentIndex === snappables.length - 1) {
+      // Special case: last section scrolling down - allow normal scroll to footer
+      if (scrollDirection > 0 && currentIndex === snappables.length - 1) {
         const documentHeight = document.documentElement.scrollHeight
         const currentScrollBottom = window.scrollY + window.innerHeight
         const distanceToBottom = documentHeight - currentScrollBottom
-        if (distanceToBottom > 20) {
-          // Clear any pending snap
+        if (distanceToBottom > 50) {
           if (scrollTimeout) {
             clearTimeout(scrollTimeout)
             scrollTimeout = null
           }
-          scrollDirection = 0
           return
         }
       }
       
-      // Accumulate scroll direction for snapping
-      isScrolling = true
-      scrollDirection += event.deltaY > 0 ? 1 : -1
+      // Track scroll velocity for smoother snapping
+      const now = Date.now()
+      const timeDelta = now - lastScrollTime
+      lastScrollTime = now
       
-      // Clamp scroll direction to prevent excessive accumulation
-      scrollDirection = Math.max(-10, Math.min(10, scrollDirection))
+      if (timeDelta < 100) {
+        scrollVelocity += scrollDirection
+      } else {
+        scrollVelocity = scrollDirection
+      }
+      
+      // Clamp velocity
+      scrollVelocity = Math.max(-5, Math.min(5, scrollVelocity))
       
       // Clear existing timeout
       if (scrollTimeout) {
         clearTimeout(scrollTimeout)
       }
       
-      // Prevent default scrolling to allow smooth accumulation
+      // Prevent default to prepare for snap
       event.preventDefault()
       
-      // Set timeout to trigger snap when scrolling stops
+      // Debounce: snap after scrolling stops
       scrollTimeout = setTimeout(() => {
-        handleScrollEnd()
-      }, 150) // 150ms delay after last scroll event
+        if (isAnimating) {
+          scrollTimeout = null
+          return
+        }
+        
+        // Determine target based on scroll direction
+        const targetIndex = scrollVelocity > 0 
+          ? Math.min(currentIndex + 1, snappables.length - 1)
+          : Math.max(currentIndex - 1, 0)
+        
+        if (targetIndex !== currentIndex) {
+          scrollToIndex(targetIndex)
+        }
+        
+        scrollVelocity = 0
+        scrollTimeout = null
+      }, 120) // Reduced delay for more responsive feel
     }
 
     const handleKeydown = (event) => {
@@ -1251,6 +1220,11 @@ function Portfolio() {
       if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) {
         return
       }
+      
+      event.preventDefault()
+      
+      if (isAnimating) return
+      
       const active = getClosestSection()
       const currentIndex = snappables.indexOf(active)
       if (currentIndex === -1) return
@@ -1259,13 +1233,11 @@ function Portfolio() {
       if (event.code === 'Space' && event.shiftKey) {
         delta = -1
       }
+      
       const targetIndex = Math.max(0, Math.min(currentIndex + delta, snappables.length - 1))
-      if (targetIndex === currentIndex) {
-        return
+      if (targetIndex !== currentIndex) {
+        scrollToIndex(targetIndex, true)
       }
-      event.preventDefault()
-      if (isAnimating) return
-      scrollToIndex(targetIndex)
     }
 
     window.addEventListener('wheel', handleWheel, { passive: false })
