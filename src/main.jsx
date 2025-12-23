@@ -18,10 +18,10 @@ try {
       <BrowserRouter>
         <ErrorBoundary>
           <App />
+          <SpeedInsights />
+          <Analytics />
         </ErrorBoundary>
       </BrowserRouter>
-      <SpeedInsights />
-      <Analytics />
     </StrictMode>,
   )
 } catch (error) {
