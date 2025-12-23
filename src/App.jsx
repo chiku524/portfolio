@@ -1076,11 +1076,44 @@ function Portfolio() {
       const currentIndex = snappables.indexOf(active)
       if (currentIndex === -1) return
       const rect = active.getBoundingClientRect()
-      const hasOverflowBelow = rect.bottom > window.innerHeight + 6
-      const hasOverflowAbove = rect.top < -6
-      if ((event.deltaY > 0 && hasOverflowBelow) || (event.deltaY < 0 && hasOverflowAbove)) {
+      
+      // Check if there's scrollable content within the section
+      const sectionHeight = rect.height
+      const viewportHeight = window.innerHeight
+      const sectionTop = rect.top
+      const sectionBottom = rect.bottom
+      
+      // Calculate how much of the section is visible and how much is hidden
+      const visibleTop = Math.max(0, -sectionTop)
+      const visibleBottom = Math.min(sectionHeight, viewportHeight - sectionTop)
+      const hiddenBelow = sectionHeight - visibleBottom
+      const hiddenAbove = visibleTop
+      
+      // Allow normal scrolling if there's substantial hidden content (>100px threshold)
+      const canScrollDown = hiddenBelow > 100
+      const canScrollUp = hiddenAbove > 100
+      
+      // If scrolling down and there's content below, allow normal scroll
+      if (event.deltaY > 0 && canScrollDown) {
         return
       }
+      // If scrolling up and there's content above, allow normal scroll
+      if (event.deltaY < 0 && canScrollUp) {
+        return
+      }
+      
+      // Special case: if we're at the last snappable section and scrolling down,
+      // always allow scrolling to reach footer (unless we're already at the very bottom)
+      if (event.deltaY > 0 && currentIndex === snappables.length - 1) {
+        const documentHeight = document.documentElement.scrollHeight
+        const currentScrollBottom = window.scrollY + window.innerHeight
+        const distanceToBottom = documentHeight - currentScrollBottom
+        // If there's more than 50px of content below, allow normal scroll
+        if (distanceToBottom > 50) {
+          return
+        }
+      }
+      
       if (hasScrollableParent(event)) {
         return
       }

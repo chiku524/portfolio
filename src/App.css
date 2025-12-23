@@ -1451,11 +1451,15 @@ body[data-depth='trench'] .nav-wrapper::after {
   padding: 0 0 4rem;
   width: 100%;
   scroll-margin-top: calc(var(--nav-height) + 1.25rem);
-  scroll-snap-align: start;
   content-visibility: auto;
   contain-intrinsic-size: auto 500px;
   will-change: transform;
   transform: translateZ(0);
+}
+
+/* Only apply scroll-snap to sections that need it, exclude contact section */
+.section:not(.section--contact) {
+  scroll-snap-align: start;
 }
 
 .section__header {
