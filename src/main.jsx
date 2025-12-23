@@ -38,16 +38,45 @@ try {
   }
 }
 
-// Register service worker
+// Register service worker with update handling
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/sw.js')
       .then((registration) => {
         console.log('SW registered: ', registration)
+        
+        // Check for updates periodically
+        setInterval(() => {
+          registration.update()
+        }, 60000) // Check every minute
+        
+        // Handle service worker updates
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New service worker available, prompt user to reload
+                console.log('New service worker available, reloading...')
+                window.location.reload()
+              }
+            })
+          }
+        })
       })
       .catch((registrationError) => {
         console.log('SW registration failed: ', registrationError)
       })
+    
+    // Unregister old service workers if needed (for debugging)
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => {
+        if (registration.scope.includes(self.location.origin)) {
+          // Keep the current one, but log others
+          console.log('Service worker registered:', registration.scope)
+        }
+      })
+    })
   })
 }
