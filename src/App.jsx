@@ -1007,6 +1007,9 @@ function Portfolio() {
     }
 
     let isAnimating = false
+    let scrollTimeout = null
+    let scrollDirection = 0 // Accumulated scroll direction: positive = down, negative = up
+    let isScrolling = false
 
     const composedPath = (event) => {
       if (typeof event.composedPath === 'function') {
@@ -1071,6 +1074,84 @@ function Portfolio() {
       }, 900)
     }
 
+    const handleScrollEnd = () => {
+      isScrolling = false
+      
+      // Check if we're in or near the contact section - if so, don't snap
+      const contactSection = document.querySelector('.section--contact')
+      if (contactSection) {
+        const contactRect = contactSection.getBoundingClientRect()
+        const isInContactSection = contactRect.top < window.innerHeight && contactRect.bottom > 0
+        if (isInContactSection) {
+          scrollDirection = 0
+          return
+        }
+      }
+      
+      // Only snap if there's a clear scroll direction accumulated
+      if (Math.abs(scrollDirection) < 3) {
+        scrollDirection = 0
+        return
+      }
+      
+      if (isAnimating) {
+        scrollDirection = 0
+        return
+      }
+      
+      const active = getClosestSection()
+      const currentIndex = snappables.indexOf(active)
+      if (currentIndex === -1) {
+        scrollDirection = 0
+        return
+      }
+      
+      const rect = active.getBoundingClientRect()
+      const sectionHeight = rect.height
+      const viewportHeight = window.innerHeight
+      const sectionTop = rect.top
+      const sectionBottom = rect.bottom
+      
+      // Calculate how much of the section is visible and how much is hidden
+      const visibleTop = Math.max(0, -sectionTop)
+      const visibleBottom = Math.min(sectionHeight, viewportHeight - sectionTop)
+      const hiddenBelow = sectionHeight - visibleBottom
+      const hiddenAbove = visibleTop
+      
+      // Allow normal scrolling if there's substantial hidden content
+      const canScrollDown = hiddenBelow > 50
+      const canScrollUp = hiddenAbove > 50
+      
+      // If there's content to scroll within the section, don't snap
+      if ((scrollDirection > 0 && canScrollDown) || (scrollDirection < 0 && canScrollUp)) {
+        scrollDirection = 0
+        return
+      }
+      
+      // Special case: if we're at the last snappable section and scrolling down,
+      // don't snap (allow scrolling to footer)
+      if (scrollDirection > 0 && currentIndex === snappables.length - 1) {
+        const documentHeight = document.documentElement.scrollHeight
+        const currentScrollBottom = window.scrollY + window.innerHeight
+        const distanceToBottom = documentHeight - currentScrollBottom
+        if (distanceToBottom > 20) {
+          scrollDirection = 0
+          return
+        }
+      }
+      
+      // Determine target section based on accumulated scroll direction
+      const targetIndex = scrollDirection > 0 
+        ? Math.min(currentIndex + 1, snappables.length - 1)
+        : Math.max(currentIndex - 1, 0)
+      
+      if (targetIndex !== currentIndex) {
+        scrollToIndex(targetIndex)
+      }
+      
+      scrollDirection = 0
+    }
+
     const handleWheel = (event) => {
       if (Math.abs(event.deltaY) < 25) return
       
@@ -1085,16 +1166,24 @@ function Portfolio() {
         }
       }
       
+      if (hasScrollableParent(event)) {
+        return
+      }
+      
+      // Prevent default scrolling during active scroll snapping animation
+      if (isAnimating) {
+        event.preventDefault()
+        return
+      }
+      
       const active = getClosestSection()
       const currentIndex = snappables.indexOf(active)
       if (currentIndex === -1) return
-      const rect = active.getBoundingClientRect()
       
-      // Check if there's scrollable content within the section
+      const rect = active.getBoundingClientRect()
       const sectionHeight = rect.height
       const viewportHeight = window.innerHeight
       const sectionTop = rect.top
-      const sectionBottom = rect.bottom
       
       // Calculate how much of the section is visible and how much is hidden
       const visibleTop = Math.max(0, -sectionTop)
@@ -1102,46 +1191,57 @@ function Portfolio() {
       const hiddenBelow = sectionHeight - visibleBottom
       const hiddenAbove = visibleTop
       
-      // Allow normal scrolling if there's substantial hidden content (>50px threshold - more permissive)
+      // Allow normal scrolling if there's substantial hidden content
       const canScrollDown = hiddenBelow > 50
       const canScrollUp = hiddenAbove > 50
       
-      // If scrolling down and there's content below, allow normal scroll
-      if (event.deltaY > 0 && canScrollDown) {
-        return
-      }
-      // If scrolling up and there's content above, allow normal scroll
-      if (event.deltaY < 0 && canScrollUp) {
+      // If there's content to scroll within the section, allow normal scrolling
+      if ((event.deltaY > 0 && canScrollDown) || (event.deltaY < 0 && canScrollUp)) {
+        // Clear any pending snap
+        if (scrollTimeout) {
+          clearTimeout(scrollTimeout)
+          scrollTimeout = null
+        }
+        scrollDirection = 0
         return
       }
       
       // Special case: if we're at the last snappable section and scrolling down,
-      // always allow scrolling to reach footer (unless we're already at the very bottom)
+      // allow normal scrolling to reach footer
       if (event.deltaY > 0 && currentIndex === snappables.length - 1) {
         const documentHeight = document.documentElement.scrollHeight
         const currentScrollBottom = window.scrollY + window.innerHeight
         const distanceToBottom = documentHeight - currentScrollBottom
-        // If there's more than 20px of content below, allow normal scroll
         if (distanceToBottom > 20) {
+          // Clear any pending snap
+          if (scrollTimeout) {
+            clearTimeout(scrollTimeout)
+            scrollTimeout = null
+          }
+          scrollDirection = 0
           return
         }
       }
       
-      if (hasScrollableParent(event)) {
-        return
+      // Accumulate scroll direction for snapping
+      isScrolling = true
+      scrollDirection += event.deltaY > 0 ? 1 : -1
+      
+      // Clamp scroll direction to prevent excessive accumulation
+      scrollDirection = Math.max(-10, Math.min(10, scrollDirection))
+      
+      // Clear existing timeout
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout)
       }
-      if (isAnimating) {
-        event.preventDefault()
-        return
-      }
-
-      const nextIndex = event.deltaY > 0 ? currentIndex + 1 : currentIndex - 1
-      const clampedIndex = Math.max(0, Math.min(nextIndex, snappables.length - 1))
-      if (clampedIndex === currentIndex) {
-        return
-      }
+      
+      // Prevent default scrolling to allow smooth accumulation
       event.preventDefault()
-      scrollToIndex(clampedIndex)
+      
+      // Set timeout to trigger snap when scrolling stops
+      scrollTimeout = setTimeout(() => {
+        handleScrollEnd()
+      }, 150) // 150ms delay after last scroll event
     }
 
     const handleKeydown = (event) => {
@@ -1174,6 +1274,9 @@ function Portfolio() {
     return () => {
       window.removeEventListener('wheel', handleWheel)
       window.removeEventListener('keydown', handleKeydown)
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout)
+      }
     }
   }, [])
 
