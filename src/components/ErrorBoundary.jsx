@@ -49,11 +49,18 @@ class ErrorBoundary extends Component {
                 Reload Page
               </button>
             </div>
-            {process.env.NODE_ENV === 'development' && this.state.error && (
-              <details className="error-boundary__details">
-                <summary>Error Details (Development Only)</summary>
+            {this.state.error && (
+              <details className="error-boundary__details" open>
+                <summary>Error Details</summary>
                 <pre>{this.state.error.toString()}</pre>
-                {this.state.errorInfo && <pre>{this.state.errorInfo.componentStack}</pre>}
+                {this.state.errorInfo && (
+                  <>
+                    <pre>{this.state.errorInfo.componentStack}</pre>
+                    {this.state.errorInfo.componentStack && (
+                      <pre>Stack: {JSON.stringify(this.state.errorInfo, null, 2)}</pre>
+                    )}
+                  </>
+                )}
               </details>
             )}
           </div>

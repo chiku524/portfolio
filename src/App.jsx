@@ -23,16 +23,33 @@ function Portfolio() {
   const [submitStatus, setSubmitStatus] = useState(null)
 
   useEffect(() => {
-    const existingScript = document.querySelector('script[data-calendly]')
-    if (!existingScript) {
-      const script = document.createElement('script')
-      script.src = 'https://assets.calendly.com/assets/external/widget.js'
-      script.async = true
-      script.dataset.calendly = 'true'
-      document.body.appendChild(script)
-      return () => {
-        document.body.removeChild(script)
+    try {
+      if (typeof document === 'undefined' || !document.body) {
+        return
       }
+      
+      const existingScript = document.querySelector('script[data-calendly]')
+      if (!existingScript) {
+        const script = document.createElement('script')
+        script.src = 'https://assets.calendly.com/assets/external/widget.js'
+        script.async = true
+        script.dataset.calendly = 'true'
+        script.onerror = () => {
+          console.warn('Failed to load Calendly script')
+        }
+        document.body.appendChild(script)
+        return () => {
+          try {
+            if (document.body && script.parentNode) {
+              document.body.removeChild(script)
+            }
+          } catch (error) {
+            console.warn('Error removing Calendly script:', error)
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('Calendly script loading error:', error)
     }
   }, [])
 
@@ -654,14 +671,25 @@ function Portfolio() {
 
   // Initialize analytics and web vitals
   useEffect(() => {
-    initAnalytics()
-    const cleanupWebVitals = measureWebVitals()
+    try {
+      initAnalytics()
+      const cleanupWebVitals = measureWebVitals()
 
-    // Track page view on mount
-    trackPageView(window.location.pathname)
-    
-    return () => {
-      if (cleanupWebVitals) cleanupWebVitals()
+      // Track page view on mount
+      if (typeof window !== 'undefined') {
+        trackPageView(window.location.pathname)
+      }
+      
+      return () => {
+        try {
+          if (cleanupWebVitals) cleanupWebVitals()
+        } catch (error) {
+          console.warn('Web vitals cleanup error:', error)
+        }
+      }
+    } catch (error) {
+      console.error('Analytics/Web Vitals initialization error:', error)
+      return () => {}
     }
   }, [])
 

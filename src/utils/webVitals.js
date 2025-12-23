@@ -1,19 +1,22 @@
 // Core Web Vitals monitoring
 export const measureWebVitals = () => {
-  // Custom Web Vitals measurement
-  const vitals = {
-    cls: 0,
-    fid: null,
-    fcp: null,
-    lcp: null,
-    ttfb: null,
-    inp: null,
-  }
+  try {
+    // Custom Web Vitals measurement
+    const vitals = {
+      cls: 0,
+      fid: null,
+      fcp: null,
+      lcp: null,
+      ttfb: null,
+      inp: null,
+    }
 
-  const observers = []
+    const observers = []
 
-  // Measure FCP (First Contentful Paint)
-  if (typeof PerformanceObserver !== 'undefined') {
+    // Measure FCP (First Contentful Paint)
+    if (typeof PerformanceObserver === 'undefined' || typeof performance === 'undefined') {
+      return () => {} // Return empty cleanup function
+    }
     try {
       const paintObserver = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
@@ -115,19 +118,31 @@ export const measureWebVitals = () => {
     }, 3000)
   }
 
-  window.addEventListener('load', loadHandler, { once: true })
+    if (typeof window !== 'undefined') {
+      window.addEventListener('load', loadHandler, { once: true })
+    }
 
-  // Return cleanup function
-  return () => {
-    window.removeEventListener('load', loadHandler)
-    observers.forEach((observer) => {
+    // Return cleanup function
+    return () => {
       try {
-        observer.disconnect()
-      } catch (e) {
-        // Ignore errors
+        if (typeof window !== 'undefined') {
+          window.removeEventListener('load', loadHandler)
+        }
+        observers.forEach((observer) => {
+          try {
+            observer.disconnect()
+          } catch (e) {
+            // Ignore errors
+          }
+        })
+        observers.length = 0
+      } catch (error) {
+        console.warn('Web Vitals cleanup error:', error)
       }
-    })
-    observers.length = 0
+    }
+  } catch (error) {
+    console.warn('Web Vitals initialization error:', error)
+    return () => {} // Return empty cleanup function
   }
 }
 
