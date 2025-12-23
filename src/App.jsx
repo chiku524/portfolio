@@ -40,37 +40,54 @@ function Portfolio() {
     const revealEls = document.querySelectorAll('.reveal')
     if (!revealEls.length) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      {
-        threshold: 0.12,
-        rootMargin: '0px 0px -12% 0px',
-      },
-    )
+    // Check if IntersectionObserver is available
+    if (typeof IntersectionObserver === 'undefined') {
+      // Fallback: show all elements immediately on mobile browsers without IntersectionObserver
+      revealEls.forEach((el) => {
+        el.classList.add('is-visible')
+      })
+      return
+    }
 
-    const maxStep = 6
-    revealEls.forEach((el, index) => {
-      const customDelay = el.dataset.revealDelay
-      if (customDelay) {
-        el.style.setProperty('--reveal-delay', customDelay)
-      } else {
-        const parsedStep = Number(el.dataset.revealStep)
-        const hasCustomStep = !Number.isNaN(parsedStep)
-        const step = hasCustomStep ? parsedStep : Math.min(index, maxStep)
-        const clampedStep = Math.max(0, Math.min(step, maxStep))
-        el.style.setProperty('--reveal-delay', `${clampedStep * 60}ms`)
-      }
-      observer.observe(el)
-    })
+    try {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible')
+              observer.unobserve(entry.target)
+            }
+          })
+        },
+        {
+          threshold: 0.12,
+          rootMargin: '0px 0px -12% 0px',
+        },
+      )
 
-    return () => observer.disconnect()
+      const maxStep = 6
+      revealEls.forEach((el, index) => {
+        const customDelay = el.dataset.revealDelay
+        if (customDelay) {
+          el.style.setProperty('--reveal-delay', customDelay)
+        } else {
+          const parsedStep = Number(el.dataset.revealStep)
+          const hasCustomStep = !Number.isNaN(parsedStep)
+          const step = hasCustomStep ? parsedStep : Math.min(index, maxStep)
+          const clampedStep = Math.max(0, Math.min(step, maxStep))
+          el.style.setProperty('--reveal-delay', `${clampedStep * 60}ms`)
+        }
+        observer.observe(el)
+      })
+
+      return () => observer.disconnect()
+    } catch (error) {
+      console.error('IntersectionObserver error:', error)
+      // Fallback: show all elements immediately
+      revealEls.forEach((el) => {
+        el.classList.add('is-visible')
+      })
+    }
   }, [])
 
   useEffect(() => {
@@ -78,7 +95,16 @@ function Portfolio() {
     if (!container) return
     
     // Disable cursor trail on mobile to save memory
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    let isTouchDevice = false
+    try {
+      if (window.matchMedia) {
+        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      }
+    } catch (error) {
+      // Fallback: assume touch device if matchMedia fails
+      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    }
+    
     if (isTouchDevice) {
       return
     }
@@ -142,7 +168,16 @@ function Portfolio() {
     if (!layer) return
 
     // Disable ripple on mobile to save memory
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    let isTouchDevice = false
+    try {
+      if (window.matchMedia) {
+        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      }
+    } catch (error) {
+      // Fallback: assume touch device if matchMedia fails
+      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    }
+    
     if (isTouchDevice) {
       return
     }
@@ -210,9 +245,37 @@ function Portfolio() {
     const canvas = backgroundCanvasRef.current
     if (!canvas) return
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-    const ctx = canvas.getContext('2d', { alpha: true })
+    // Safe media query handling with fallbacks
+    let prefersReducedMotion = null
+    let isTouchDevice = false
+    
+    try {
+      if (window.matchMedia) {
+        prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      }
+    } catch (error) {
+      console.warn('matchMedia not available, using fallback detection:', error)
+      // Fallback detection for touch devices
+      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    }
+    
+    // Fallback for prefersReducedMotion if matchMedia failed
+    if (!prefersReducedMotion) {
+      prefersReducedMotion = { matches: false, addEventListener: () => {}, removeEventListener: () => {} }
+    }
+    
+    let ctx
+    try {
+      ctx = canvas.getContext('2d', { alpha: true })
+      if (!ctx) {
+        throw new Error('Canvas context not available')
+      }
+    } catch (error) {
+      console.error('Canvas context error:', error)
+      canvas.style.display = 'none'
+      return
+    }
     const colors = [
       'rgba(56, 189, 248, 0.35)',
       'rgba(34, 211, 238, 0.32)',
@@ -309,16 +372,32 @@ function Portfolio() {
     window.addEventListener('resize', resize)
 
     const handleMotionChange = () => {
-      const updatedIsTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-      motionFactor = prefersReducedMotion.matches ? 0.35 : updatedIsTouch ? 0.6 : 1
+      try {
+        if (window.matchMedia) {
+          const updatedIsTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+          motionFactor = prefersReducedMotion.matches ? 0.35 : updatedIsTouch ? 0.6 : 1
+        }
+      } catch (error) {
+        // Ignore errors in change handler
+      }
       setCanvasOpacity()
     }
 
-    prefersReducedMotion.addEventListener('change', handleMotionChange)
-
-    // Check for touch device changes
-    const touchMediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
-    touchMediaQuery.addEventListener('change', handleMotionChange)
+    try {
+      if (prefersReducedMotion && prefersReducedMotion.addEventListener) {
+        prefersReducedMotion.addEventListener('change', handleMotionChange)
+      }
+      
+      // Check for touch device changes
+      if (window.matchMedia) {
+        const touchMediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
+        if (touchMediaQuery && touchMediaQuery.addEventListener) {
+          touchMediaQuery.addEventListener('change', handleMotionChange)
+        }
+      }
+    } catch (error) {
+      console.warn('Error setting up media query listeners:', error)
+    }
 
     const startTime = performance.now()
 
@@ -488,14 +567,29 @@ function Portfolio() {
         cancelAnimationFrame(animationFrameId)
       }
       window.removeEventListener('resize', resize)
-      prefersReducedMotion.removeEventListener('change', handleMotionChange)
-      touchMediaQuery.removeEventListener('change', handleMotionChange)
+      try {
+        if (prefersReducedMotion && prefersReducedMotion.removeEventListener) {
+          prefersReducedMotion.removeEventListener('change', handleMotionChange)
+        }
+        if (window.matchMedia) {
+          const touchMediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
+          if (touchMediaQuery && touchMediaQuery.removeEventListener) {
+            touchMediaQuery.removeEventListener('change', handleMotionChange)
+          }
+        }
+      } catch (error) {
+        // Ignore cleanup errors
+      }
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       // Clear gradient cache
       gradientCache.clear()
       // Clear canvas
       if (ctx) {
-        ctx.clearRect(0, 0, width, height)
+        try {
+          ctx.clearRect(0, 0, width, height)
+        } catch (error) {
+          // Ignore canvas clear errors
+        }
       }
     }
   }, [])
@@ -526,7 +620,16 @@ function Portfolio() {
 
   // Close mobile menu on Escape (desktop / non-touch only)
   useEffect(() => {
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    let isTouchDevice = false
+    try {
+      if (window.matchMedia) {
+        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      }
+    } catch (error) {
+      // Fallback: assume touch device if matchMedia fails
+      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    }
+    
     if (isTouchDevice) return
 
     const handleEscape = (event) => {
@@ -773,23 +876,46 @@ function Portfolio() {
     const cards = document.querySelectorAll('[data-project-name]')
     if (!cards.length) return
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const name = entry.target.getAttribute('data-project-name')
-            if (name) {
-              ensureVideoLoaded(name)
+    // Check if IntersectionObserver is available
+    if (typeof IntersectionObserver === 'undefined') {
+      // Fallback: load all videos immediately
+      cards.forEach((card) => {
+        const name = card.getAttribute('data-project-name')
+        if (name) {
+          ensureVideoLoaded(name)
+        }
+      })
+      return
+    }
+
+    try {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const name = entry.target.getAttribute('data-project-name')
+              if (name) {
+                ensureVideoLoaded(name)
+              }
             }
-          }
-        })
-      },
-      { threshold: 0.35, rootMargin: '0px 0px -10% 0px' },
-    )
+          })
+        },
+        { threshold: 0.35, rootMargin: '0px 0px -10% 0px' },
+      )
 
-    cards.forEach((card) => observer.observe(card))
+      cards.forEach((card) => observer.observe(card))
 
-    return () => observer.disconnect()
+      return () => observer.disconnect()
+    } catch (error) {
+      console.error('Video IntersectionObserver error:', error)
+      // Fallback: load all videos immediately
+      cards.forEach((card) => {
+        const name = card.getAttribute('data-project-name')
+        if (name) {
+          ensureVideoLoaded(name)
+        }
+      })
+    }
   }, [ensureVideoLoaded, proofOfWork])
 
   useEffect(() => {
@@ -798,22 +924,36 @@ function Portfolio() {
 
     document.body.dataset.depth = sections[0]?.dataset.depth || 'surface'
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            document.body.dataset.depth = entry.target.dataset.depth || 'surface'
-          }
-        })
-      },
-      { threshold: 0.55 },
-    )
+    // Check if IntersectionObserver is available
+    if (typeof IntersectionObserver === 'undefined') {
+      return () => {
+        delete document.body.dataset.depth
+      }
+    }
 
-    sections.forEach((section) => observer.observe(section))
+    try {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              document.body.dataset.depth = entry.target.dataset.depth || 'surface'
+            }
+          })
+        },
+        { threshold: 0.55 },
+      )
 
-    return () => {
-      observer.disconnect()
-      delete document.body.dataset.depth
+      sections.forEach((section) => observer.observe(section))
+
+      return () => {
+        observer.disconnect()
+        delete document.body.dataset.depth
+      }
+    } catch (error) {
+      console.error('Depth IntersectionObserver error:', error)
+      return () => {
+        delete document.body.dataset.depth
+      }
     }
   }, [])
 
@@ -822,7 +962,16 @@ function Portfolio() {
     if (!snappables.length) return
 
     // Disable scroll snapping entirely on touch devices (mobile)
-    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    let isTouchDevice = false
+    try {
+      if (window.matchMedia) {
+        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+      }
+    } catch (error) {
+      // Fallback: assume touch device if matchMedia fails
+      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    }
+    
     if (isTouchDevice) {
       return
     }
