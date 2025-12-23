@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import logoMark from './assets/generated-image.png'
 import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
