@@ -10,6 +10,11 @@ import TheBlockchainCircus from './pages/TheBlockchainCircus'
 import TikTokCallback from './pages/TikTokCallback'
 
 function Portfolio() {
+  // Early return if critical APIs are not available (SSR safety)
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return null
+  }
+
   const backgroundCanvasRef = useRef(null)
   const videoRefs = useRef({})
   const trailRef = useRef(null)
@@ -416,7 +421,7 @@ function Portfolio() {
       console.warn('Error setting up media query listeners:', error)
     }
 
-    const startTime = performance.now()
+    const startTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
 
     const wrap = (value) => {
       if (value < -0.25) return value + 1
@@ -462,7 +467,8 @@ function Portfolio() {
       lastFrameTime = currentTime
 
       try {
-        const elapsed = (performance.now() - startTime) / 1000
+        const elapsed = ((typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()) - startTime
+        const elapsedSeconds = typeof elapsed === 'number' ? elapsed / 1000 : 0
         ctx.globalCompositeOperation = 'source-over'
         ctx.clearRect(0, 0, width, height)
         ctx.globalCompositeOperation = 'lighter'
@@ -471,7 +477,7 @@ function Portfolio() {
         
         // Render caustics with optimized gradient creation
         caustics.forEach((wave, index) => {
-          const drift = elapsed * wave.speed
+          const drift = elapsedSeconds * wave.speed
           const offsetX = wrap(wave.baseX + Math.sin(drift + wave.phase + index) * 0.25)
           const offsetY = wrap(wave.baseY + Math.cos(drift * 0.75 + wave.phase) * 0.2)
           const size = Math.max(width, height) * (wave.scale * (prefersReducedMotion.matches ? 0.8 : 1.05))
@@ -507,7 +513,7 @@ function Portfolio() {
 
         ctx.globalAlpha = alphaStrength
         blobs.forEach((blob, index) => {
-          const drift = elapsed * blob.speed
+          const drift = elapsedSeconds * blob.speed
           const pulse = Math.sin(drift + blob.phase)
           const secondary = Math.cos(drift * 0.7 + blob.phase)
 
@@ -548,7 +554,7 @@ function Portfolio() {
         ctx.globalCompositeOperation = 'lighter'
         bubbles.slice(0, activeBubbles).forEach((bubble) => {
           bubble.y -= bubble.speed * motionFactor * 0.6
-          bubble.x += Math.cos(elapsed * bubble.speed * 8 + bubble.phase) * bubble.sway * 0.6
+          bubble.x += Math.cos(elapsedSeconds * bubble.speed * 8 + bubble.phase) * bubble.sway * 0.6
           if (bubble.y < -0.08) {
             bubble.y = 1.05
             bubble.x = Math.random()
@@ -1159,12 +1165,18 @@ function Portfolio() {
     }
   }, [])
 
-  return (
-    <div className="app">
-      <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
-      <div className="depth-overlay" aria-hidden="true" />
-      <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
-      <div ref={trailRef} className="cursor-trail" aria-hidden="true" />
+  // Safety check before render
+  if (typeof window === 'undefined' || typeof document === 'undefined') {
+    return <div>Loading...</div>
+  }
+
+  try {
+    return (
+      <div className="app">
+        <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
+        <div className="depth-overlay" aria-hidden="true" />
+        <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
+        <div ref={trailRef} className="cursor-trail" aria-hidden="true" />
       <div className="wave-cluster" aria-hidden="true">
         <span className="wave wave--far" />
         <span className="wave wave--mid" />
