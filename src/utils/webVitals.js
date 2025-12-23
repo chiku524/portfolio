@@ -92,10 +92,9 @@ export const measureWebVitals = () => {
     } catch (error) {
       console.warn('Web Vitals measurement not fully supported:', error)
     }
-  }
 
-  // Log metrics after page load and clean up
-  const loadHandler = () => {
+    // Log metrics after page load and clean up
+    const loadHandler = () => {
     setTimeout(() => {
       console.log('Web Vitals:', vitals)
       

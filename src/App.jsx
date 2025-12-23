@@ -1781,8 +1781,18 @@ function Portfolio() {
         loop
         preload="auto"
       />
-    </div>
-  )
+      </div>
+    )
+  } catch (error) {
+    console.error('Portfolio component render error:', error)
+    return (
+      <div className="app" style={{ padding: '20px', textAlign: 'center' }}>
+        <h1>Unable to load the portfolio</h1>
+        <p>Please refresh the page or try again later.</p>
+        <p style={{ color: '#666', fontSize: '14px' }}>Error: {error.message}</p>
+      </div>
+    )
+  }
 }
 
 function App() {
