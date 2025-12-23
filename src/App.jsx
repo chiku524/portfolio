@@ -988,6 +988,7 @@ function Portfolio() {
 
   useEffect(() => {
     const snappables = Array.from(document.querySelectorAll('[data-snappable="true"]'))
+      .filter(el => !el.classList.contains('section--contact')) // Exclude contact section from scroll snapping
     if (!snappables.length) return
 
     // Disable scroll snapping entirely on touch devices (mobile)
@@ -1072,6 +1073,18 @@ function Portfolio() {
 
     const handleWheel = (event) => {
       if (Math.abs(event.deltaY) < 25) return
+      
+      // Check if we're in or near the contact section - if so, always allow normal scrolling
+      const contactSection = document.querySelector('.section--contact')
+      if (contactSection) {
+        const contactRect = contactSection.getBoundingClientRect()
+        const isInContactSection = contactRect.top < window.innerHeight && contactRect.bottom > 0
+        if (isInContactSection) {
+          // Always allow normal scrolling in contact section
+          return
+        }
+      }
+      
       const active = getClosestSection()
       const currentIndex = snappables.indexOf(active)
       if (currentIndex === -1) return
@@ -1089,9 +1102,9 @@ function Portfolio() {
       const hiddenBelow = sectionHeight - visibleBottom
       const hiddenAbove = visibleTop
       
-      // Allow normal scrolling if there's substantial hidden content (>100px threshold)
-      const canScrollDown = hiddenBelow > 100
-      const canScrollUp = hiddenAbove > 100
+      // Allow normal scrolling if there's substantial hidden content (>50px threshold - more permissive)
+      const canScrollDown = hiddenBelow > 50
+      const canScrollUp = hiddenAbove > 50
       
       // If scrolling down and there's content below, allow normal scroll
       if (event.deltaY > 0 && canScrollDown) {
@@ -1108,8 +1121,8 @@ function Portfolio() {
         const documentHeight = document.documentElement.scrollHeight
         const currentScrollBottom = window.scrollY + window.innerHeight
         const distanceToBottom = documentHeight - currentScrollBottom
-        // If there's more than 50px of content below, allow normal scroll
-        if (distanceToBottom > 50) {
+        // If there's more than 20px of content below, allow normal scroll
+        if (distanceToBottom > 20) {
           return
         }
       }
