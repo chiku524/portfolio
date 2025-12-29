@@ -993,6 +993,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   position: relative;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  overflow: visible;
 }
 
 .nav__menu-icon {
@@ -1001,6 +1002,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   justify-content: space-between;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
 .nav__menu-line {
@@ -1008,9 +1010,10 @@ body[data-depth='trench'] .nav-wrapper::after {
   height: 3px;
   background: var(--accent);
   border-radius: 2px;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: center;
   margin-inline: auto;
+  will-change: transform, opacity;
 }
 
 .nav__menu-line--1 {
@@ -2961,7 +2964,8 @@ body[data-depth='trench'] .nav-wrapper::after {
     order: 4;
     width: 100%;
     z-index: 999;
-    display: block !important;
+    display: flex !important;
+    will-change: max-height, opacity, visibility;
   }
 
   .nav__links--open {
@@ -2971,6 +2975,7 @@ body[data-depth='trench'] .nav-wrapper::after {
     pointer-events: auto;
     padding: 1.5rem;
     gap: 0.5rem;
+    will-change: auto;
   }
 
   .nav__links a {

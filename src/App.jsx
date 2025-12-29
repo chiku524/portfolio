@@ -636,20 +636,8 @@ function Portfolio() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close mobile menu on Escape (desktop / non-touch only)
+  // Close mobile menu on Escape key and prevent body scroll when open
   useEffect(() => {
-    let isTouchDevice = false
-    try {
-      if (window.matchMedia) {
-        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-      }
-    } catch (error) {
-      // Fallback: assume touch device if matchMedia fails
-      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-    }
-    
-    if (isTouchDevice) return
-
     const handleEscape = (event) => {
       if (isMobileMenuOpen && event.key === 'Escape') {
         setIsMobileMenuOpen(false)
@@ -657,8 +645,16 @@ function Portfolio() {
     }
 
     if (isMobileMenuOpen) {
+      // Prevent body scroll when menu is open
+      const originalStyle = window.getComputedStyle(document.body).overflow
+      document.body.style.overflow = 'hidden'
+      
+      // Listen for Escape key
       document.addEventListener('keydown', handleEscape)
+      
       return () => {
+        // Restore body scroll when menu closes
+        document.body.style.overflow = originalStyle
         document.removeEventListener('keydown', handleEscape)
       }
     }
@@ -1409,6 +1405,7 @@ function Portfolio() {
             <div 
               className={`nav__links ${isMobileMenuOpen ? 'nav__links--open' : ''}`} 
               id="nav-menu"
+              aria-hidden={!isMobileMenuOpen}
             >
               <a 
                 href="#proof" 
