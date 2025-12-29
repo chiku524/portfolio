@@ -897,7 +897,6 @@ body[data-depth='trench'] .nav-wrapper::after {
   border-bottom: 1px solid rgba(148, 163, 184, 0.1);
   transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
   overflow: visible;
-  contain: layout style paint;
 }
 
 .nav-wrapper::after {
@@ -982,9 +981,10 @@ body[data-depth='trench'] .nav-wrapper::after {
 .nav__menu-toggle {
   display: none;
   flex-direction: column;
-  justify-content: space-around;
-  width: 2rem;
-  height: 2rem;
+  justify-content: center;
+  align-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -994,15 +994,17 @@ body[data-depth='trench'] .nav-wrapper::after {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   overflow: visible;
+  flex-shrink: 0;
 }
 
 .nav__menu-icon {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
-  height: 100%;
+  width: 2rem;
+  height: 1.5rem;
   overflow: visible;
+  position: relative;
 }
 
 .nav__menu-line {
@@ -2926,6 +2928,7 @@ body[data-depth='trench'] .nav-wrapper::after {
     order: 3;
     pointer-events: auto;
     -webkit-tap-highlight-color: rgba(18, 246, 255, 0.2);
+    overflow: visible;
   }
 
   .nav__menu-toggle:active {
@@ -2975,6 +2978,7 @@ body[data-depth='trench'] .nav-wrapper::after {
     pointer-events: auto;
     padding: 1.5rem;
     gap: 0.5rem;
+    overflow: visible;
     will-change: auto;
   }
 
