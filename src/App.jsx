@@ -7,6 +7,9 @@ import { useSeo } from './utils/useSeo'
 import { measureWebVitals } from './utils/webVitals'
 import TermsOfService from './pages/TermsOfService'
 import PrivacyPolicy from './pages/PrivacyPolicy'
+import PortfolioTermsOfService from './pages/PortfolioTermsOfService'
+import PortfolioPrivacyPolicy from './pages/PortfolioPrivacyPolicy'
+import NotionAuthResult from './pages/NotionAuthResult'
 import TheBlockchainCircus from './pages/TheBlockchainCircus'
 import TikTokCallback from './pages/TikTokCallback'
 
@@ -1757,8 +1760,8 @@ function Portfolio() {
               <div className="card card--contact reveal" data-reveal-step="1">
                 <span className="card__badge card__badge--signal">Direct line</span>
                 <h3>Email</h3>
-                <a className="contact-email" href="mailto:nico.chikuji@gmail.com">
-                  nico.chikuji@gmail.com
+                <a className="contact-email" href="mailto:nico.builds@outlook.com">
+                  nico.builds@outlook.com
                 </a>
                 <p>Send the plan, the problem, or the meme. I’ll respond faster than the tide changes.</p>
               </div>
@@ -1786,7 +1789,7 @@ function Portfolio() {
                 <h3>Drop a message</h3>
                 <form
                   className="contact-form"
-                  action="https://formsubmit.co/nico.chikuji@gmail.com"
+                  action="https://formsubmit.co/nico.builds@outlook.com"
                   method="POST"
                   onSubmit={handleFormSubmit}
                   noValidate
@@ -1926,6 +1929,10 @@ function Portfolio() {
             </div>
             <span className="footer__note">
               © {new Date().getFullYear()} nico.builds — fueled by AI copilots and meme-grade imagination.
+              {' '}
+              <Link to="/terms-of-service">Terms</Link>
+              {' · '}
+              <Link to="/privacy-policy">Privacy</Link>
             </span>
           </div>
         </footer>
@@ -1955,6 +1962,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Portfolio />} />
+      <Route path="/terms-of-service" element={<PortfolioTermsOfService />} />
+      <Route path="/privacy-policy" element={<PortfolioPrivacyPolicy />} />
+      <Route path="/auth/notion/:status" element={<NotionAuthResult />} />
       <Route path="/the-blockchain-circus" element={<TheBlockchainCircus />} />
       <Route path="/the-blockchain-circus/terms-of-service" element={<TermsOfService />} />
       <Route path="/the-blockchain-circus/privacy-policy" element={<PrivacyPolicy />} />

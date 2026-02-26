@@ -218,7 +218,7 @@ export default function TheBlockchainCircus() {
               For questions, feedback, or inquiries about The Blockchain Circus automation system, please contact:
             </p>
             <p>
-              <strong>Email:</strong> <a href="mailto:nico.chikuji@gmail.com">nico.chikuji@gmail.com</a>
+              <strong>Email:</strong> <a href="mailto:nico.builds@outlook.com">nico.builds@outlook.com</a>
             </p>
             <p>
               <strong>Portfolio:</strong> <Link to="/">nico.builds</Link>

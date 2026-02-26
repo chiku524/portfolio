@@ -1,6 +1,5 @@
-# https://nico.builds - Nico Chikuji Portfolio
+# Nico Chikuji Portfolio
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: https://nico.builds/sitemap.xml
+Sitemap: https://nicochikuji-portfolio.vercel.app/sitemap.xml

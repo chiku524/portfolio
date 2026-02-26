@@ -158,7 +158,7 @@ export default function PrivacyPolicy() {
               <li><strong>Data Portability:</strong> Request a copy of your data in a portable format</li>
             </ul>
             <p>
-              To exercise these rights, please contact us at <a href="mailto:nico.chikuji@gmail.com">nico.chikuji@gmail.com</a>.
+              To exercise these rights, please contact us at <a href="mailto:nico.builds@outlook.com">nico.builds@outlook.com</a>.
             </p>
             <p>
               <strong>Note:</strong> Since our Service operates primarily through TikTok, you may also need to exercise your privacy rights directly through TikTok's platform settings and privacy controls.
@@ -226,7 +226,7 @@ export default function PrivacyPolicy() {
               <li>Right to non-discrimination for exercising your privacy rights</li>
             </ul>
             <p>
-              To exercise your California privacy rights, please contact us at <a href="mailto:nico.chikuji@gmail.com">nico.chikuji@gmail.com</a>.
+              To exercise your California privacy rights, please contact us at <a href="mailto:nico.builds@outlook.com">nico.builds@outlook.com</a>.
             </p>
           </section>
 
@@ -245,7 +245,7 @@ export default function PrivacyPolicy() {
               <li>Right to withdraw consent</li>
             </ul>
             <p>
-              To exercise your GDPR rights, please contact us at <a href="mailto:nico.chikuji@gmail.com">nico.chikuji@gmail.com</a>.
+              To exercise your GDPR rights, please contact us at <a href="mailto:nico.builds@outlook.com">nico.builds@outlook.com</a>.
             </p>
           </section>
 
@@ -255,7 +255,7 @@ export default function PrivacyPolicy() {
               If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us at:
             </p>
             <p>
-              <strong>Email:</strong> <a href="mailto:nico.chikuji@gmail.com">nico.chikuji@gmail.com</a>
+              <strong>Email:</strong> <a href="mailto:nico.builds@outlook.com">nico.builds@outlook.com</a>
             </p>
             <p>
               <strong>TikTok Account:</strong> <a href="https://www.tiktok.com/@TheBlockchainCircus" target="_blank" rel="noreferrer">@TheBlockchainCircus</a>

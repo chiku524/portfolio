@@ -163,7 +163,7 @@ export default function TermsOfService() {
               If you have any questions about these Terms of Service, please contact us at:
             </p>
             <p>
-              <strong>Email:</strong> <a href="mailto:nico.chikuji@gmail.com">nico.chikuji@gmail.com</a>
+              <strong>Email:</strong> <a href="mailto:nico.builds@outlook.com">nico.builds@outlook.com</a>
             </p>
             <p>
               <strong>TikTok Account:</strong> <a href="https://www.tiktok.com/@TheBlockchainCircus" target="_blank" rel="noreferrer">@TheBlockchainCircus</a>

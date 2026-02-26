@@ -2228,6 +2228,16 @@ body[data-depth='trench'] .nav-wrapper::after {
   letter-spacing: 0.05em;
 }
 
+.footer__note a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.footer__note a:hover {
+  color: var(--accent-soft);
+  text-decoration: underline;
+}
+
 @media (max-width: 960px) {
   .nav {
     flex-wrap: wrap;
