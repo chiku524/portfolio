@@ -3,13 +3,16 @@
   "outputDirectory": "dist",
   "framework": null,
   "rewrites": [
+    { "source": "/tiktok-callback", "destination": "/api/tiktok-callback" },
     {
-      "source": "/tiktok-callback",
-      "destination": "/api/tiktok-callback"
-    },
-    {
-      "source": "/(.*)",
+      "source": "/((?!sitemap\\.xml|robots\\.txt|google[^/]*\\.html|manifest\\.json|favicon\\.png|og-image\\.png|sw\\.js|assets/|audio/|media/|the-blockchain-circus/tiktok).*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/sitemap.xml",
+      "headers": [{ "key": "Content-Type", "value": "application/xml" }]
     }
   ]
 }
