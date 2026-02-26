@@ -1,0 +1,2 @@
+# For scripts/generateOgImage.py
+Pillow>=9.2.0

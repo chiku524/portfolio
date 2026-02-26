@@ -75,6 +75,25 @@ a:hover {
   width: 100%;
 }
 
+/* Skip link: hidden until focused for accessibility & SEO */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--page-padding);
+  z-index: 9999;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: var(--brand-midnight);
+  font-weight: 600;
+  border-radius: 0.25rem;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
 @media (max-width: 768px) {
   body {
     padding: calc(var(--nav-height) + 1.25rem) 1rem 4rem;

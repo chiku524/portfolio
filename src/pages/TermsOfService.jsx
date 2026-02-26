@@ -1,11 +1,16 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
+import { useSeo } from '../utils/useSeo'
 import './LegalPages.css'
 
 export default function TermsOfService() {
+  useSeo({
+    title: 'Terms of Service | The Blockchain Circus (TBC) | nico.builds',
+    description:
+      'Terms of Service for The Blockchain Circus TikTok automation service. Educational blockchain content automation.',
+  })
   useEffect(() => {
-    document.title = 'Terms of Service | The Blockchain Circus (TBC) | nico.builds'
     trackPageView('/the-blockchain-circus/terms-of-service')
   }, [])
 

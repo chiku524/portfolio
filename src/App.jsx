@@ -3,6 +3,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import logoMark from './assets/generated-image.png'
 import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
+import { useSeo } from './utils/useSeo'
 import { measureWebVitals } from './utils/webVitals'
 import TermsOfService from './pages/TermsOfService'
 import PrivacyPolicy from './pages/PrivacyPolicy'
@@ -10,6 +11,11 @@ import TheBlockchainCircus from './pages/TheBlockchainCircus'
 import TikTokCallback from './pages/TikTokCallback'
 
 function Portfolio() {
+  useSeo({
+    title: 'Nico Chikuji | Full-Stack Developer | Flow Beyond Limits',
+    description:
+      'Full-stack developer crafting future internet habitats with tide-tested precision. From web3 reefs to AI-powered currents, building products that perform, delight, and echo community culture.',
+  })
   const backgroundCanvasRef = useRef(null)
   const videoRefs = useRef({})
   const trailRef = useRef(null)
@@ -1376,6 +1382,9 @@ function Portfolio() {
         </span>
       </div>
       <div className="app__content">
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
         {/* Scroll Progress Indicator */}
         <div className="scroll-progress" role="progressbar" aria-valuenow={scrollProgress} aria-valuemin="0" aria-valuemax="100" aria-label="Page scroll progress">
           <div className="scroll-progress__bar" style={{ width: `${scrollProgress}%` }} />
@@ -1539,7 +1548,7 @@ function Portfolio() {
           </div>
         </header>
 
-        <main>
+        <main id="main-content">
           <section className="section section--proof page-shell" id="proof" data-snappable="true" data-depth="reef">
             <div className="section__header reveal">
               <h2>Live Reef Signals</h2>

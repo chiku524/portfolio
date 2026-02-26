@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "media:process": "node scripts/processMedia.mjs",
     "image:resize": "node scripts/resizeImage.mjs",
-    "logo:process": "node scripts/processLogo.mjs"
+    "logo:process": "node scripts/processLogo.mjs",
+    "og:generate": "python scripts/generateOgImage.py"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1",

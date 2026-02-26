@@ -1,12 +1,17 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView, trackEvent } from '../utils/analytics'
+import { useSeo } from '../utils/useSeo'
 import profilePicture from '../assets/blockchain-circus/profile-1024x1024.png'
 import './TheBlockchainCircus.css'
 
 export default function TheBlockchainCircus() {
+  useSeo({
+    title: 'The Blockchain Circus (TBC) | TikTok AI Automation | nico.builds',
+    description:
+      'The Blockchain Circus - Automated AI video generation & publishing for educational blockchain content. n8n workflows, RunwayML, TikTok integration.',
+  })
   useEffect(() => {
-    document.title = 'The Blockchain Circus (TBC) | TikTok AI Automation | nico.builds'
     trackPageView('/the-blockchain-circus')
   }, [])
 

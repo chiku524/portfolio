@@ -32,10 +32,18 @@ npm run lint
 
 - `npm run media:process` - Process media files for projects
 - `npm run image:resize` - Resize images
+- `npm run og:generate` - Generate `og-image.png` for social sharing (Python + Pillow)
 
-## Brand Kit
+## SEO
 
-See `brand-kit/` directory for complete brand assets, guidelines, and documentation.
+The site is optimized for search engines and social sharing:
+
+- **robots.txt** & **sitemap.xml** – In `public/` for crawler discovery
+- **JSON-LD** – Person and WebSite schemas in `index.html`
+- **Per-route meta** – Title and description via `useSeo` on each page
+- **Open Graph & Twitter** – Meta tags for social previews
+
+**OG image:** Run `npm run og:generate` to regenerate `public/og-image.png` (requires Python + Pillow; see `scripts/requirements-og.txt`).
 
 ## License
 

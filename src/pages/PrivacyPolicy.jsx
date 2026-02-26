@@ -1,11 +1,16 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
+import { useSeo } from '../utils/useSeo'
 import './LegalPages.css'
 
 export default function PrivacyPolicy() {
+  useSeo({
+    title: 'Privacy Policy | The Blockchain Circus (TBC) | nico.builds',
+    description:
+      'Privacy Policy for The Blockchain Circus. How we collect, use, and protect information for our TikTok automation service.',
+  })
   useEffect(() => {
-    document.title = 'Privacy Policy | The Blockchain Circus (TBC) | nico.builds'
     trackPageView('/the-blockchain-circus/privacy-policy')
   }, [])
 
