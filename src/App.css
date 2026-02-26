@@ -1559,10 +1559,21 @@ body[data-depth='trench'] .nav-wrapper::after {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
+/* Boing ecosystem card spans 2 cols on wide screens */
+@media (min-width: 900px) {
+  .project-card--ecosystem {
+    grid-column: span 2;
+  }
+}
+
 @media (max-width: 768px) {
   .project-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .project-card--ecosystem {
+    grid-column: span 1;
   }
 }
 
@@ -1780,6 +1791,70 @@ body[data-depth='trench'] .nav-wrapper::after {
 .project-card__meta a {
   color: var(--accent);
   font-weight: 600;
+}
+
+/* Boing Network ecosystem card */
+.project-card--ecosystem .project-card__preview {
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card__ecosystem-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: rgba(18, 246, 255, 0.85);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.project-card__ecosystem-icon {
+  font-size: 2.5rem;
+  opacity: 0.9;
+}
+
+.project-card__ecosystem {
+  margin-top: 0.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(34, 211, 238, 0.2);
+}
+
+.project-card__ecosystem-label {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(148, 163, 184, 0.8);
+  margin-bottom: 0.6rem;
+}
+
+.project-card__ecosystem-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.project-card__ecosystem-link {
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(18, 246, 255, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent-soft);
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.project-card__ecosystem-link:hover {
+  background: rgba(18, 246, 255, 0.2);
+  border-color: rgba(34, 211, 238, 0.5);
+  color: var(--accent);
 }
 
 .columns {

@@ -771,49 +771,83 @@ function Portfolio() {
   const proofOfWork = useMemo(
     () => [
       {
-        name: 'VentureVibe',
-        url: 'https://venturevibe.created.app/',
-        badge: 'SaaS launchpad',
-        description:
-          'Elevate SaaS. Gamify discovery. Predict the future. VentureVibe blends mobile-first SaaS discovery with SOL-powered prediction markets so founders and forecasters can spot the next unicorn together.',
-        highlight: 'Gamified forecasts, SOL blockchain rails, real-time API analytics.',
-        media: buildMediaPaths('VentureVibe'),
-      },
-      {
-        name: 'BountyHub',
-        url: 'https://bountyhub.tech/',
-        badge: 'Live ecosystem',
-        description:
-          'Web3 growth hub dispensing bounties, cred, and inside jokes. I help maintain the product narrative while shipping features at startup pace.',
-        highlight: 'Growth funnels, bounty flow, and contributor dashboards.',
-        media: buildMediaPaths('Bountyhub'),
-      },
-      {
-        name: 'Boing Finance',
-        url: 'https://boing.finance/',
-        badge: 'DeFi in motion',
-        description:
-          'Frontend experiments and backend tooling for a playful yet compliant DeFi launchpad. Think serious tokenomics with meme-ready energy.',
-        highlight: 'Launchpad UX, token strategy dashboards, community drops.',
-        media: buildMediaPaths('boing.finance'),
-      },
-      {
         name: 'Blockchain Vibe',
         url: 'https://blockchainvibe.news/',
         badge: 'Media lab',
         description:
-          'Content engine that blends data, culture, and alpha leaks. I co-pilot automation, editorial pipelines, and on-chain analytics.',
+          'Content engine that blends data, culture, and alpha leaks. Automation, editorial pipelines, and on-chain analytics for the web3 zeitgeist.',
         highlight: 'Automation pipelines, AI content flows, analytics stack.',
         media: buildMediaPaths('BlockchainVibe News'),
       },
       {
+        name: 'Micro Paywall',
+        url: 'https://micropaywall.app/',
+        badge: 'Blockchain payments',
+        description:
+          'Monetize content with instant blockchain payments. Multi-chain support, sub-second confirmations, near-zero fees, and seamless integration.',
+        highlight: 'Solana, Ethereum, Polygon. Drop-in widgets, full dashboard.',
+        media: null,
+      },
+      {
+        name: 'Motion',
+        url: 'https://motion.productions/',
+        badge: 'Video generation',
+        description:
+          'Turn your script into video. One prompt, one video. Procedural engine—no external models. From prompt to production.',
+        highlight: 'Procedural engine, self-built algorithms, learning system.',
+        media: null,
+      },
+      {
+        name: 'Dice Express',
+        url: 'https://dice.express/',
+        badge: 'Prediction markets',
+        description:
+          'Trade on real-world outcomes. Prediction markets that connect forecasters with meaningful events and opportunities.',
+        highlight: 'Real-world outcomes, forecasting, decentralized trading.',
+        media: null,
+      },
+      {
         name: 'The Studio Circus',
         url: 'https://thestudiocircus.io/',
-        badge: 'Creative platform',
+        badge: 'AI education',
         description:
-          'A creative platform and community hub. Built with modern web technologies to showcase creative work and foster collaboration.',
-        highlight: 'Modern web platform, community features, creative showcase.',
-        media: null, // No media for this project card
+          'AI-powered educational video series that entertain, educate, and inspire. Exploring industries through creative storytelling.',
+        highlight: 'AI Tech Circus, Sports, Global Events, Blockchain series.',
+        media: null,
+      },
+      {
+        name: 'BountyHub',
+        url: 'https://bountyhub.tech/',
+        badge: 'Decentralized bounties',
+        description:
+          'Web3 growth hub dispensing bounties, cred, and inside jokes. Product narrative and features shipping at startup pace.',
+        highlight: 'Growth funnels, bounty flow, contributor dashboards.',
+        media: buildMediaPaths('Bountyhub'),
+      },
+      {
+        name: 'VibeMiner',
+        url: 'https://vibeminer.tech/',
+        badge: 'One-click mining',
+        description:
+          'Mine without the grind. No terminal, no config. Choose a blockchain, click start, and contribute hashrate—on desktop or web.',
+        highlight: 'Boing testnet, Monero, Kaspa, Ergo. Web & desktop.',
+        media: null,
+      },
+      {
+        type: 'ecosystem',
+        name: 'Boing Network',
+        url: 'https://boing.network/',
+        badge: 'L1 blockchain ecosystem',
+        description:
+          'Authentic. Decentralized. Optimal. Quality-assured. Native account abstraction, adaptive gas, cross-chain DeFi hub—built from first principles.',
+        highlight: 'Network · Wallet · Explorer · DeFi',
+        media: null,
+        ecosystem: [
+          { name: 'Boing Network', url: 'https://boing.network/', label: 'Network' },
+          { name: 'Boing Express', url: 'https://boing.express/', label: 'Wallet' },
+          { name: 'Boing Observer', url: 'https://boing.observer/', label: 'Explorer' },
+          { name: 'Boing Finance', url: 'https://boing.finance/', label: 'DeFi' },
+        ],
       },
     ],
     [],
@@ -1546,7 +1580,8 @@ function Portfolio() {
             </div>
             <div className="project-grid">
               {proofOfWork.map((project) => {
-                const isInternalLink = project.url.startsWith('/')
+                const isEcosystem = project.type === 'ecosystem'
+                const isInternalLink = !isEcosystem && project.url.startsWith('/')
                 const PreviewLink = isInternalLink ? Link : 'a'
                 const previewProps = isInternalLink
                   ? { to: project.url }
@@ -1556,30 +1591,34 @@ function Portfolio() {
                   ? { to: project.url }
                   : { href: project.url, target: '_blank', rel: 'noreferrer' }
 
+                const gradientStyle = !project.media?.thumbnail && {
+                  background: 'linear-gradient(135deg, rgba(18, 246, 255, 0.18) 0%, rgba(125, 211, 252, 0.12) 40%, rgba(59, 130, 246, 0.1) 70%, rgba(255, 144, 111, 0.08) 100%)',
+                  backgroundImage: 'radial-gradient(circle at 20% 40%, rgba(18, 246, 255, 0.28) 0%, transparent 45%), radial-gradient(circle at 80% 60%, rgba(59, 130, 246, 0.2) 0%, transparent 45%)',
+                }
+
                 return (
-                  <article key={project.name} className="project-card reveal" data-project-name={project.name}>
+                  <article
+                    key={project.name}
+                    className={`project-card reveal ${isEcosystem ? 'project-card--ecosystem' : ''}`}
+                    data-project-name={project.name}
+                  >
                     <PreviewLink
                       className="project-card__preview"
                       {...previewProps}
                       style={
                         project.media?.thumbnail
                           ? { '--project-thumb': `url(${project.media.thumbnail})` }
-                          : project.name === 'The Studio Circus'
-                          ? {
-                              background: 'linear-gradient(135deg, rgba(18, 246, 255, 0.2) 0%, rgba(125, 211, 252, 0.15) 50%, rgba(255, 144, 111, 0.1) 100%)',
-                              backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(18, 246, 255, 0.3) 0%, transparent 50%), radial-gradient(circle at 70% 80%, rgba(255, 144, 111, 0.2) 0%, transparent 50%)',
-                            }
-                          : undefined
+                          : gradientStyle
                       }
-                      onMouseEnter={() => handlePreviewEnter(project.name)}
-                      onMouseLeave={() => handlePreviewLeave(project.name)}
-                      onFocus={() => handlePreviewEnter(project.name)}
-                      onBlur={() => handlePreviewLeave(project.name)}
-                      onTouchStart={() => handlePreviewEnter(project.name)}
-                      onTouchEnd={() => handlePreviewLeave(project.name)}
-                      onTouchCancel={() => handlePreviewLeave(project.name)}
+                      onMouseEnter={() => !isEcosystem && handlePreviewEnter(project.name)}
+                      onMouseLeave={() => !isEcosystem && handlePreviewLeave(project.name)}
+                      onFocus={() => !isEcosystem && handlePreviewEnter(project.name)}
+                      onBlur={() => !isEcosystem && handlePreviewLeave(project.name)}
+                      onTouchStart={() => !isEcosystem && handlePreviewEnter(project.name)}
+                      onTouchEnd={() => !isEcosystem && handlePreviewLeave(project.name)}
+                      onTouchCancel={() => !isEcosystem && handlePreviewLeave(project.name)}
                     >
-                      {(project.media?.webm || project.media?.mp4) && (
+                      {!isEcosystem && (project.media?.webm || project.media?.mp4) && (
                         <video
                           ref={(node) => {
                             if (node) {
@@ -1597,6 +1636,12 @@ function Portfolio() {
                           {project.media.mp4 && <source data-src={project.media.mp4} type="video/mp4" />}
                         </video>
                       )}
+                      {isEcosystem && (
+                        <div className="project-card__ecosystem-preview" aria-hidden="true">
+                          <span className="project-card__ecosystem-icon">⬡</span>
+                          <span className="project-card__ecosystem-text">Boing Network</span>
+                        </div>
+                      )}
                       <div className="project-card__overlay">
                         <span>{isInternalLink ? 'View project →' : 'Visit reef ↗'}</span>
                       </div>
@@ -1606,6 +1651,24 @@ function Portfolio() {
                       <span className="card__badge">{project.badge}</span>
                       <h3>{project.name}</h3>
                       <p>{project.description}</p>
+                      {isEcosystem && project.ecosystem && (
+                        <div className="project-card__ecosystem">
+                          <span className="project-card__ecosystem-label">Explore ecosystem</span>
+                          <div className="project-card__ecosystem-links">
+                            {project.ecosystem.map((item) => (
+                              <a
+                                key={item.url}
+                                href={item.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="project-card__ecosystem-link"
+                              >
+                                {item.label}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                       <div className="project-card__meta">
                         <span>{project.highlight}</span>
                         <MetaLink {...metaProps}>
