@@ -1611,6 +1611,24 @@ body[data-depth='trench'] .nav-wrapper::after {
   contain: layout style paint;
 }
 
+/* Fallback for cards without thumbnails: gradient + initial letter */
+.project-card__preview--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card__preview--fallback::before {
+  content: attr(data-initial);
+  font-family: var(--font-heading);
+  font-size: clamp(4rem, 12vw, 7rem);
+  font-weight: 700;
+  color: rgba(18, 246, 255, 0.25);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
 .project-card__preview:focus-visible {
   outline: 3px solid rgba(56, 189, 248, 0.6);
   outline-offset: 4px;

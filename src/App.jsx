@@ -1028,13 +1028,10 @@ function Portfolio() {
         isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
       }
     } catch (error) {
-      // Fallback: assume touch device if matchMedia fails
       isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     }
     
-    if (isTouchDevice) {
-      return
-    }
+    if (isTouchDevice) return
 
     let isAnimating = false
     let scrollTimeout = null
@@ -1042,9 +1039,7 @@ function Portfolio() {
     let scrollVelocity = 0
 
     const composedPath = (event) => {
-      if (typeof event.composedPath === 'function') {
-        return event.composedPath()
-      }
+      if (typeof event.composedPath === 'function') return event.composedPath()
       const path = []
       let target = event.target
       while (target) {
@@ -1055,42 +1050,38 @@ function Portfolio() {
       return path
     }
 
+    // Use viewport intersection: section with largest visible area is "active"
     const getClosestSection = () => {
-      const viewportCenter = window.scrollY + window.innerHeight / 2
-      let closest = snappables[0]
-      let minDist = Infinity
-      
+      const vh = window.innerHeight
+      let best = snappables[0]
+      let bestArea = 0
+
       snappables.forEach((section) => {
         const rect = section.getBoundingClientRect()
-        const sectionTop = rect.top + window.scrollY
-        const sectionCenter = sectionTop + rect.height / 2
-        const dist = Math.abs(sectionCenter - viewportCenter)
-        
-        if (dist < minDist) {
-          minDist = dist
-          closest = section
+        const visibleTop = Math.max(0, rect.top)
+        const visibleBottom = Math.min(vh, rect.bottom)
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop)
+        const area = visibleHeight * Math.min(rect.width, window.innerWidth)
+        if (area > bestArea) {
+          bestArea = area
+          best = section
         }
       })
-      
-      return closest
+      return best
     }
 
     const hasScrollableParent = (event) => {
       const path = composedPath(event)
       for (const node of path) {
         if (!(node instanceof HTMLElement)) continue
-        if (node.dataset.snapLock === 'false') {
-          return true
-        }
+        if (node.dataset.snapLock === 'false') return true
         const style = window.getComputedStyle(node)
         const overflowY = style.overflowY
         const canScroll = (overflowY === 'auto' || overflowY === 'scroll') && node.scrollHeight > node.clientHeight + 1
         if (canScroll) {
           const atTop = node.scrollTop <= 0
           const atBottom = node.scrollTop + node.clientHeight >= node.scrollHeight - 1
-          if ((event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom)) {
-            return true
-          }
+          if ((event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom)) return true
         }
         if (node === document.body) break
       }
@@ -1101,43 +1092,19 @@ function Portfolio() {
       const clampedIndex = Math.max(0, Math.min(targetIndex, snappables.length - 1))
       const target = snappables[clampedIndex]
       if (!target) return
-      
       isAnimating = true
-      
-      if (immediate) {
-        // Immediate scroll for keyboard navigation
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        setTimeout(() => {
-          isAnimating = false
-        }, 800)
-      } else {
-        // Smooth scroll with better timing
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        setTimeout(() => {
-          isAnimating = false
-        }, 700)
-      }
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      setTimeout(() => { isAnimating = false }, immediate ? 800 : 700)
     }
 
+    // Content hidden above or below viewport (simplified math)
     const canScrollWithinSection = (section, direction) => {
       const rect = section.getBoundingClientRect()
-      const viewportHeight = window.innerHeight
-      const sectionTop = rect.top
-      const sectionBottom = rect.bottom
-      const sectionHeight = rect.height
-      
-      // Calculate visible portion
-      const visibleTop = Math.max(0, -sectionTop)
-      const visibleBottom = Math.min(sectionHeight, viewportHeight - sectionTop)
-      const hiddenBelow = sectionHeight - visibleBottom
-      const hiddenAbove = visibleTop
-      
-      // Allow scrolling if there's more than 80px of hidden content
-      if (direction > 0) {
-        return hiddenBelow > 80
-      } else {
-        return hiddenAbove > 80
-      }
+      const vh = window.innerHeight
+      const hiddenAbove = rect.top < 0 ? -rect.top : 0
+      const hiddenBelow = rect.bottom > vh ? rect.bottom - vh : 0
+      const threshold = 100
+      return direction > 0 ? hiddenBelow > threshold : hiddenAbove > threshold
     }
 
     const handleWheel = (event) => {
@@ -1591,10 +1558,13 @@ function Portfolio() {
                   ? { to: project.url }
                   : { href: project.url, target: '_blank', rel: 'noreferrer' }
 
-                const gradientStyle = !project.media?.thumbnail && {
-                  background: 'linear-gradient(135deg, rgba(18, 246, 255, 0.18) 0%, rgba(125, 211, 252, 0.12) 40%, rgba(59, 130, 246, 0.1) 70%, rgba(255, 144, 111, 0.08) 100%)',
-                  backgroundImage: 'radial-gradient(circle at 20% 40%, rgba(18, 246, 255, 0.28) 0%, transparent 45%), radial-gradient(circle at 80% 60%, rgba(59, 130, 246, 0.2) 0%, transparent 45%)',
+                const hasMedia = !!project.media?.thumbnail
+                const showFallback = !hasMedia && !isEcosystem
+                const gradientStyle = !hasMedia && {
+                  background: 'linear-gradient(135deg, rgba(18, 246, 255, 0.2) 0%, rgba(125, 211, 252, 0.14) 35%, rgba(59, 130, 246, 0.12) 65%, rgba(255, 144, 111, 0.1) 100%)',
+                  backgroundImage: 'radial-gradient(circle at 25% 35%, rgba(18, 246, 255, 0.35) 0%, transparent 50%), radial-gradient(circle at 75% 65%, rgba(59, 130, 246, 0.25) 0%, transparent 45%)',
                 }
+                const initial = showFallback ? project.name.charAt(0) : null
 
                 return (
                   <article
@@ -1603,7 +1573,8 @@ function Portfolio() {
                     data-project-name={project.name}
                   >
                     <PreviewLink
-                      className="project-card__preview"
+                      className={`project-card__preview ${showFallback ? 'project-card__preview--fallback' : ''}`}
+                      data-initial={initial}
                       {...previewProps}
                       style={
                         project.media?.thumbnail
