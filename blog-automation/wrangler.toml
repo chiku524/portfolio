@@ -1,0 +1,24 @@
+# Blog Automation Worker — generates and publishes blog posts to Notion
+# Runs on cron (e.g. Fridays), fetches GitHub commits, uses Workers AI, publishes to Notion
+
+name = "blog-automation"
+main = "src/index.js"
+compatibility_date = "2025-02-01"
+
+# Cron: Fridays at 18:00 UTC (adjust for your timezone)
+[triggers]
+crons = ["0 18 * * FRI"]
+
+# KV: store last-run timestamps per project
+[[kv_namespaces]]
+binding = "BLOG_KV"
+id = "d1adddcb1a6e48c1857a3c203e5a9111"
+
+# Workers AI for generating blog content (Llama 3.1 8B)
+[ai]
+binding = "AI"
+
+# Secrets (set via: wrangler secret put NOTION_API_KEY, etc.)
+# NOTION_API_KEY  — Internal Integration token from notion.so/my-integrations
+# GITHUB_TOKEN   — Personal access token with repo read scope
+# MANUAL_TRIGGER_SECRET — Optional: for manual HTTP trigger

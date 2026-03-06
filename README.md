@@ -47,12 +47,22 @@ The site is optimized for search engines and social sharing:
 
 ## Notion Integration
 
-OAuth callback for Notion public integrations is at `/api/notion-callback`. In Vercel, set:
+OAuth callback for Notion public integrations is at `/api/notion-callback`. Add these in **Vercel → Project → Settings → Environment Variables**:
 
-- `NOTION_CLIENT_ID` – OAuth client ID from Notion integration settings  
-- `NOTION_CLIENT_SECRET` – OAuth client secret
+| Variable | Value |
+|----------|-------|
+| `NOTION_CLIENT_ID` | `313d872b-594c-8187-99c0-0037cb87c26a` |
+| `NOTION_CLIENT_SECRET` | Your OAuth client secret from [Notion integrations](https://www.notion.so/my-integrations) |
 
-Redirect URI to use in Notion: `https://nicochikuji-portfolio.vercel.app/api/notion-callback`
+Redirect URI (use in Notion integration settings):  
+`https://nicochikuji-portfolio.vercel.app/api/notion-callback`
+
+See `.env.example` for local development.
+
+## Documentation
+
+- **[docs/](docs/)** — Blog automation, resume PDF, brand kit, and Cursor MCP Notion setup.
+- **README** in `blog-automation/` and `resume/` — Pointers to `docs/` for detailed instructions.
 
 ## License
 

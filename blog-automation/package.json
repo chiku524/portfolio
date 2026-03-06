@@ -1,0 +1,16 @@
+{
+  "name": "blog-automation",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cloudflare Worker that auto-generates and publishes project blog posts to Notion",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "kv:create": "wrangler kv namespace create BLOG_KV",
+    "trigger": "curl -H \"Authorization: Bearer ${MANUAL_TRIGGER_SECRET:-dev}\" \"${WORKER_URL:-https://blog-automation.workers.dev}/?trigger=run\"",
+    "create-hubs": "node scripts/create-notion-hubs.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

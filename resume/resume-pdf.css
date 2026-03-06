@@ -1,0 +1,108 @@
+/* Resume PDF – 1 page, filled layout, portfolio brand */
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.5;
+  color: #1e293b;
+  max-width: 100%;
+}
+
+h1 {
+  font-size: 22pt;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+  border: none;
+  padding: 0;
+}
+
+h2 {
+  font-size: 12pt;
+  font-weight: 700;
+  color: #0891b2;
+  margin: 16px 0 8px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #22d3ee;
+}
+
+h3 {
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: #0e7490;
+  margin: 8px 0 4px 0;
+}
+
+p {
+  margin: 6px 0;
+}
+
+strong {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #cbd5e1;
+  margin: 12px 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 8px 0;
+  font-size: 10pt;
+}
+
+th, td {
+  border: none;
+  padding: 5px 10px 5px 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  font-weight: 600;
+  color: #475569;
+}
+
+a {
+  color: #0891b2;
+  text-decoration: none;
+}
+
+ul {
+  margin: 8px 0;
+  padding-left: 1.3em;
+}
+
+li {
+  margin: 4px 0;
+}
+
+h1 + p {
+  font-size: 10.5pt;
+  color: #64748b;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+/* Single-page resume – no section break */
+.resume-section-projects {
+  page-break-before: avoid;
+  break-before: avoid;
+}
+
+.resume-section-projects h2 {
+  margin-top: 16px;
+}
+
+/* Footer spacing */
+body > p:last-of-type {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-size: 9.5pt;
+  color: #64748b;
+}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import logoMark from './assets/generated-image.png'
+import { NOTION_AUTH_URL } from './config/notion'
 import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
 import { useSeo } from './utils/useSeo'
 import { measureWebVitals } from './utils/webVitals'
@@ -1875,7 +1876,10 @@ function Portfolio() {
                     {isSubmitting ? 'Sending...' : 'Send the signal'}
                   </button>
                   <p className="form-footnote">
-                    Powered by FormSubmit for now—happy to sync via Matrix, Warpcast, or Discord if you prefer.
+                    Powered by FormSubmit for now—happy to sync via Matrix, Warpcast, or Discord if you prefer.{' '}
+                    <a href={NOTION_AUTH_URL} target="_blank" rel="noreferrer" onClick={() => trackEvent('notion_connect_click')}>
+                      Connect your Notion workspace
+                    </a>
                   </p>
                 </form>
               </div>
