@@ -1699,10 +1699,11 @@ body[data-depth='trench'] .nav-wrapper::after {
   font-family: var(--font-heading);
   font-size: clamp(4rem, 12vw, 7rem);
   font-weight: 700;
-  color: rgba(18, 246, 255, 0.25);
+  color: rgba(18, 246, 255, 0.55);
   letter-spacing: 0.02em;
   text-transform: uppercase;
   pointer-events: none;
+  text-shadow: 0 0 24px rgba(18, 246, 255, 0.2);
 }
 
 .project-card__preview:focus-visible {
