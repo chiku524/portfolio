@@ -49,6 +49,7 @@ function Portfolio() {
   const backgroundCanvasRef = useRef(null)
   const videoRefs = useRef({})
   const trailRef = useRef(null)
+  const trailCanvasRef = useRef(null)
   const rippleLayerRef = useRef(null)
   const audioRef = useRef(null)
   const [isAudioOn, setIsAudioOn] = useState(false)
@@ -144,10 +145,10 @@ function Portfolio() {
   }, [])
 
   useEffect(() => {
+    const canvas = trailCanvasRef.current
     const container = trailRef.current
-    if (!container) return
+    if (!canvas || !container) return
 
-    // Disable cursor trail on mobile to save memory
     let isTouchDevice = false
     try {
       if (window.matchMedia) {
@@ -157,52 +158,82 @@ function Portfolio() {
       isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     }
 
-    if (isTouchDevice) {
-      return
+    if (isTouchDevice) return
+
+    const MAX_POINTS = 70
+    const THROTTLE_MS = 12
+    const points = []
+    let lastAddTime = 0
+    let rafId = null
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = window.innerWidth * dpr
+      canvas.height = window.innerHeight * dpr
+      canvas.style.width = `${window.innerWidth}px`
+      canvas.style.height = `${window.innerHeight}px`
+      const ctx = canvas.getContext('2d')
+      if (ctx) ctx.scale(dpr, dpr)
     }
-
-    const sparkPool = []
-    const MAX_SPARKS = 18
-    const THROTTLE_MS = 90
-    let lastSparkTime = 0
-
-    const createSpark = () => {
-      const spark = document.createElement('span')
-      spark.className = 'cursor-spark'
-      return spark
-    }
-
-    const getSpark = () => sparkPool.pop() || createSpark()
 
     const handlePointerMove = (event) => {
       const now = Date.now()
-      if (now - lastSparkTime < THROTTLE_MS) return
-
-      const activeSparks = document.querySelectorAll('.cursor-spark').length
-      if (activeSparks >= MAX_SPARKS) return
-
-      lastSparkTime = now
-      const spark = getSpark()
-      spark.style.left = `${event.clientX}px`
-      spark.style.top = `${event.clientY}px`
-      container.appendChild(spark)
-
-      const timeoutId = setTimeout(() => {
-        spark.remove()
-        if (sparkPool.length < 8) sparkPool.push(spark)
-      }, 700)
-      spark.dataset.timeoutId = String(timeoutId)
+      if (now - lastAddTime < THROTTLE_MS) return
+      lastAddTime = now
+      points.push({ x: event.clientX, y: event.clientY, t: now })
+      if (points.length > MAX_POINTS) points.shift()
     }
 
+    const TRAIL_MS = 280
+
+    const draw = () => {
+      const ctx = canvas.getContext('2d')
+      const now = Date.now()
+
+      while (points.length > 0 && now - points[0].t > TRAIL_MS) {
+        points.shift()
+      }
+
+      const w = window.innerWidth
+      const h = window.innerHeight
+      ctx.clearRect(0, 0, w, h)
+
+      if (points.length < 2) {
+        rafId = requestAnimationFrame(draw)
+        return
+      }
+
+      ctx.lineCap = 'round'
+      ctx.lineJoin = 'round'
+
+      for (let i = 1; i < points.length; i++) {
+        const p0 = points[i - 1]
+        const p1 = points[i]
+        const age1 = now - p1.t
+        const t = i / points.length
+        const fade = Math.max(0, 1 - (age1 / TRAIL_MS) * 0.85)
+        const alpha = (0.2 + t * 0.6) * fade
+        const width = 2 + t * 3
+        ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`
+        ctx.lineWidth = width
+        ctx.beginPath()
+        ctx.moveTo(p0.x, p0.y)
+        ctx.lineTo(p1.x, p1.y)
+        ctx.stroke()
+      }
+
+      rafId = requestAnimationFrame(draw)
+    }
+
+    resize()
+    window.addEventListener('resize', resize)
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    rafId = requestAnimationFrame(draw)
+
     return () => {
+      window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', handlePointerMove)
-      document.querySelectorAll('.cursor-spark').forEach((spark) => {
-        const id = spark.dataset.timeoutId
-        if (id) clearTimeout(Number(id))
-        spark.remove()
-      })
-      sparkPool.length = 0
+      if (rafId) cancelAnimationFrame(rafId)
     }
   }, [])
 
@@ -1315,7 +1346,9 @@ function Portfolio() {
         <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
         <div className="depth-overlay" aria-hidden="true" />
         <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
-        <div ref={trailRef} className="cursor-trail" aria-hidden="true" />
+        <div ref={trailRef} className="cursor-trail" aria-hidden="true">
+        <canvas ref={trailCanvasRef} className="cursor-trail__canvas" />
+      </div>
       <div className="wave-cluster" aria-hidden="true">
         <span className="wave wave--far" />
         <span className="wave wave--mid" />
