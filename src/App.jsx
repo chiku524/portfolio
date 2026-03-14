@@ -1630,7 +1630,7 @@ function Portfolio() {
 
                 const hasMedia = !!project.media?.thumbnail
                 const showFallback = !hasMedia && !isEcosystem
-                const gradientStyle = !hasMedia && {
+                const gradientStyle = !hasMedia && !isEcosystem && {
                   background: 'linear-gradient(135deg, rgba(2, 6, 23, 0.92) 0%, rgba(8, 47, 73, 0.88) 40%, rgba(15, 23, 42, 0.9) 70%, rgba(6, 28, 50, 0.9) 100%)',
                   backgroundImage: 'radial-gradient(circle at 25% 35%, rgba(18, 246, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 75% 65%, rgba(59, 130, 246, 0.12) 0%, transparent 45%)',
                 }
@@ -1649,7 +1649,9 @@ function Portfolio() {
                       style={
                         project.media?.thumbnail
                           ? { '--project-thumb': `url(${project.media.thumbnail})` }
-                          : gradientStyle
+                          : showFallback
+                            ? undefined
+                            : gradientStyle
                       }
                       onMouseEnter={() => !isEcosystem && handlePreviewEnter(project.name)}
                       onMouseLeave={() => !isEcosystem && handlePreviewLeave(project.name)}
