@@ -1,5 +1,30 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
+import {
+  Code2,
+  Anchor,
+  Wrench,
+  Compass,
+  Mail,
+  Share2,
+  MessageSquare,
+  Calendar,
+  Github,
+  Linkedin,
+  Youtube,
+  MessageCircle,
+  ExternalLink,
+  LayoutDashboard,
+  Bot,
+  Globe,
+  Target,
+  Users,
+  Smile,
+  Sparkles,
+  Zap,
+  Layers,
+  ArrowUp,
+} from 'lucide-react'
 import './App.css'
 import logoMark from './assets/generated-image.png'
 import { NOTION_AUTH_URL } from './config/notion'
@@ -13,6 +38,7 @@ import PortfolioPrivacyPolicy from './pages/PortfolioPrivacyPolicy'
 import NotionAuthResult from './pages/NotionAuthResult'
 import TheBlockchainCircus from './pages/TheBlockchainCircus'
 import TikTokCallback from './pages/TikTokCallback'
+import GitHubActivityChart from './components/GitHubActivityChart'
 
 function Portfolio() {
   useSeo({
@@ -1429,6 +1455,7 @@ function Portfolio() {
                   setIsMobileMenuOpen(false)
                 }}
               >
+                <Anchor className="nav__link-icon" size={14} aria-hidden />
                 Proof
               </a>
               <a 
@@ -1439,6 +1466,7 @@ function Portfolio() {
                   setIsMobileMenuOpen(false)
                 }}
               >
+                <Wrench className="nav__link-icon" size={14} aria-hidden />
                 Skills
               </a>
               <a 
@@ -1449,6 +1477,7 @@ function Portfolio() {
                   setIsMobileMenuOpen(false)
                 }}
               >
+                <Compass className="nav__link-icon" size={14} aria-hidden />
                 Aspirations
               </a>
               <a 
@@ -1459,6 +1488,7 @@ function Portfolio() {
                   setIsMobileMenuOpen(false)
                 }}
               >
+                <Mail className="nav__link-icon" size={14} aria-hidden />
                 Contact
               </a>
             </div>
@@ -1512,6 +1542,7 @@ function Portfolio() {
           <div className="hero__inner page-shell">
             <div className="hero__content reveal">
               <div className="hero__eyebrow">
+                <Code2 className="hero__eyebrow-icon" size={16} aria-hidden />
                 <span className="dot dot--cyan" />
                 full-stack developer
               </div>
@@ -1526,11 +1557,11 @@ function Portfolio() {
               <div className="hero__actions">
                 <a className="button button--primary" href="#proof">
                   Explore live reefs
-                  <span className="button__icon">↗</span>
+                  <ExternalLink className="button__icon-svg" size={16} aria-hidden />
                 </a>
                 <a className="button button--ghost" href={calendlyLink} target="_blank" rel="noreferrer">
                   Launch a voyage
-                  <span className="button__icon">≈</span>
+                  <Calendar className="button__icon-svg" size={16} aria-hidden />
                 </a>
               </div>
               <div className="hero__meta">
@@ -1539,10 +1570,10 @@ function Portfolio() {
                 </span>
               </div>
               <div className="hero__values">
-                <span className="value-chip">Innovation × Precision</span>
-                <span className="value-chip">Community-First Collaboration</span>
-                <span className="value-chip">Playful Seriousness</span>
-                <span className="value-chip">Adaptive Ecosystem Design</span>
+                <span className="value-chip"><Zap className="value-chip__icon" size={14} aria-hidden /> Innovation × Precision</span>
+                <span className="value-chip"><Users className="value-chip__icon" size={14} aria-hidden /> Community-First Collaboration</span>
+                <span className="value-chip"><Smile className="value-chip__icon" size={14} aria-hidden /> Playful Seriousness</span>
+                <span className="value-chip"><Layers className="value-chip__icon" size={14} aria-hidden /> Adaptive Ecosystem Design</span>
               </div>
             </div>
           </div>
@@ -1555,7 +1586,10 @@ function Portfolio() {
         <main id="main-content">
           <section className="section section--proof page-shell" id="proof" data-snappable="true" data-depth="reef">
             <div className="section__header reveal">
-              <h2>Live Reef Signals</h2>
+              <h2>
+                <Anchor className="section__header-icon" size={28} aria-hidden />
+                Live Reef Signals
+              </h2>
               <p>Production ecosystems sailing today—dive in to see them operating in the wild.</p>
             </div>
             <div className="project-grid">
@@ -1627,7 +1661,7 @@ function Portfolio() {
                         </div>
                       )}
                       <div className="project-card__overlay">
-                        <span>{isInternalLink ? 'View project →' : 'Visit reef ↗'}</span>
+                        <span><ExternalLink className="project-card__overlay-icon" size={18} aria-hidden /> {isInternalLink ? 'View project' : 'Visit reef'}</span>
                       </div>
                       <div className="project-card__shimmer" aria-hidden="true" />
                     </PreviewLink>
@@ -1669,12 +1703,15 @@ function Portfolio() {
 
           <section className="section section--skills page-shell" id="skills" data-snappable="true" data-depth="mid">
             <div className="section__header reveal">
-              <h2>Dive Equipment</h2>
+              <h2>
+                <Wrench className="section__header-icon" size={28} aria-hidden />
+                Dive Equipment
+              </h2>
               <p>Capabilities tuned for fast shipping, resilient scaling, and community-first experiences.</p>
             </div>
             <div className="columns columns--stagger">
               <div className="card card--column reveal">
-                <h3>Product Charter</h3>
+                <h3><LayoutDashboard className="card__title-icon" size={20} aria-hidden /> Product Charter</h3>
                 <ul>
                   <li>Full-stack delivery with React, Next.js, Supabase, Node, and resilient infra.</li>
                   <li>Design systems that balance premium polish, crisp UX flows, and measurable KPIs.</li>
@@ -1682,7 +1719,7 @@ function Portfolio() {
                 </ul>
               </div>
               <div className="card card--column reveal">
-                <h3>AI Amplification</h3>
+                <h3><Bot className="card__title-icon" size={20} aria-hidden /> AI Amplification</h3>
                 <ul>
                   <li>Cursor-first workflow for rapid ideation, refactors, automated QA, and docs.</li>
                   <li>Custom prompting for briefs, narrative design, growth experiments, and analytics.</li>
@@ -1690,7 +1727,7 @@ function Portfolio() {
                 </ul>
               </div>
               <div className="card card--column reveal">
-                <h3>Web3 & Culture</h3>
+                <h3><Globe className="card__title-icon" size={20} aria-hidden /> Web3 & Culture</h3>
                 <ul>
                   <li>Composable dApps with wallet UX that feels familiar, safe, and fun to click through.</li>
                   <li>On-chain insights—dashboards, bots, automated reporting—fueled by AI analysis.</li>
@@ -1699,7 +1736,7 @@ function Portfolio() {
               </div>
             </div>
             <div className="toolkit reveal">
-              <h4>Creative Toolkit</h4>
+              <h4><Sparkles className="toolkit__title-icon" size={20} aria-hidden /> Creative Toolkit</h4>
               <div className="toolkit__chips">
                 {aiToolkit.map((tool) => (
                   <span key={tool} className="chip">
@@ -1711,17 +1748,22 @@ function Portfolio() {
                 Cursor stays glued to my right hand. Everything else—Pisces, CapCut, Canva, custom GPTs—slides in
                 when it amplifies output.
               </p>
+              <GitHubActivityChart username="chiku524" className="reveal" />
             </div>
           </section>
           <div className="wave-divider wave-divider--mid" aria-hidden="true" />
 
           <section className="section section--currents page-shell" id="aspirations" data-snappable="true" data-depth="deep">
             <div className="section__header reveal">
-              <h2>Future Currents</h2>
+              <h2>
+                <Compass className="section__header-icon" size={28} aria-hidden />
+                Future Currents
+              </h2>
               <p>Always charting the next voyage—preferably with a co-captain on deck.</p>
             </div>
             <div className="aspirations">
               <div className="aspirations__card reveal">
+                <Target className="aspirations__card-icon" size={24} aria-hidden />
                 <span className="aspirations__label">01</span>
                 <h3>Innovation × Precision</h3>
                 <p>
@@ -1730,6 +1772,7 @@ function Portfolio() {
                 </p>
               </div>
               <div className="aspirations__card reveal">
+                <Users className="aspirations__card-icon" size={24} aria-hidden />
                 <span className="aspirations__label">02</span>
                 <h3>Community-First Collaboration</h3>
                 <p>
@@ -1738,6 +1781,7 @@ function Portfolio() {
                 </p>
               </div>
               <div className="aspirations__card reveal">
+                <Smile className="aspirations__card-icon" size={24} aria-hidden />
                 <span className="aspirations__label">03</span>
                 <h3>Playful Seriousness</h3>
                 <p>
@@ -1751,7 +1795,10 @@ function Portfolio() {
 
           <section className="section section--contact page-shell" id="contact" data-snappable="true" data-depth="trench">
             <div className="section__header reveal" data-reveal-step="0">
-              <h2>Signal the Crew</h2>
+              <h2>
+                <Mail className="section__header-icon" size={28} aria-hidden />
+                Signal the Crew
+              </h2>
               <p>
                 Plotting a stealth launch, growth sprint, or content wave? Drop a signal—we’ll chart the map
                 together.
@@ -1760,7 +1807,7 @@ function Portfolio() {
             <div className="contact-grid">
               <div className="card card--contact reveal" data-reveal-step="1">
                 <span className="card__badge card__badge--signal">Direct line</span>
-                <h3>Email</h3>
+                <h3><Mail className="card__title-icon" size={20} aria-hidden /> Email</h3>
                 <a className="contact-email" href="mailto:nico.builds@outlook.com">
                   nico.builds@outlook.com
                 </a>
@@ -1768,11 +1815,14 @@ function Portfolio() {
               </div>
               <div className="card card--contact reveal" data-reveal-step="2">
                 <span className="card__badge card__badge--orbit">Signal buoys</span>
-                <h3>Social channels</h3>
+                <h3><Share2 className="card__title-icon" size={20} aria-hidden /> Social channels</h3>
                 <ul className="contact-socials">
-                  {socialLinks.map((link) => (
+                  {socialLinks.map((link) => {
+                  const Icon = link.label === 'GitHub' ? Github : link.label === 'LinkedIn' ? Linkedin : link.label === 'YouTube' ? Youtube : link.label === 'Discord' ? MessageCircle : ExternalLink
+                  return (
                     <li key={link.label}>
                       <a href={link.url} target="_blank" rel="noreferrer">
+                        <Icon className="contact-social-icon" size={18} aria-hidden />
                         <span className="contact-label">{link.label}</span>
                         {link.isUserHandle ? (
                           <span className="contact-handle">{link.handle}</span>
@@ -1782,12 +1832,13 @@ function Portfolio() {
                         <span className="contact-tone">{link.tone}</span>
                       </a>
                     </li>
-                  ))}
+                  )
+                })}
                 </ul>
               </div>
               <div className="card card--contact reveal" data-reveal-step="3">
                 <span className="card__badge card__badge--signal">Message</span>
-                <h3>Drop a message</h3>
+                <h3><MessageSquare className="card__title-icon" size={20} aria-hidden /> Drop a message</h3>
                 <form
                   className="contact-form"
                   action="https://formsubmit.co/nico.builds@outlook.com"
@@ -1885,7 +1936,7 @@ function Portfolio() {
               </div>
               <div className="card card--contact card--calendly reveal">
                 <span className="card__badge card__badge--spark">Book time</span>
-                <h3>Discovery dive</h3>
+                <h3><Calendar className="card__title-icon" size={20} aria-hidden /> Discovery dive</h3>
                 <ul className="contact-next">
                   <li>Align on mission objectives, milestones, and crew roles in 30 focused minutes.</li>
                   <li>Swap docs, decks, and dashboards to accelerate our first sprint.</li>
@@ -1925,9 +1976,11 @@ function Portfolio() {
             </p>
             <div className="footer__actions">
               <a className="button button--primary" href={calendlyLink} target="_blank" rel="noreferrer">
+                <Calendar className="button__icon-svg" size={16} aria-hidden />
                 Start a collab
               </a>
               <a className="button button--ghost" href="#top">
+                <ArrowUp className="button__icon-svg" size={16} aria-hidden />
                 Back to top
               </a>
             </div>
