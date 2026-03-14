@@ -146,7 +146,7 @@ function Portfolio() {
   useEffect(() => {
     const container = trailRef.current
     if (!container) return
-    
+
     // Disable cursor trail on mobile to save memory
     let isTouchDevice = false
     try {
@@ -154,17 +154,17 @@ function Portfolio() {
         isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
       }
     } catch (error) {
-      // Fallback: assume touch device if matchMedia fails
       isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     }
-    
+
     if (isTouchDevice) {
       return
     }
 
-    let ticking = false
     const sparkPool = []
-    const MAX_SPARKS = 20 // Limit active sparks to prevent memory buildup
+    const MAX_SPARKS = 18
+    const THROTTLE_MS = 90
+    let lastSparkTime = 0
 
     const createSpark = () => {
       const spark = document.createElement('span')
@@ -172,47 +172,37 @@ function Portfolio() {
       return spark
     }
 
-    const getSpark = () => {
-      return sparkPool.pop() || createSpark()
-    }
+    const getSpark = () => sparkPool.pop() || createSpark()
 
     const handlePointerMove = (event) => {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(() => {
-        // Limit number of active sparks
-        const activeSparks = container.querySelectorAll('.cursor-spark').length
-        if (activeSparks >= MAX_SPARKS) {
-          ticking = false
-          return
-        }
+      const now = Date.now()
+      if (now - lastSparkTime < THROTTLE_MS) return
 
-        const spark = getSpark()
-        spark.style.left = `${event.clientX}px`
-        spark.style.top = `${event.clientY}px`
-        container.appendChild(spark)
-        
-        setTimeout(() => {
-          spark.remove()
-          // Return to pool if pool is small
-          if (sparkPool.length < 10) {
-            sparkPool.push(spark)
-          }
-          ticking = false
-        }, 650)
-        ticking = false
-      })
+      const activeSparks = document.querySelectorAll('.cursor-spark').length
+      if (activeSparks >= MAX_SPARKS) return
+
+      lastSparkTime = now
+      const spark = getSpark()
+      spark.style.left = `${event.clientX}px`
+      spark.style.top = `${event.clientY}px`
+      container.appendChild(spark)
+
+      const timeoutId = setTimeout(() => {
+        spark.remove()
+        if (sparkPool.length < 8) sparkPool.push(spark)
+      }, 700)
+      spark.dataset.timeoutId = String(timeoutId)
     }
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
     return () => {
       window.removeEventListener('pointermove', handlePointerMove)
-      // Clean up spark pool
+      document.querySelectorAll('.cursor-spark').forEach((spark) => {
+        const id = spark.dataset.timeoutId
+        if (id) clearTimeout(Number(id))
+        spark.remove()
+      })
       sparkPool.length = 0
-      if (container) {
-        const sparks = container.querySelectorAll('.cursor-spark')
-        sparks.forEach((spark) => spark.remove())
-      }
     }
   }, [])
 

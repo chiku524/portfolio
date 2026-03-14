@@ -103,9 +103,11 @@ button {
 }
 
 .cursor-spark {
-  position: absolute;
+  position: fixed;
   width: 20px;
   height: 20px;
+  left: 0;
+  top: 0;
   margin-left: -10px;
   margin-top: -10px;
   border-radius: 50%;
@@ -113,6 +115,7 @@ button {
   filter: blur(2px);
   animation: sparkFade 0.65s ease-out forwards;
   pointer-events: none;
+  z-index: 3;
 }
 
 .ripple-layer {
@@ -1075,8 +1078,25 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .nav__link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   opacity: 0.85;
+}
+
+.nav__link-icon svg,
+.section__header-icon svg,
+.hero__eyebrow-icon svg,
+.card__title-icon svg,
+.value-chip__icon svg,
+.button__icon-svg svg,
+.project-card__overlay-icon svg,
+.toolkit__title-icon svg,
+.aspirations__card-icon svg,
+.contact-social-icon svg {
+  display: block;
+  vertical-align: middle;
 }
 
 .nav__links a:hover {
@@ -1252,6 +1272,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .section__header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   color: var(--accent);
   opacity: 0.95;
@@ -1275,6 +1298,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .hero__eyebrow-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   color: rgba(34, 211, 238, 0.9);
 }
@@ -1461,6 +1487,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .value-chip__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   opacity: 0.9;
   color: var(--accent);
@@ -1732,6 +1761,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .project-card__overlay-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   opacity: 0.9;
 }
@@ -1962,6 +1994,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .toolkit__title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   color: var(--accent);
   opacity: 0.9;
@@ -2121,9 +2156,47 @@ body[data-depth='trench'] .nav-wrapper::after {
   box-shadow: 0 0 8px rgba(18, 246, 255, 0.4);
 }
 
+.github-activity__legend {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  position: relative;
+  z-index: 1;
+}
+
+.github-activity__legend-cell {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.github-activity__legend-cell--0 {
+  background: rgba(30, 58, 95, 0.5);
+}
+
+.github-activity__legend-cell--1 {
+  background: rgba(34, 211, 238, 0.35);
+}
+
+.github-activity__legend-cell--2 {
+  background: rgba(34, 211, 238, 0.55);
+}
+
+.github-activity__legend-cell--3 {
+  background: rgba(34, 211, 238, 0.75);
+}
+
+.github-activity__legend-cell--4 {
+  background: rgba(18, 246, 255, 0.9);
+}
+
 .github-activity__link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.35rem;
   font-size: 0.9rem;
   color: var(--accent);
@@ -2168,6 +2241,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .aspirations__card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -2204,6 +2280,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .card__title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   color: var(--accent);
   opacity: 0.9;
@@ -2254,6 +2333,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .contact-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   grid-row: 1 / -1;
   align-self: center;
   flex-shrink: 0;
@@ -2849,6 +2931,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   opacity: 0.85;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 

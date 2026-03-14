@@ -108,11 +108,14 @@ function GitHubActivityChart({ username = 'chiku524', className = '' }) {
     return { grid: getPlaceholderGrid(), total: null }
   }, [data])
 
-  const maxCount = useMemo(() => {
-    let m = 0
-    grid.forEach((row) => row.forEach((c) => { if (c > m) m = c }))
-    return Math.max(m, 1)
-  }, [grid])
+  /** Map contribution count to severity level (0–4) for clear visual distinction. Uses fixed buckets like GitHub. */
+  const getLevel = (count) => {
+    if (count <= 0) return 0
+    if (count === 1) return 1
+    if (count <= 4) return 2
+    if (count <= 9) return 3
+    return 4
+  }
 
   const isLoading = loading && !data
 
@@ -150,7 +153,7 @@ function GitHubActivityChart({ username = 'chiku524', className = '' }) {
           {grid.map((week, wi) => (
             <div key={wi} className="github-activity__week">
               {week.map((count, di) => {
-                const level = maxCount > 0 ? Math.min(4, Math.ceil((count / maxCount) * 4)) : 0
+                const level = getLevel(count)
                 return (
                   <span
                     key={`${wi}-${di}`}
@@ -162,6 +165,15 @@ function GitHubActivityChart({ username = 'chiku524', className = '' }) {
             </div>
           ))}
         </div>
+      </div>
+      <div className="github-activity__legend" aria-hidden="true">
+        <span>Less</span>
+        <span className="github-activity__legend-cell github-activity__legend-cell--0" />
+        <span className="github-activity__legend-cell github-activity__legend-cell--1" />
+        <span className="github-activity__legend-cell github-activity__legend-cell--2" />
+        <span className="github-activity__legend-cell github-activity__legend-cell--3" />
+        <span className="github-activity__legend-cell github-activity__legend-cell--4" />
+        <span>More</span>
       </div>
       <a
         className="github-activity__link"
