@@ -419,13 +419,20 @@ function Portfolio() {
     if (!container || !bar) return
 
     let ticking = false
+    let lastUpdate = 0
+    const SCROLL_PROGRESS_THROTTLE_MS = 100
+
     const updateScrollProgress = () => {
+      const now = Date.now()
       const maxScroll = document.body.scrollHeight - window.innerHeight
       const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0
       const progressPercent = progress * 100
-      document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(3))
       bar.style.width = `${progressPercent}%`
       container.setAttribute('aria-valuenow', Math.round(progressPercent))
+      if (now - lastUpdate >= SCROLL_PROGRESS_THROTTLE_MS) {
+        lastUpdate = now
+        document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(3))
+      }
       ticking = false
     }
 
@@ -787,9 +794,10 @@ function Portfolio() {
     const sections = Array.from(document.querySelectorAll('[data-depth]'))
     if (!sections.length) return
 
-    document.body.dataset.depth = sections[0]?.dataset.depth || 'surface'
+    let lastDepth = sections[0]?.dataset.depth || 'surface'
+    document.body.dataset.depth = lastDepth
+    let depthThrottleId = null
 
-    // Check if IntersectionObserver is available
     if (typeof IntersectionObserver === 'undefined') {
       return () => {
         delete document.body.dataset.depth
@@ -799,18 +807,31 @@ function Portfolio() {
     try {
       const observer = new IntersectionObserver(
         (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              document.body.dataset.depth = entry.target.dataset.depth || 'surface'
+          if (depthThrottleId) return
+          depthThrottleId = window.requestAnimationFrame(() => {
+            depthThrottleId = null
+            let best = null
+            let bestRatio = 0
+            for (let i = 0; i < entries.length; i++) {
+              const entry = entries[i]
+              if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
+                bestRatio = entry.intersectionRatio
+                best = entry.target.dataset.depth || 'surface'
+              }
+            }
+            if (best && best !== lastDepth) {
+              lastDepth = best
+              document.body.dataset.depth = lastDepth
             }
           })
         },
-        { threshold: 0.55 },
+        { threshold: [0.25, 0.55, 0.85] },
       )
 
       sections.forEach((section) => observer.observe(section))
 
       return () => {
+        if (depthThrottleId) cancelAnimationFrame(depthThrottleId)
         observer.disconnect()
         delete document.body.dataset.depth
       }
@@ -847,7 +868,9 @@ function Portfolio() {
     let scrollVelocity = 0
     let cachedActive = snappables[0]
     let lastScrollYForActive = window.scrollY
+    let lastClosestSectionTime = 0
     const SCROLL_Y_THRESHOLD = 25
+    const LAYOUT_THROTTLE_MS = 50
     let lastScrollableTarget = null
     let lastHadScrollableParent = false
     let lastScrollYForContact = window.scrollY
@@ -887,9 +910,15 @@ function Portfolio() {
 
     const getActiveSection = () => {
       const scrollY = window.scrollY
-      if (Math.abs(scrollY - lastScrollYForActive) <= SCROLL_Y_THRESHOLD) return cachedActive
-      lastScrollYForActive = scrollY
-      cachedActive = getClosestSection()
+      const now = Date.now()
+      const scrollMoved = Math.abs(scrollY - lastScrollYForActive) > SCROLL_Y_THRESHOLD
+      const throttleExpired = now - lastClosestSectionTime >= LAYOUT_THROTTLE_MS
+      if (!scrollMoved && !throttleExpired) return cachedActive
+      if (scrollMoved) lastScrollYForActive = scrollY
+      if (scrollMoved || throttleExpired) {
+        lastClosestSectionTime = now
+        cachedActive = getClosestSection()
+      }
       return cachedActive
     }
 
