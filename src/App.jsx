@@ -324,352 +324,91 @@ function Portfolio() {
     const canvas = backgroundCanvasRef.current
     if (!canvas) return
 
-    // Safe media query handling with fallbacks
-    let prefersReducedMotion = null
     let isTouchDevice = false
-    
     try {
       if (window.matchMedia) {
-        prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
         isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
       }
     } catch (error) {
-      console.warn('matchMedia not available, using fallback detection:', error)
-      // Fallback detection for touch devices
       isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     }
-    
-    // Fallback for prefersReducedMotion if matchMedia failed
-    if (!prefersReducedMotion) {
-      prefersReducedMotion = { matches: false, addEventListener: () => {}, removeEventListener: () => {} }
-    }
-    
-    let ctx
-    try {
-      ctx = canvas.getContext('2d', { alpha: true })
-      if (!ctx) {
-        throw new Error('Canvas context not available')
-      }
-    } catch (error) {
-      console.error('Canvas context error:', error)
-      canvas.style.display = 'none'
-      return
-    }
-    const colors = [
-      'rgba(56, 189, 248, 0.35)',
-      'rgba(34, 211, 238, 0.32)',
-      'rgba(45, 212, 191, 0.3)',
-      'rgba(59, 130, 246, 0.28)',
-      'rgba(8, 145, 178, 0.26)',
-    ]
 
-    // Disable canvas entirely on mobile to prevent crashes
     if (isTouchDevice) {
       canvas.style.display = 'none'
       return
     }
 
-    // Reduce blob count on mobile for better performance
-    const blobCount = prefersReducedMotion.matches ? 5 : 12
-    const blobs = Array.from({ length: blobCount }).map((_, index) => ({
-      baseX: Math.random(),
-      baseY: Math.random(),
-      radius: 0.28 + Math.random() * 0.32,
-      amplitudeX: 0.06 + Math.random() * 0.15,
-      amplitudeY: 0.05 + Math.random() * 0.12,
-      speed: 0.18 + Math.random() * 0.2,
-      wobble: 0.18 + Math.random() * 0.12,
-      phase: Math.random() * Math.PI * 2,
-      color: colors[index % colors.length],
-    }))
-    // Reduce caustics on mobile
-    const causticCount = prefersReducedMotion.matches ? 2 : isTouchDevice ? 3 : 5
-    const caustics = Array.from({ length: causticCount }).map((_, index) => ({
-      baseX: Math.random(),
-      baseY: Math.random(),
-      scale: 0.6 + Math.random() * 0.8,
-      speed: 0.12 + Math.random() * 0.16,
-      phase: Math.random() * Math.PI * 2,
-      rotation: Math.random() * Math.PI * 2,
-      color: `rgba(126, 211, 255, ${0.04 + index * 0.01})`,
-    }))
-    // Reduce bubbles on mobile
-    const bubbleCount = prefersReducedMotion.matches ? 16 : isTouchDevice ? 24 : 42
-    const bubbles = Array.from({ length: bubbleCount }).map(() => ({
-      x: Math.random(),
-      y: Math.random(),
-      radius: 0.01 + Math.random() * 0.02,
-      speed: 0.015 + Math.random() * 0.03,
-      sway: 0.01 + Math.random() * 0.015,
-      phase: Math.random() * Math.PI * 2,
-      alpha: 0.06 + Math.random() * 0.07,
-    }))
+    let ctx
+    try {
+      ctx = canvas.getContext('2d', { alpha: true })
+      if (!ctx) return
+    } catch (error) {
+      canvas.style.display = 'none'
+      return
+    }
 
     let width = window.innerWidth
     let height = window.innerHeight
-    let motionFactor = prefersReducedMotion.matches ? 0.35 : isTouchDevice ? 0.6 : 1
-    let isPageVisible = true
-    let lastFrameTime = 0
-    const targetFPS = 30
-    const frameInterval = 1000 / targetFPS
-
-    const setCanvasOpacity = () => {
-      if (prefersReducedMotion.matches) {
-        canvas.style.opacity = '0.5'
-      } else if (isTouchDevice) {
-        canvas.style.opacity = '0.6'
-      } else {
-        canvas.style.opacity = '0.92'
-      }
-    }
-
-    // Pause rendering when page is not visible
-    const handleVisibilityChange = () => {
-      isPageVisible = !document.hidden
-    }
-    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     const resize = () => {
       width = window.innerWidth
       height = window.innerHeight
+      drawStatic()
+    }
+
+    const drawStatic = () => {
       const dpr = window.devicePixelRatio || 1
       canvas.width = width * dpr
       canvas.height = height * dpr
       canvas.style.width = `${width}px`
       canvas.style.height = `${height}px`
-
       if (typeof ctx.resetTransform === 'function') {
         ctx.resetTransform()
       } else {
         ctx.setTransform(1, 0, 0, 1, 0, 0)
       }
       ctx.scale(dpr, dpr)
+      ctx.globalCompositeOperation = 'source-over'
+      ctx.clearRect(0, 0, width, height)
+      ctx.globalCompositeOperation = 'lighter'
+      ctx.globalAlpha = 0.5
+      const cx = width * 0.3
+      const cy = height * 0.35
+      const r = Math.max(width, height) * 0.7
+      const g1 = ctx.createRadialGradient(cx, cy, 0, cx, cy, r)
+      g1.addColorStop(0, 'rgba(56, 189, 248, 0.28)')
+      g1.addColorStop(0.6, 'rgba(34, 211, 238, 0.08)')
+      g1.addColorStop(1, 'rgba(15, 23, 42, 0)')
+      ctx.fillStyle = g1
+      ctx.fillRect(0, 0, width, height)
+      const cx2 = width * 0.75
+      const cy2 = height * 0.2
+      const r2 = Math.max(width, height) * 0.6
+      const g2 = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, r2)
+      g2.addColorStop(0, 'rgba(59, 130, 246, 0.2)')
+      g2.addColorStop(0.7, 'rgba(34, 211, 238, 0.06)')
+      g2.addColorStop(1, 'rgba(15, 23, 42, 0)')
+      ctx.fillStyle = g2
+      ctx.fillRect(0, 0, width, height)
+      const cx3 = width * 0.5
+      const cy3 = height * 0.7
+      const r3 = Math.max(width, height) * 0.5
+      const g3 = ctx.createRadialGradient(cx3, cy3, 0, cx3, cy3, r3)
+      g3.addColorStop(0, 'rgba(34, 211, 238, 0.12)')
+      g3.addColorStop(1, 'rgba(15, 23, 42, 0)')
+      ctx.fillStyle = g3
+      ctx.fillRect(0, 0, width, height)
     }
 
-    resize()
-    setCanvasOpacity()
+    drawStatic()
     window.addEventListener('resize', resize)
 
-    const handleMotionChange = () => {
-      try {
-        if (window.matchMedia) {
-          const updatedIsTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-          motionFactor = prefersReducedMotion.matches ? 0.35 : updatedIsTouch ? 0.6 : 1
-        }
-      } catch (error) {
-        // Ignore errors in change handler
-      }
-      setCanvasOpacity()
-    }
-
-    try {
-      if (prefersReducedMotion && prefersReducedMotion.addEventListener) {
-        prefersReducedMotion.addEventListener('change', handleMotionChange)
-      }
-      
-      // Check for touch device changes
-      if (window.matchMedia) {
-        const touchMediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
-        if (touchMediaQuery && touchMediaQuery.addEventListener) {
-          touchMediaQuery.addEventListener('change', handleMotionChange)
-        }
-      }
-    } catch (error) {
-      console.warn('Error setting up media query listeners:', error)
-    }
-
-    const startTime = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
-
-    const wrap = (value) => {
-      if (value < -0.25) return value + 1
-      if (value > 1.25) return value - 1
-      return value
-    }
-
-    // Optimize: Create gradients outside render loop and reuse them
-    const gradientCache = new Map()
-    let frameSkipCount = 0
-    const FRAME_SKIP = 2 // Render every 3rd frame to reduce load
-
-    let animationFrameId
-    let isRendering = true
-    
-    const render = (currentTime) => {
-      // Stop rendering loop if component unmounted
-      if (!isRendering) return
-
-      // Skip frame if page is not visible - don't even request next frame
-      if (!isPageVisible) {
-        // Check visibility periodically instead of constant loop
-        setTimeout(() => {
-          if (isRendering && isPageVisible) {
-            animationFrameId = requestAnimationFrame(render)
-          }
-        }, 100)
-        return
-      }
-
-      // Skip every Nth frame to reduce load
-      frameSkipCount++
-      if (frameSkipCount % (FRAME_SKIP + 1) !== 0) {
-        animationFrameId = requestAnimationFrame(render)
-        return
-      }
-
-      // Throttle frames
-      if (currentTime - lastFrameTime < frameInterval) {
-        animationFrameId = requestAnimationFrame(render)
-        return
-      }
-      lastFrameTime = currentTime
-
-      try {
-        const elapsed = ((typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()) - startTime
-        const elapsedSeconds = typeof elapsed === 'number' ? elapsed / 1000 : 0
-        ctx.globalCompositeOperation = 'source-over'
-        ctx.clearRect(0, 0, width, height)
-        ctx.globalCompositeOperation = 'lighter'
-        const alphaStrength = Math.max(0.16, 0.55 * motionFactor)
-        ctx.globalAlpha = alphaStrength
-        
-        // Render caustics with optimized gradient creation
-        caustics.forEach((wave, index) => {
-          const drift = elapsedSeconds * wave.speed
-          const offsetX = wrap(wave.baseX + Math.sin(drift + wave.phase + index) * 0.25)
-          const offsetY = wrap(wave.baseY + Math.cos(drift * 0.75 + wave.phase) * 0.2)
-          const size = Math.max(width, height) * (wave.scale * (prefersReducedMotion.matches ? 0.8 : 1.05))
-
-          const x = offsetX * width
-          const y = offsetY * height
-          
-          // Use simpler rendering on mobile - no complex gradients
-          const cacheKey = `wave-${index}-${Math.floor(drift * 0.1)}`
-          let gradient = gradientCache.get(cacheKey)
-          
-          if (!gradient) {
-            gradient = ctx.createRadialGradient(x, y, size * 0.1, x, y, size)
-            gradient.addColorStop(0, wave.color)
-            gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.05)')
-            gradient.addColorStop(1, 'rgba(15, 23, 42, 0)')
-            // Cache for a short time, then clear old entries
-            if (gradientCache.size > 10) {
-              const firstKey = gradientCache.keys().next().value
-              gradientCache.delete(firstKey)
-            }
-            gradientCache.set(cacheKey, gradient)
-          }
-
-          ctx.save()
-          ctx.translate(x, y)
-          ctx.rotate(wave.rotation + Math.sin(drift) * 0.2)
-          ctx.translate(-x, -y)
-          ctx.fillStyle = gradient
-          ctx.fillRect(x - size, y - size, size * 2, size * 2)
-          ctx.restore()
-        })
-
-        ctx.globalAlpha = alphaStrength
-        blobs.forEach((blob, index) => {
-          const drift = elapsedSeconds * blob.speed
-          const pulse = Math.sin(drift + blob.phase)
-          const secondary = Math.cos(drift * 0.7 + blob.phase)
-
-          const x = wrap(blob.baseX + Math.sin(drift * 2.2 + blob.phase + index) * blob.amplitudeX)
-          const y = wrap(blob.baseY + Math.cos(drift * 1.8 + blob.phase * 1.2) * blob.amplitudeY)
-          const wobbleRadius = blob.radius * (1 + pulse * blob.wobble * 0.35)
-
-          // Simplified blob rendering
-          const radius = Math.max(width, height) * wobbleRadius * (0.85 + secondary * 0.15) * (0.75 + motionFactor * 0.5)
-          const cacheKey = `blob-${index}-${Math.floor(drift * 0.1)}`
-          let gradient = gradientCache.get(cacheKey)
-          
-          if (!gradient) {
-            gradient = ctx.createRadialGradient(
-              x * width,
-              y * height,
-              0,
-              x * width,
-              y * height,
-              radius,
-            )
-            gradient.addColorStop(0, blob.color)
-            gradient.addColorStop(1, 'rgba(15, 23, 42, 0)')
-            if (gradientCache.size > 20) {
-              const firstKey = gradientCache.keys().next().value
-              gradientCache.delete(firstKey)
-            }
-            gradientCache.set(cacheKey, gradient)
-          }
-
-          ctx.fillStyle = gradient
-          ctx.fillRect(0, 0, width, height)
-        })
-
-        // Simplified bubble rendering - reduce bubble count dynamically
-        const activeBubbles = Math.min(bubbles.length, prefersReducedMotion.matches ? 10 : 20)
-        ctx.globalAlpha = Math.max(0.12, 0.4 * motionFactor)
-        ctx.globalCompositeOperation = 'lighter'
-        bubbles.slice(0, activeBubbles).forEach((bubble) => {
-          bubble.y -= bubble.speed * motionFactor * 0.6
-          bubble.x += Math.cos(elapsedSeconds * bubble.speed * 8 + bubble.phase) * bubble.sway * 0.6
-          if (bubble.y < -0.08) {
-            bubble.y = 1.05
-            bubble.x = Math.random()
-            bubble.phase = Math.random() * Math.PI * 2
-          }
-
-          const bx = wrap(bubble.x) * width
-          const by = bubble.y * height
-          const radius = Math.max(width, height) * bubble.radius * (prefersReducedMotion.matches ? 0.8 : 1.1)
-          
-          // Use simpler bubble rendering - solid fill instead of gradient
-          ctx.fillStyle = `rgba(255, 255, 255, ${bubble.alpha * 0.3})`
-          ctx.beginPath()
-          ctx.arc(bx, by, radius, 0, Math.PI * 2)
-          ctx.fill()
-        })
-      } catch (error) {
-        console.error('Canvas rendering error:', error)
-        // Stop rendering on error to prevent crash loop
-        isRendering = false
-        canvas.style.display = 'none'
-        return
-      }
-
-      animationFrameId = requestAnimationFrame(render)
-    }
-
-    animationFrameId = requestAnimationFrame(render)
-
     return () => {
-      isRendering = false
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId)
-      }
       window.removeEventListener('resize', resize)
-      try {
-        if (prefersReducedMotion && prefersReducedMotion.removeEventListener) {
-          prefersReducedMotion.removeEventListener('change', handleMotionChange)
-        }
-        if (window.matchMedia) {
-          const touchMediaQuery = window.matchMedia('(hover: none) and (pointer: coarse)')
-          if (touchMediaQuery && touchMediaQuery.removeEventListener) {
-            touchMediaQuery.removeEventListener('change', handleMotionChange)
-          }
-        }
-      } catch (error) {
-        // Ignore cleanup errors
-      }
-      document.removeEventListener('visibilitychange', handleVisibilityChange)
-      // Clear gradient cache
-      gradientCache.clear()
-      // Clear canvas
       if (ctx) {
         try {
           ctx.clearRect(0, 0, width, height)
-        } catch (error) {
-          // Ignore canvas clear errors
-        }
+        } catch (e) { /* ignore */ }
       }
     }
   }, [])
