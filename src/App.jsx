@@ -1651,7 +1651,7 @@ function Portfolio() {
                           ? { '--project-thumb': `url(${project.media.thumbnail})` }
                           : showFallback
                             ? undefined
-                            : gradientStyle
+                            : gradientStyle || undefined
                       }
                       onMouseEnter={() => !isEcosystem && handlePreviewEnter(project.name)}
                       onMouseLeave={() => !isEcosystem && handlePreviewLeave(project.name)}
