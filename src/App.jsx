@@ -54,7 +54,8 @@ function Portfolio() {
   const audioRef = useRef(null)
   const [isAudioOn, setIsAudioOn] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const scrollProgressRef = useRef(null)
+  const scrollProgressBarRef = useRef(null)
   const [formErrors, setFormErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
@@ -160,11 +161,12 @@ function Portfolio() {
 
     if (isTouchDevice) return
 
-    const MAX_POINTS = 70
-    const THROTTLE_MS = 12
+    const MAX_POINTS = 55
+    const THROTTLE_MS = 16
     const points = []
     let lastAddTime = 0
     let rafId = null
+    let loopRunning = false
 
     const resize = () => {
       const dpr = window.devicePixelRatio || 1
@@ -176,15 +178,7 @@ function Portfolio() {
       if (ctx) ctx.scale(dpr, dpr)
     }
 
-    const handlePointerMove = (event) => {
-      const now = Date.now()
-      if (now - lastAddTime < THROTTLE_MS) return
-      lastAddTime = now
-      points.push({ x: event.clientX, y: event.clientY, t: now })
-      if (points.length > MAX_POINTS) points.shift()
-    }
-
-    const TRAIL_MS = 280
+    const TRAIL_MS = 260
 
     const draw = () => {
       const ctx = canvas.getContext('2d')
@@ -199,7 +193,7 @@ function Portfolio() {
       ctx.clearRect(0, 0, w, h)
 
       if (points.length < 2) {
-        rafId = requestAnimationFrame(draw)
+        loopRunning = false
         return
       }
 
@@ -212,8 +206,8 @@ function Portfolio() {
         const age1 = now - p1.t
         const t = i / points.length
         const fade = Math.max(0, 1 - (age1 / TRAIL_MS) * 0.85)
-        const alpha = (0.2 + t * 0.6) * fade
-        const width = 2 + t * 3
+        const alpha = (0.2 + t * 0.5) * fade
+        const width = 2 + t * 2.5
         ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`
         ctx.lineWidth = width
         ctx.beginPath()
@@ -225,10 +219,21 @@ function Portfolio() {
       rafId = requestAnimationFrame(draw)
     }
 
+    const handlePointerMove = (event) => {
+      const now = Date.now()
+      if (now - lastAddTime < THROTTLE_MS) return
+      lastAddTime = now
+      points.push({ x: event.clientX, y: event.clientY, t: now })
+      if (points.length > MAX_POINTS) points.shift()
+      if (points.length >= 2 && !loopRunning) {
+        loopRunning = true
+        rafId = requestAnimationFrame(draw)
+      }
+    }
+
     resize()
     window.addEventListener('resize', resize)
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
-    rafId = requestAnimationFrame(draw)
 
     return () => {
       window.removeEventListener('resize', resize)
@@ -405,7 +410,7 @@ function Portfolio() {
     let motionFactor = prefersReducedMotion.matches ? 0.35 : isTouchDevice ? 0.6 : 1
     let isPageVisible = true
     let lastFrameTime = 0
-    const targetFPS = isTouchDevice ? 30 : 60
+    const targetFPS = 30
     const frameInterval = 1000 / targetFPS
 
     const setCanvasOpacity = () => {
@@ -484,7 +489,7 @@ function Portfolio() {
     // Optimize: Create gradients outside render loop and reuse them
     const gradientCache = new Map()
     let frameSkipCount = 0
-    const FRAME_SKIP = 1 // Render every 2nd frame for better performance
+    const FRAME_SKIP = 2 // Render every 3rd frame to reduce load
 
     let animationFrameId
     let isRendering = true
@@ -670,13 +675,18 @@ function Portfolio() {
   }, [])
 
   useEffect(() => {
+    const container = scrollProgressRef.current
+    const bar = scrollProgressBarRef.current
+    if (!container || !bar) return
+
     let ticking = false
     const updateScrollProgress = () => {
       const maxScroll = document.body.scrollHeight - window.innerHeight
       const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0
       const progressPercent = progress * 100
       document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(3))
-      setScrollProgress(progressPercent)
+      bar.style.width = `${progressPercent}%`
+      container.setAttribute('aria-valuenow', Math.round(progressPercent))
       ticking = false
     }
 
@@ -1438,9 +1448,9 @@ function Portfolio() {
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
-        {/* Scroll Progress Indicator */}
-        <div className="scroll-progress" role="progressbar" aria-valuenow={scrollProgress} aria-valuemin="0" aria-valuemax="100" aria-label="Page scroll progress">
-          <div className="scroll-progress__bar" style={{ width: `${scrollProgress}%` }} />
+        {/* Scroll Progress Indicator - updated via ref to avoid re-renders during scroll */}
+        <div ref={scrollProgressRef} className="scroll-progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Page scroll progress">
+          <div ref={scrollProgressBarRef} className="scroll-progress__bar" style={{ width: '0%' }} />
         </div>
         <header className="nav-wrapper">
           <nav className="nav page-shell">
