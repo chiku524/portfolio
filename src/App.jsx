@@ -827,6 +827,8 @@ function Portfolio() {
       .filter(el => !el.classList.contains('section--contact')) // Exclude contact section from scroll snapping
     if (!snappables.length) return
 
+    const contactSection = document.querySelector('.section--contact')
+
     // Disable scroll snapping entirely on touch devices (mobile)
     let isTouchDevice = false
     try {
@@ -843,6 +845,13 @@ function Portfolio() {
     let scrollTimeout = null
     let lastScrollTime = 0
     let scrollVelocity = 0
+    let cachedActive = snappables[0]
+    let lastScrollYForActive = window.scrollY
+    const SCROLL_Y_THRESHOLD = 25
+    let lastScrollableTarget = null
+    let lastHadScrollableParent = false
+    let lastScrollYForContact = window.scrollY
+    let lastInContactSection = false
 
     const composedPath = (event) => {
       if (typeof event.composedPath === 'function') return event.composedPath()
@@ -874,6 +883,14 @@ function Portfolio() {
         }
       })
       return best
+    }
+
+    const getActiveSection = () => {
+      const scrollY = window.scrollY
+      if (Math.abs(scrollY - lastScrollYForActive) <= SCROLL_Y_THRESHOLD) return cachedActive
+      lastScrollYForActive = scrollY
+      cachedActive = getClosestSection()
+      return cachedActive
     }
 
     const hasScrollableParent = (event) => {
@@ -917,12 +934,15 @@ function Portfolio() {
       // Ignore small scroll movements
       if (Math.abs(event.deltaY) < 15) return
       
-      // Always allow normal scrolling in contact section
-      const contactSection = document.querySelector('.section--contact')
+      // Always allow normal scrolling in contact section (cache result while scroll position similar)
       if (contactSection) {
-        const contactRect = contactSection.getBoundingClientRect()
-        const isInContactSection = contactRect.top < window.innerHeight && contactRect.bottom > 0
-        if (isInContactSection) {
+        const scrollY = window.scrollY
+        if (Math.abs(scrollY - lastScrollYForContact) > SCROLL_Y_THRESHOLD) {
+          lastScrollYForContact = scrollY
+          const contactRect = contactSection.getBoundingClientRect()
+          lastInContactSection = contactRect.top < window.innerHeight && contactRect.bottom > 0
+        }
+        if (lastInContactSection) {
           if (scrollTimeout) {
             clearTimeout(scrollTimeout)
             scrollTimeout = null
@@ -931,10 +951,12 @@ function Portfolio() {
         }
       }
       
-      // Don't interfere with scrollable parents
-      if (hasScrollableParent(event)) {
-        return
+      // Don't interfere with scrollable parents (cache by target to avoid getComputedStyle every wheel)
+      if (event.target !== lastScrollableTarget) {
+        lastScrollableTarget = event.target
+        lastHadScrollableParent = hasScrollableParent(event)
       }
+      if (lastHadScrollableParent) return
       
       // Prevent default only during animation
       if (isAnimating) {
@@ -942,7 +964,7 @@ function Portfolio() {
         return
       }
       
-      const active = getClosestSection()
+      const active = getActiveSection()
       const currentIndex = snappables.indexOf(active)
       if (currentIndex === -1) return
       
@@ -1028,7 +1050,7 @@ function Portfolio() {
       
       if (isAnimating) return
       
-      const active = getClosestSection()
+      const active = getActiveSection()
       const currentIndex = snappables.indexOf(active)
       if (currentIndex === -1) return
 
