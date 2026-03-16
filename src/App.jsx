@@ -478,8 +478,8 @@ function Portfolio() {
     let lastPastHero = false
     let cachedMaxScroll = 0
     let lastScrollHeight = 0
-    const SCROLL_PROGRESS_THROTTLE_MS = 150
-    const PROGRESS_STEPS = 20
+    const SCROLL_PROGRESS_THROTTLE_MS = 200
+    const PROGRESS_STEPS = 15
 
     const updateScrollProgress = () => {
       const vh = window.innerHeight
