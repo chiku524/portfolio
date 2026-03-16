@@ -1,7 +1,9 @@
 /**
  * Ocean-themed animated background: waves, kelp, sea creatures.
  * All SVG-based for detail and realism; animations are subtle and non-distracting.
+ * Memoized to avoid re-renders when parent (App) state changes.
  */
+import { memo } from 'react'
 import './OceanBackground.css'
 
 /* ----- Waves: layered rolling waves along the bottom ----- */
@@ -291,37 +293,26 @@ function SeahorseSVG({ className }) {
   )
 }
 
-export default function OceanBackground() {
+function OceanBackground() {
   return (
     <div className="ocean-bg" aria-hidden="true">
-      {/* Wave cluster: full-width at bottom */}
       <div className="ocean-bg__waves">
         <WaveClusterSVG />
       </div>
-
-      {/* Kelp: left and right */}
       <KelpGroup side="left" />
       <KelpGroup side="right" />
-
-      {/* Sea turtle */}
       <div className="ocean-bg__creature ocean-bg__turtle">
         <SeaTurtleSVG className="ocean-bg__svg ocean-bg__svg--turtle" />
       </div>
-
-      {/* Jellyfish */}
       <div className="ocean-bg__creature ocean-bg__jellyfish ocean-bg__jellyfish--1">
         <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" />
       </div>
       <div className="ocean-bg__creature ocean-bg__jellyfish ocean-bg__jellyfish--2">
         <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" />
       </div>
-
-      {/* Manta */}
       <div className="ocean-bg__creature ocean-bg__manta">
         <MantaSVG className="ocean-bg__svg ocean-bg__svg--manta" />
       </div>
-
-      {/* Seahorses */}
       <div className="ocean-bg__creature ocean-bg__seahorse ocean-bg__seahorse--1">
         <SeahorseSVG className="ocean-bg__svg ocean-bg__svg--seahorse" />
       </div>
@@ -331,3 +322,5 @@ export default function OceanBackground() {
     </div>
   )
 }
+
+export default memo(OceanBackground)

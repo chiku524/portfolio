@@ -94,46 +94,42 @@ export const measureWebVitals = () => {
     }
 
     const isDev = typeof import.meta !== 'undefined' && !import.meta.env?.PROD
-    // Log metrics after page load and clean up
+    const timeoutIds = []
+
     const loadHandler = () => {
-    setTimeout(() => {
-      if (isDev) console.log('Web Vitals:', vitals)
-      
-      // Track to analytics if available
-      if (window.analytics) {
-        window.analytics.track('web_vitals', vitals)
-      }
-      
-      // Clean up all observers after 10 seconds
-      setTimeout(() => {
-        observers.forEach((observer) => {
-          try {
-            observer.disconnect()
-          } catch (e) {
-            // Already disconnected
-          }
-        })
-        observers.length = 0
-      }, 10000)
-    }, 3000)
-  }
+      const id1 = setTimeout(() => {
+        if (isDev) console.log('Web Vitals:', vitals)
+        if (window.analytics) {
+          window.analytics.track('web_vitals', vitals)
+        }
+        const id2 = setTimeout(() => {
+          observers.forEach((observer) => {
+            try {
+              observer.disconnect()
+            } catch (e) { /* already disconnected */ }
+          })
+          observers.length = 0
+        }, 10000)
+        timeoutIds.push(id2)
+      }, 3000)
+      timeoutIds.push(id1)
+    }
 
     if (typeof window !== 'undefined') {
       window.addEventListener('load', loadHandler, { once: true })
     }
 
-    // Return cleanup function
     return () => {
       try {
         if (typeof window !== 'undefined') {
           window.removeEventListener('load', loadHandler)
         }
+        timeoutIds.forEach((id) => clearTimeout(id))
+        timeoutIds.length = 0
         observers.forEach((observer) => {
           try {
             observer.disconnect()
-          } catch (e) {
-            // Ignore errors
-          }
+          } catch (e) { /* ignore */ }
         })
         observers.length = 0
       } catch (error) {
