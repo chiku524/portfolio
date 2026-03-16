@@ -7,7 +7,7 @@
   pointer-events: none;
   background: radial-gradient(circle at 30% 40%, rgba(34, 211, 238, 0.08), transparent 65%);
   mix-blend-mode: screen;
-  filter: blur(80px);
+  filter: blur(24px);
   opacity: 0.7;
   contain: strict;
 }
@@ -18,7 +18,7 @@
   inset: 30% -10% -10% 10%;
   background: radial-gradient(circle at 70% 60%, rgba(15, 118, 110, 0.12), transparent 60%);
   pointer-events: none;
-  filter: blur(80px);
+  filter: blur(24px);
   opacity: 0.55;
   contain: strict;
 }
@@ -116,10 +116,9 @@ body.past-hero .wave-divider::after {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  filter: blur(60px);
   opacity: 0.92;
   mix-blend-mode: screen;
-  transition: opacity 0.4s ease, filter 0.6s ease;
+  transition: opacity 0.4s ease;
   transform: translateZ(0);
   backface-visibility: hidden;
   contain: strict;
@@ -148,6 +147,8 @@ body.past-hero .wave-divider::after {
   z-index: 3;
   mix-blend-mode: screen;
   overflow: hidden;
+  contain: strict;
+  transform: translateZ(0);
 }
 
 .cursor-trail__canvas {
@@ -158,6 +159,7 @@ body.past-hero .wave-divider::after {
   height: 100%;
   display: block;
   pointer-events: none;
+  contain: strict;
 }
 
 .ripple-layer {
@@ -199,7 +201,7 @@ body.past-hero .wave-divider::after {
   height: clamp(140px, 18vw, 260px);
   border-radius: 50%;
   background: radial-gradient(circle at 32% 28%, rgba(34, 211, 238, 0.22), transparent 68%);
-  filter: blur(10px);
+  filter: blur(4px);
   opacity: 0.32;
   animation: orbDrift 28s ease-in-out infinite;
   transition: opacity 0.8s ease, transform 0.8s ease;
@@ -238,7 +240,6 @@ body.past-hero .wave-divider::after {
 
 body[data-depth='surface'] .background-canvas {
   opacity: 0.86;
-  filter: blur(60px);
 }
 
 body[data-depth='surface'] .depth-overlay {
@@ -248,7 +249,6 @@ body[data-depth='surface'] .depth-overlay {
 
 body[data-depth='reef'] .background-canvas {
   opacity: 0.92;
-  filter: blur(65px);
 }
 
 body[data-depth='reef'] .depth-overlay {
@@ -259,7 +259,6 @@ body[data-depth='reef'] .depth-overlay {
 
 body[data-depth='mid'] .background-canvas {
   opacity: 0.96;
-  filter: blur(70px);
 }
 
 body[data-depth='mid'] .depth-overlay {
@@ -270,7 +269,6 @@ body[data-depth='mid'] .depth-overlay {
 
 body[data-depth='deep'] .background-canvas {
   opacity: 0.98;
-  filter: blur(72px);
 }
 
 body[data-depth='deep'] .depth-overlay {
@@ -281,7 +279,6 @@ body[data-depth='deep'] .depth-overlay {
 
 body[data-depth='trench'] .background-canvas {
   opacity: 1;
-  filter: blur(75px);
 }
 
 body[data-depth='trench'] .depth-overlay {
@@ -750,8 +747,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   top: 5px;
   left: 10px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  filter: blur(2px);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .fish--one {
@@ -842,7 +838,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .hero__aurora {
   position: absolute;
-  filter: blur(80px);
+  filter: blur(28px);
   opacity: 0.75;
   border-radius: 50%;
   mix-blend-mode: screen;
@@ -2234,7 +2230,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   position: absolute;
   inset: -20%;
   background: radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.08), transparent 55%);
-  filter: blur(60px);
+  filter: blur(20px);
   opacity: 0.8;
   animation: rippleDrift 22s ease-in-out infinite;
   pointer-events: none;
@@ -2499,7 +2495,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   pointer-events: none;
   background: radial-gradient(circle at 30% 40%, rgba(34, 211, 238, 0.08), transparent 65%);
   mix-blend-mode: screen;
-  filter: blur(80px);
+  filter: blur(24px);
   opacity: 0.7;
   contain: strict;
 }
@@ -2510,7 +2506,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   inset: 30% -10% -10% 10%;
   background: radial-gradient(circle at 70% 60%, rgba(15, 118, 110, 0.12), transparent 60%);
   pointer-events: none;
-  filter: blur(80px);
+  filter: blur(24px);
   opacity: 0.55;
   contain: strict;
 }

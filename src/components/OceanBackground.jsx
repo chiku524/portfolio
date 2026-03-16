@@ -19,50 +19,38 @@ function WaveClusterSVG() {
     >
       <defs>
         <linearGradient id="ocean-bg-wave-far" x1="0" y1="0" x2="0" y2="1">
-          <stop stopColor="rgba(59, 130, 246, 0.22)" />
-          <stop offset="0.5" stopColor="rgba(56, 189, 248, 0.12)" />
+          <stop stopColor="rgba(59, 130, 246, 0.2)" />
+          <stop offset="0.5" stopColor="rgba(56, 189, 248, 0.1)" />
           <stop offset="1" stopColor="rgba(12, 74, 110, 0)" />
         </linearGradient>
         <linearGradient id="ocean-bg-wave-mid" x1="0" y1="0" x2="0" y2="1">
-          <stop stopColor="rgba(56, 189, 248, 0.32)" />
-          <stop offset="0.6" stopColor="rgba(34, 211, 238, 0.15)" />
+          <stop stopColor="rgba(56, 189, 248, 0.28)" />
+          <stop offset="0.6" stopColor="rgba(34, 211, 238, 0.12)" />
           <stop offset="1" stopColor="rgba(12, 74, 110, 0)" />
         </linearGradient>
         <linearGradient id="ocean-bg-wave-near" x1="0" y1="0" x2="0" y2="1">
-          <stop stopColor="rgba(56, 189, 248, 0.4)" />
-          <stop offset="0.5" stopColor="rgba(34, 211, 238, 0.2)" />
+          <stop stopColor="rgba(56, 189, 248, 0.36)" />
+          <stop offset="0.5" stopColor="rgba(34, 211, 238, 0.18)" />
           <stop offset="1" stopColor="rgba(8, 47, 73, 0)" />
         </linearGradient>
-        <filter id="ocean-bg-wave-blur-far" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
-        </filter>
-        <filter id="ocean-bg-wave-blur-mid" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
-        </filter>
-        <filter id="ocean-bg-wave-blur-near" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
-        </filter>
       </defs>
-      {/* Far layer */}
+      {/* Far layer - no SVG filter for performance */}
       <path
         className="ocean-bg__wave ocean-bg__wave--far"
         d="M-200 120 Q100 80 400 120 T1000 120 T1600 120 V220 H-200 Z"
         fill="url(#ocean-bg-wave-far)"
-        filter="url(#ocean-bg-wave-blur-far)"
       />
       {/* Mid layer */}
       <path
         className="ocean-bg__wave ocean-bg__wave--mid"
         d="M-200 150 Q150 100 500 150 T1100 150 T1700 150 V220 H-200 Z"
         fill="url(#ocean-bg-wave-mid)"
-        filter="url(#ocean-bg-wave-blur-mid)"
       />
       {/* Near layer */}
       <path
         className="ocean-bg__wave ocean-bg__wave--near"
         d="M-200 175 Q200 125 600 175 T1200 175 T1800 175 V220 H-200 Z"
         fill="url(#ocean-bg-wave-near)"
-        filter="url(#ocean-bg-wave-blur-near)"
       />
     </svg>
   )
