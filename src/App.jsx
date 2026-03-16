@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Routes, Route, Link } from 'react-router-dom'
 import {
   Code2,
@@ -999,14 +1000,21 @@ function Portfolio() {
     return <div>Loading...</div>
   }
 
+  const oceanLayers = (
+    <>
+      <div className="ocean-orbs" aria-hidden="true">
+        <span /><span /><span /><span /><span />
+      </div>
+      <OceanBackground />
+      <div className="depth-overlay" aria-hidden="true" />
+    </>
+  )
+
   try {
     return (
       <div className="app">
-        {/* Ocean background always visible (SVG + CSS, lightweight); heavy decorations only when user enables full experience */}
-        <div className="ocean-orbs" aria-hidden="true">
-          <span /><span /><span /><span /><span />
-        </div>
-        <OceanBackground />
+        {/* Ocean layers portaled to body so they use viewport as containing block (avoids auto x auto when parent has transform) */}
+        {typeof document !== 'undefined' && document.body && createPortal(oceanLayers, document.body)}
         {!perfMode && (
           <>
             {!deferHeavyDecorations && (
@@ -1020,7 +1028,6 @@ function Portfolio() {
             )}
           </>
         )}
-        <div className="depth-overlay" aria-hidden="true" />
         <div className="app__content">
         <a href="#main-content" className="skip-link">
           Skip to main content
