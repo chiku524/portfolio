@@ -61,10 +61,10 @@ function Portfolio() {
   const [submitStatus, setSubmitStatus] = useState(null)
   const [perfMode, setPerfMode] = useState(() => {
     try {
-      if (typeof sessionStorage === 'undefined') return false
-      return sessionStorage.getItem('portfolio-reduce-animations') === '1'
+      if (typeof sessionStorage === 'undefined') return true
+      return sessionStorage.getItem('portfolio-full-animations') !== '1'
     } catch {
-      return false
+      return true
     }
   })
   const [deferHeavyDecorations, setDeferHeavyDecorations] = useState(true)
@@ -90,6 +90,7 @@ function Portfolio() {
 
   const enableFullAnimations = useCallback(() => {
     try {
+      sessionStorage.setItem('portfolio-full-animations', '1')
       sessionStorage.removeItem('portfolio-reduce-animations')
       setPerfMode(false)
     } catch {}
@@ -98,6 +99,7 @@ function Portfolio() {
   const reduceAnimations = useCallback(() => {
     try {
       sessionStorage.setItem('portfolio-reduce-animations', '1')
+      sessionStorage.removeItem('portfolio-full-animations')
       setPerfMode(true)
     } catch {}
   }, [])

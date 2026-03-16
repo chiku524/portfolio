@@ -10,22 +10,23 @@ export const initAnalytics = () => {
     }
 
     // Initialize analytics
+    const isDev = typeof import.meta !== 'undefined' && !import.meta.env?.PROD
     window.analytics = {
       track: (eventName, properties = {}) => {
         try {
-          console.log('Analytics Event:', eventName, properties)
+          if (isDev) console.log('Analytics Event:', eventName, properties)
           // Add your analytics tracking code here
           // Example: gtag('event', eventName, properties)
         } catch (error) {
-          console.warn('Analytics track error:', error)
+          if (isDev) console.warn('Analytics track error:', error)
         }
       },
       page: (pageName, properties = {}) => {
         try {
-          console.log('Analytics Page View:', pageName, properties)
+          if (isDev) console.log('Analytics Page View:', pageName, properties)
           // Add your page view tracking code here
         } catch (error) {
-          console.warn('Analytics page error:', error)
+          if (isDev) console.warn('Analytics page error:', error)
         }
       },
     }

@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { SpeedInsights } from '@vercel/speed-insights/react'
@@ -6,6 +6,25 @@ import { Analytics } from '@vercel/analytics/react'
 import './index.css'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+
+function Root() {
+  const [loadInsights, setLoadInsights] = useState(false)
+  useEffect(() => {
+    const id = requestIdleCallback(() => setLoadInsights(true), { timeout: 3500 })
+    return () => cancelIdleCallback(id)
+  }, [])
+  return (
+    <>
+      <App />
+      {loadInsights && (
+        <>
+          <SpeedInsights />
+          <Analytics />
+        </>
+      )}
+    </>
+  )
+}
 
 try {
   const rootElement = document.getElementById('root')
@@ -17,9 +36,7 @@ try {
     <StrictMode>
       <BrowserRouter>
         <ErrorBoundary>
-          <App />
-          <SpeedInsights />
-          <Analytics />
+          <Root />
         </ErrorBoundary>
       </BrowserRouter>
     </StrictMode>,
@@ -44,7 +61,9 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker
       .register('/sw.js')
       .then((registration) => {
-        console.log('SW registered: ', registration)
+        if (typeof import.meta !== 'undefined' && !import.meta.env?.PROD) {
+          console.log('SW registered: ', registration)
+        }
         
         // Check for updates periodically
         setInterval(() => {
@@ -57,8 +76,7 @@ if ('serviceWorker' in navigator) {
           if (newWorker) {
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New service worker available, prompt user to reload
-                console.log('New service worker available, reloading...')
+                // New service worker available, reload to activate
                 window.location.reload()
               }
             })
@@ -66,14 +84,14 @@ if ('serviceWorker' in navigator) {
         })
       })
       .catch((registrationError) => {
-        console.log('SW registration failed: ', registrationError)
+        if (typeof import.meta !== 'undefined' && !import.meta.env?.PROD) {
+          console.log('SW registration failed: ', registrationError)
+        }
       })
     
-    // Unregister old service workers if needed (for debugging)
     navigator.serviceWorker.getRegistrations().then((registrations) => {
       registrations.forEach((registration) => {
-        if (registration.scope.includes(self.location.origin)) {
-          // Keep the current one, but log others
+        if (registration.scope.includes(self.location.origin) && typeof import.meta !== 'undefined' && !import.meta.env?.PROD) {
           console.log('Service worker registered:', registration.scope)
         }
       })

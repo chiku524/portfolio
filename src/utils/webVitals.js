@@ -93,10 +93,11 @@ export const measureWebVitals = () => {
       console.warn('Web Vitals measurement not fully supported:', error)
     }
 
+    const isDev = typeof import.meta !== 'undefined' && !import.meta.env?.PROD
     // Log metrics after page load and clean up
     const loadHandler = () => {
     setTimeout(() => {
-      console.log('Web Vitals:', vitals)
+      if (isDev) console.log('Web Vitals:', vitals)
       
       // Track to analytics if available
       if (window.analytics) {
