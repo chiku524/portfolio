@@ -709,7 +709,6 @@ body[data-depth='trench'] .nav-wrapper::after {
     radial-gradient(circle at 80% 0%, rgba(244, 114, 182, 0.16), rgba(2, 6, 23, 0.7) 60%),
     rgba(2, 6, 23, 0.85);
   scroll-margin-top: calc(var(--nav-height) + 1rem);
-  scroll-snap-align: start;
   transform: translateZ(0);
 }
 
@@ -1056,14 +1055,6 @@ body[data-depth='trench'] .nav-wrapper::after {
   contain-intrinsic-size: auto 500px;
 }
 
-/* Scroll-snap: hero and sections (except contact) snap to start; contact allows free scroll */
-.section:not(.section--contact) {
-  scroll-snap-align: start;
-}
-
-.section--contact {
-  scroll-snap-align: none;
-}
 
 .section__header {
   display: flex;
@@ -2032,7 +2023,6 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .footer {
   padding: 0 0 4rem;
-  scroll-snap-align: end;
 }
 
 .footer__inner {

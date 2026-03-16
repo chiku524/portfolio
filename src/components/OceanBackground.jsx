@@ -110,7 +110,7 @@ function KelpGroup({ side }) {
   )
 }
 
-/* ----- Sea turtle: realistic proportions, olive/brown-green, accurate anatomy ----- */
+/* ----- Sea turtle: cartoon style — rounded shell, scutes, friendly face, recognizable anatomy ----- */
 function SeaTurtleSVG({ className }) {
   return (
     <svg
@@ -122,61 +122,62 @@ function SeaTurtleSVG({ className }) {
     >
       <defs>
         <linearGradient id="ocean-bg-turtle-shell" x1="0.4" y1="0.15" x2="0.6" y2="0.9">
-          <stop stopColor="rgba(77, 124, 82, 0.82)" />
-          <stop offset="0.35" stopColor="rgba(56, 94, 60, 0.78)" />
-          <stop offset="0.65" stopColor="rgba(45, 80, 55, 0.72)" />
-          <stop offset="1" stopColor="rgba(30, 58, 42, 0.55)" />
+          <stop stopColor="rgba(90, 140, 95, 0.88)" />
+          <stop offset="0.4" stopColor="rgba(65, 110, 70, 0.82)" />
+          <stop offset="1" stopColor="rgba(45, 85, 52, 0.65)" />
         </linearGradient>
         <linearGradient id="ocean-bg-turtle-scute" x1="0.45" y1="0.35" x2="0.55" y2="0.75">
-          <stop stopColor="rgba(120, 140, 100, 0.35)" />
-          <stop offset="1" stopColor="rgba(56, 94, 60, 0.2)" />
+          <stop stopColor="rgba(130, 155, 110, 0.5)" />
+          <stop offset="1" stopColor="rgba(70, 100, 65, 0.28)" />
         </linearGradient>
-        <linearGradient id="ocean-bg-turtle-head" x1="0.25" y1="0.4" x2="0.75" y2="0.85">
-          <stop stopColor="rgba(140, 160, 130, 0.75)" />
-          <stop offset="0.5" stopColor="rgba(100, 120, 95, 0.65)" />
-          <stop offset="1" stopColor="rgba(60, 85, 65, 0.5)" />
+        <linearGradient id="ocean-bg-turtle-head" x1="0.2" y1="0.3" x2="0.8" y2="0.9">
+          <stop stopColor="rgba(150, 175, 135, 0.85)" />
+          <stop offset="0.6" stopColor="rgba(100, 130, 95, 0.7)" />
+          <stop offset="1" stopColor="rgba(70, 95, 68, 0.55)" />
         </linearGradient>
         <linearGradient id="ocean-bg-turtle-flipper" x1="0" y1="0.5" x2="1" y2="0.5">
-          <stop stopColor="rgba(77, 124, 82, 0.7)" />
-          <stop offset="1" stopColor="rgba(45, 80, 55, 0.45)" />
+          <stop stopColor="rgba(90, 135, 88, 0.78)" />
+          <stop offset="1" stopColor="rgba(55, 95, 58, 0.5)" />
         </linearGradient>
       </defs>
-      {/* Back flippers: proportional, webbed */}
+      {/* Back flippers: rounded cartoon paddles */}
       <path
         className="ocean-bg__turtle-fin ocean-bg__turtle-fin--back-left"
-        d="M 48 88 Q 28 92 22 108 Q 26 98 42 92 Z"
+        d="M 50 86 Q 24 90 18 104 Q 28 96 48 90 Z"
         fill="url(#ocean-bg-turtle-flipper)"
       />
       <path
         className="ocean-bg__turtle-fin ocean-bg__turtle-fin--back-right"
-        d="M 152 88 Q 172 92 178 108 Q 174 98 158 92 Z"
+        d="M 150 86 Q 176 90 182 104 Q 172 96 152 90 Z"
         fill="url(#ocean-bg-turtle-flipper)"
       />
-      {/* Carapace: oval, slightly flatter than before; 5 central scutes + marginals */}
-      <ellipse cx="100" cy="58" rx="52" ry="34" fill="url(#ocean-bg-turtle-shell)" className="ocean-bg__turtle-shell" />
-      <path d="M 72 42 L 100 36 L 128 42 L 124 68 L 100 74 L 76 68 Z" fill="url(#ocean-bg-turtle-scute)" opacity="0.85" className="ocean-bg__turtle-scute" />
-      <path d="M 66 58 L 88 52 L 100 62 L 88 78 L 66 72 Z" fill="url(#ocean-bg-turtle-scute)" opacity="0.7" className="ocean-bg__turtle-scute" />
-      <path d="M 134 58 L 112 52 L 100 62 L 112 78 L 134 72 Z" fill="url(#ocean-bg-turtle-scute)" opacity="0.7" className="ocean-bg__turtle-scute" />
-      <path d="M 78 52 L 100 48 L 122 52 L 118 62 L 100 66 L 82 62 Z" fill="url(#ocean-bg-turtle-scute)" opacity="0.6" className="ocean-bg__turtle-scute" />
-      {/* Head: smaller, ~1/5 shell width */}
-      <ellipse cx="162" cy="54" rx="14" ry="11" fill="url(#ocean-bg-turtle-head)" className="ocean-bg__turtle-head" />
-      <circle cx="165" cy="52" r="2.5" fill="rgba(20, 28, 22, 0.75)" className="ocean-bg__turtle-eye" />
-      {/* Front flippers: proportional placement */}
+      {/* Carapace: rounded oval with cartoon scutes (hex-like patches) */}
+      <ellipse cx="100" cy="56" rx="54" ry="36" fill="url(#ocean-bg-turtle-shell)" className="ocean-bg__turtle-shell" />
+      <path d="M 74 38 Q 100 32 126 38 Q 122 64 100 70 Q 78 64 74 38 Z" fill="url(#ocean-bg-turtle-scute)" opacity="0.9" className="ocean-bg__turtle-scute" />
+      <path d="M 68 56 Q 86 50 100 60 Q 86 76 68 70 Z" fill="url(#ocean-bg-turtle-scute)" opacity="0.75" className="ocean-bg__turtle-scute" />
+      <path d="M 132 56 Q 114 50 100 60 Q 114 76 132 70 Z" fill="url(#ocean-bg-turtle-scute)" opacity="0.75" className="ocean-bg__turtle-scute" />
+      <path d="M 80 50 Q 100 46 120 50 Q 116 62 100 66 Q 84 62 80 50 Z" fill="url(#ocean-bg-turtle-scute)" opacity="0.7" className="ocean-bg__turtle-scute" />
+      {/* Head: rounded, with big cartoon eye and small smile */}
+      <ellipse cx="164" cy="52" rx="16" ry="12" fill="url(#ocean-bg-turtle-head)" className="ocean-bg__turtle-head" />
+      <circle cx="168" cy="50" r="4" fill="rgba(25, 35, 28, 0.9)" className="ocean-bg__turtle-eye" />
+      <circle cx="169" cy="49" r="1.2" fill="rgba(255,255,255,0.6)" />
+      <path d="M 158 58 Q 164 62 170 58" stroke="rgba(50,70,52,0.5)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+      {/* Front flippers: rounded */}
       <path
         className="ocean-bg__turtle-fin ocean-bg__turtle-fin--front-left"
-        d="M 54 42 Q 38 46 34 58 Q 40 50 52 46 Z"
+        d="M 52 40 Q 32 46 28 58 Q 36 50 50 44 Z"
         fill="url(#ocean-bg-turtle-flipper)"
       />
       <path
         className="ocean-bg__turtle-fin ocean-bg__turtle-fin--front-right"
-        d="M 146 42 Q 162 46 166 58 Q 160 50 148 46 Z"
+        d="M 148 40 Q 168 46 172 58 Q 164 50 150 44 Z"
         fill="url(#ocean-bg-turtle-flipper)"
       />
     </svg>
   )
 }
 
-/* ----- Jellyfish: translucent bell, irregular form, varied tentacles ----- */
+/* ----- Jellyfish: cartoon style — round bell, wavy tentacles, recognizable silhouette ----- */
 function JellyfishSVG({ className }) {
   return (
     <svg
@@ -187,32 +188,38 @@ function JellyfishSVG({ className }) {
       aria-hidden
     >
       <defs>
-        <linearGradient id="ocean-bg-jelly-body" x1="0.4" y1="0.15" x2="0.6" y2="0.9">
-          <stop stopColor="rgba(248,252,252,0.45)" />
-          <stop offset="0.5" stopColor="rgba(200,220,230,0.35)" />
-          <stop offset="1" stopColor="rgba(120,160,180,0.15)" />
+        <linearGradient id="ocean-bg-jelly-body" x1="0.4" y1="0.1" x2="0.6" y2="0.95">
+          <stop stopColor="rgba(255,252,255,0.55)" />
+          <stop offset="0.4" stopColor="rgba(220,235,245,0.42)" />
+          <stop offset="0.7" stopColor="rgba(160,195,215,0.28)" />
+          <stop offset="1" stopColor="rgba(100,150,180,0.12)" />
         </linearGradient>
         <linearGradient id="ocean-bg-jelly-tentacle" x1="0.5" y1="0" x2="0.5" y2="1">
-          <stop stopColor="rgba(180,200,210,0.38)" />
-          <stop offset="0.6" stopColor="rgba(100,140,160,0.2)" />
-          <stop offset="1" stopColor="rgba(60,100,120,0)" />
+          <stop stopColor="rgba(200,220,235,0.45)" />
+          <stop offset="0.5" stopColor="rgba(120,160,190,0.25)" />
+          <stop offset="1" stopColor="rgba(70,110,140,0)" />
         </linearGradient>
       </defs>
-      {/* Bell: slightly irregular oval (not perfect ellipse) */}
+      {/* Bell: cartoon dome shape (rounded mushroom cap) */}
       <path
-        d="M 40 12 C 58 14 68 28 68 42 C 66 52 58 58 40 58 C 22 58 14 52 12 42 C 12 28 22 14 40 12 Z"
+        d="M 40 8 Q 62 10 66 32 Q 68 48 40 52 Q 12 48 14 32 Q 18 10 40 8 Z"
         fill="url(#ocean-bg-jelly-body)"
         className="ocean-bg-jelly-body"
       />
-      {/* Tentacles: varying length and curve */}
-      <path d="M 22 56 Q 18 85 20 138" stroke="url(#ocean-bg-jelly-tentacle)" strokeWidth="2" fill="none" className="ocean-bg-tentacle" />
-      <path d="M 40 58 Q 38 92 40 138" stroke="url(#ocean-bg-jelly-tentacle)" strokeWidth="1.8" fill="none" className="ocean-bg-tentacle ocean-bg-tentacle--2" />
-      <path d="M 58 56 Q 62 88 60 132" stroke="url(#ocean-bg-jelly-tentacle)" strokeWidth="2" fill="none" className="ocean-bg-tentacle ocean-bg-tentacle--3" />
+      {/* Two small cartoon eyes on the bell */}
+      <ellipse cx="32" cy="28" rx="4" ry="5" fill="rgba(80,120,150,0.4)" />
+      <ellipse cx="48" cy="28" rx="4" ry="5" fill="rgba(80,120,150,0.4)" />
+      <circle cx="33" cy="27" r="1.5" fill="rgba(255,255,255,0.7)" />
+      <circle cx="49" cy="27" r="1.5" fill="rgba(255,255,255,0.7)" />
+      {/* Tentacles: wavy, varied lengths — clearly jellyfish */}
+      <path d="M 20 50 Q 12 78 16 136" stroke="url(#ocean-bg-jelly-tentacle)" strokeWidth="2.2" fill="none" strokeLinecap="round" className="ocean-bg-tentacle" />
+      <path d="M 40 52 Q 36 88 40 136" stroke="url(#ocean-bg-jelly-tentacle)" strokeWidth="2" fill="none" strokeLinecap="round" className="ocean-bg-tentacle ocean-bg-tentacle--2" />
+      <path d="M 60 50 Q 68 80 64 132" stroke="url(#ocean-bg-jelly-tentacle)" strokeWidth="2.2" fill="none" strokeLinecap="round" className="ocean-bg-tentacle ocean-bg-tentacle--3" />
     </svg>
   )
 }
 
-/* ----- Manta: proportional disc, wingspan, natural grey tones ----- */
+/* ----- Manta: cartoon style — wide disc, cephalic fins, short tail; clearly a manta ray ----- */
 function MantaSVG({ className }) {
   return (
     <svg
@@ -223,25 +230,34 @@ function MantaSVG({ className }) {
       aria-hidden
     >
       <defs>
-        <linearGradient id="ocean-bg-manta-fill" x1="0.2" y1="0.25" x2="0.8" y2="0.85">
-          <stop stopColor="rgba(100,115,130,0.55)" />
-          <stop offset="0.4" stopColor="rgba(70,90,105,0.48)" />
-          <stop offset="0.7" stopColor="rgba(55,75,90,0.38)" />
-          <stop offset="1" stopColor="rgba(40,55,70,0.25)" />
+        <linearGradient id="ocean-bg-manta-fill" x1="0.2" y1="0.2" x2="0.8" y2="0.9">
+          <stop stopColor="rgba(115,130,148,0.65)" />
+          <stop offset="0.4" stopColor="rgba(85,100,118,0.58)" />
+          <stop offset="0.75" stopColor="rgba(65,82,98,0.45)" />
+          <stop offset="1" stopColor="rgba(48,62,78,0.32)" />
         </linearGradient>
       </defs>
-      {/* Disc: wide wingspan, pointed wing tips */}
+      {/* Wide disc with pointed wing tips — iconic manta shape */}
       <path
-        d="M 90 48 Q 25 22 5 48 Q 28 58 90 52 Q 152 58 175 48 Q 155 22 90 48 Z"
+        d="M 90 44 Q 20 14 4 44 Q 22 56 90 50 Q 158 56 176 44 Q 160 14 90 44 Z"
         fill="url(#ocean-bg-manta-fill)"
         className="ocean-bg-manta-body"
       />
-      <path d="M 82 52 L 88 82 L 94 52" stroke="rgba(70,90,105,0.4)" strokeWidth="1.8" fill="none" className="ocean-bg-manta-tail" />
+      {/* Cephalic fins (head "horns") — key for recognition */}
+      <path d="M 72 42 Q 58 28 62 42 Q 58 38 72 42 Z" fill="rgba(75,92,108,0.5)" />
+      <path d="M 108 42 Q 122 28 118 42 Q 122 38 108 42 Z" fill="rgba(75,92,108,0.5)" />
+      {/* Small cartoon eyes */}
+      <ellipse cx="78" cy="44" rx="5" ry="4" fill="rgba(40,52,62,0.6)" />
+      <ellipse cx="102" cy="44" rx="5" ry="4" fill="rgba(40,52,62,0.6)" />
+      <circle cx="79" cy="43" r="1.5" fill="rgba(255,255,255,0.5)" />
+      <circle cx="103" cy="43" r="1.5" fill="rgba(255,255,255,0.5)" />
+      {/* Short tail */}
+      <path d="M 86 50 L 90 78 L 94 50" stroke="rgba(65,82,98,0.5)" strokeWidth="2" fill="none" strokeLinecap="round" className="ocean-bg-manta-tail" />
     </svg>
   )
 }
 
-/* ----- Seahorse: proportional body, crown, snout, muted teal/brown ----- */
+/* ----- Seahorse: cartoon style — crown, S-curve body, curled tail, snout; clearly recognizable ----- */
 function SeahorseSVG({ className }) {
   return (
     <svg
@@ -253,19 +269,24 @@ function SeahorseSVG({ className }) {
     >
       <defs>
         <linearGradient id="ocean-bg-seahorse-fill" x1="0.35" y1="0" x2="0.65" y2="1">
-          <stop stopColor="rgba(55,115,105,0.5)" />
-          <stop offset="0.45" stopColor="rgba(45,95,88,0.42)" />
-          <stop offset="1" stopColor="rgba(35,75,70,0.28)" />
+          <stop stopColor="rgba(65,135,120,0.62)" />
+          <stop offset="0.4" stopColor="rgba(52,110,100,0.55)" />
+          <stop offset="1" stopColor="rgba(38,85,78,0.4)" />
         </linearGradient>
       </defs>
-      {/* Body: segmented curve, crown at top, snout */}
+      {/* Crown (coronet) — distinctive seahorse feature */}
+      <path d="M 24 4 Q 30 6 32 12 Q 30 10 26 8 Q 24 6 22 8 Q 18 10 16 12 Q 18 6 24 4 Z" fill="url(#ocean-bg-seahorse-fill)" opacity="0.95" />
+      {/* Body: S-curve with rounded segments, belly bulge, then curled tail */}
       <path
-        d="M 24 6 Q 32 10 30 22 Q 28 32 24 38 Q 14 48 16 62 Q 18 74 24 84 L 26 82 Q 22 70 20 58 Q 18 46 24 40 Q 28 34 30 24 Q 32 14 24 10 Q 22 8 24 6 Z"
+        d="M 24 14 Q 32 18 30 28 Q 28 36 24 42 Q 16 50 18 62 Q 20 72 24 80 Q 26 84 24 86 L 26 86 Q 28 82 26 78 Q 22 68 20 58 Q 18 48 24 44 Q 28 40 30 30 Q 32 20 24 16 Q 22 14 24 14 Z"
         fill="url(#ocean-bg-seahorse-fill)"
         className="ocean-bg-seahorse-body"
       />
-      <circle cx="27" cy="20" r="3" fill="rgba(220,235,225,0.5)" />
-      <path d="M 24 10 Q 20 16 22 22" stroke="rgba(55,115,105,0.45)" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+      {/* Snout (elongated mouth) */}
+      <path d="M 24 16 Q 28 14 30 18 Q 28 16 24 18 Z" fill="rgba(50,100,92,0.5)" />
+      {/* Cartoon eye */}
+      <circle cx="28" cy="24" r="3.5" fill="rgba(25,45,42,0.85)" />
+      <circle cx="28.8" cy="23.2" r="1" fill="rgba(255,255,255,0.7)" />
     </svg>
   )
 }
