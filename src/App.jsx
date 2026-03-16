@@ -478,6 +478,8 @@ function Portfolio() {
         lastRoundedProgress = rounded
         document.documentElement.style.setProperty('--scroll-progress', String(rounded))
       }
+      const pastHero = window.scrollY > 0.8 * window.innerHeight
+      document.body.classList.toggle('past-hero', pastHero)
       ticking = false
     }
 

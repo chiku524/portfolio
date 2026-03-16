@@ -89,6 +89,37 @@ body.perf-mode .depth-overlay {
   color: var(--accent-soft);
 }
 
+/* Pause decorative animations when scrolled past hero to prevent lag (30+ simultaneous animations + blur are costly) */
+body.past-hero .hero__aurora,
+body.past-hero .hero__ripples,
+body.past-hero .hero__spray .hero__spray-line,
+body.past-hero .hero__sparkles span,
+body.past-hero .hero__bubbles .hero__bubble,
+body.past-hero .hero__fish-squad .fish,
+body.past-hero .hero__content h1 span,
+body.past-hero .hero__tagline,
+body.past-hero .hero__wave,
+body.past-hero .wave-cluster .wave,
+body.past-hero .ocean-kelp span,
+body.past-hero .ocean-orbs span,
+body.past-hero .sea-turtle,
+body.past-hero .turtle-fin,
+body.past-hero .manta-ray,
+body.past-hero .manta-tail,
+body.past-hero .jellyfish-field .jellyfish,
+body.past-hero .jellyfish-field .jellyfish__tentacle,
+body.past-hero .coastal-silhouette .lighthouse__beam,
+body.past-hero .coastal-silhouette .palm__trunk,
+body.past-hero .coastal-silhouette .palm__leaf,
+body.past-hero .nav-wrapper::after {
+  animation-play-state: paused !important;
+}
+
+body.past-hero .wave-divider::before,
+body.past-hero .wave-divider::after {
+  animation-play-state: paused !important;
+}
+
 .background-canvas {
   position: fixed;
   inset: 0;
