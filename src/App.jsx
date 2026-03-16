@@ -482,12 +482,20 @@ function Portfolio() {
     let lastPastHero = false
     let cachedMaxScroll = 0
     let lastScrollHeight = 0
-    const SCROLL_PROGRESS_THROTTLE_MS = 200
-    const PROGRESS_STEPS = 15
+    const SCROLL_PROGRESS_THROTTLE_MS = 120
+    const PROGRESS_STEPS = 10
+    const SCROLL_RUN_MIN_INTERVAL_MS = 90
 
     const updateScrollProgress = () => {
+      const now = Date.now()
       const vh = window.innerHeight
       const scrollY = window.scrollY
+      const pastHero = scrollY > 0.8 * vh
+      const recentRun = now - lastCssVarUpdate < SCROLL_RUN_MIN_INTERVAL_MS
+      if (recentRun && pastHero === lastPastHero && lastRoundedProgress >= 0) {
+        ticking = false
+        return
+      }
       const needRefresh = lastScrollHeight === 0 || scrollY > cachedMaxScroll * 0.95
       if (needRefresh) {
         const sh = document.body.scrollHeight
@@ -497,15 +505,15 @@ function Portfolio() {
         }
       }
       const progress = cachedMaxScroll > 0 ? Math.min(scrollY / cachedMaxScroll, 1) : 0
-      const pastHero = scrollY > 0.8 * vh
       if (pastHero !== lastPastHero) {
         lastPastHero = pastHero
         if (pastHero) document.body.classList.add('past-hero')
         else document.body.classList.remove('past-hero')
       }
-      const now = Date.now()
       const rounded = Math.round(progress * PROGRESS_STEPS) / PROGRESS_STEPS
-      if (now - lastCssVarUpdate >= SCROLL_PROGRESS_THROTTLE_MS || rounded !== lastRoundedProgress) {
+      const throttleElapsed = now - lastCssVarUpdate >= SCROLL_PROGRESS_THROTTLE_MS
+      const progressChanged = rounded !== lastRoundedProgress
+      if (throttleElapsed || progressChanged) {
         lastCssVarUpdate = now
         lastRoundedProgress = rounded
         document.documentElement.style.setProperty('--scroll-progress', String(rounded))
