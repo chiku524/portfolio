@@ -410,7 +410,11 @@ body[data-depth='trench'] .ocean-bg__svg {
   opacity: 0.38;
 }
 
-/* Keep all ocean-bg animations running when scrolled (no pause) so the scene stays dynamic */
+/* Pause all ocean-bg animations when scrolled past hero to reduce scroll lag */
+body.past-hero .ocean-bg,
+body.past-hero .ocean-bg * {
+  animation-play-state: paused !important;
+}
 
 /* Reduced motion: hide animated creatures, keep layout intact */
 @media (prefers-reduced-motion: reduce) {

@@ -106,35 +106,39 @@ function Portfolio() {
     } catch {}
   }, [])
 
+  // Lazy-load Calendly script only when contact section is in view to reduce initial load and main-thread work
   useEffect(() => {
-    try {
-      if (typeof document === 'undefined' || !document.body) {
-        return
-      }
-      
-      const existingScript = document.querySelector('script[data-calendly]')
-      if (!existingScript) {
-        const script = document.createElement('script')
-        script.src = 'https://assets.calendly.com/assets/external/widget.js'
-        script.async = true
-        script.dataset.calendly = 'true'
-        script.onerror = () => {
-          console.warn('Failed to load Calendly script')
-        }
-        document.body.appendChild(script)
-        return () => {
-          try {
-            if (document.body && script.parentNode) {
-              document.body.removeChild(script)
-            }
-          } catch (error) {
-            console.warn('Error removing Calendly script:', error)
-          }
-        }
-      }
-    } catch (error) {
-      console.warn('Calendly script loading error:', error)
+    if (typeof document === 'undefined' || !document.body) return
+    if (document.querySelector('script[data-calendly]')) return
+
+    let observer = null
+    const loadCalendly = () => {
+      const existing = document.querySelector('script[data-calendly]')
+      if (existing) return
+      const script = document.createElement('script')
+      script.src = 'https://assets.calendly.com/assets/external/widget.js'
+      script.async = true
+      script.dataset.calendly = 'true'
+      script.onerror = () => console.warn('Failed to load Calendly script')
+      document.body.appendChild(script)
     }
+
+    const contactEl = document.getElementById('contact')
+    if (!contactEl) {
+      loadCalendly()
+      return
+    }
+    observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          loadCalendly()
+          observer?.disconnect()
+        }
+      },
+      { rootMargin: '120px 0px', threshold: 0 },
+    )
+    observer.observe(contactEl)
+    return () => observer?.disconnect()
   }, [])
 
   useEffect(() => {
@@ -883,8 +887,8 @@ function Portfolio() {
 
     let lastDepth = sections[0]?.dataset.depth || 'surface'
     document.body.dataset.depth = lastDepth
-    let lastDepthUpdateTime = 0
-    const DEPTH_UPDATE_THROTTLE_MS = 400
+    let depthDebounceId = null
+    const DEPTH_DEBOUNCE_MS = 280
 
     if (typeof IntersectionObserver === 'undefined') {
       return () => {
@@ -905,11 +909,12 @@ function Portfolio() {
             }
           }
           if (!best || best === lastDepth) return
-          const now = Date.now()
-          if (now - lastDepthUpdateTime < DEPTH_UPDATE_THROTTLE_MS) return
-          lastDepthUpdateTime = now
           lastDepth = best
-          document.body.dataset.depth = lastDepth
+          if (depthDebounceId) clearTimeout(depthDebounceId)
+          depthDebounceId = setTimeout(() => {
+            depthDebounceId = null
+            document.body.dataset.depth = lastDepth
+          }, DEPTH_DEBOUNCE_MS)
         },
         { threshold: [0.25, 0.55, 0.85] },
       )
@@ -917,6 +922,7 @@ function Portfolio() {
       sections.forEach((section) => observer.observe(section))
 
       return () => {
+        if (depthDebounceId) clearTimeout(depthDebounceId)
         observer.disconnect()
         delete document.body.dataset.depth
       }
@@ -1002,10 +1008,12 @@ function Portfolio() {
 
   const oceanLayers = (
     <>
-      <div className="ocean-orbs" aria-hidden="true">
-        <span /><span /><span /><span /><span />
-      </div>
-      <OceanBackground />
+      {!perfMode && (
+        <div className="ocean-orbs" aria-hidden="true">
+          <span /><span /><span /><span /><span />
+        </div>
+      )}
+      {!perfMode && <OceanBackground />}
       <div className="depth-overlay" aria-hidden="true" />
     </>
   )
