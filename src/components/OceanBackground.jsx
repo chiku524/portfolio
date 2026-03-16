@@ -32,13 +32,13 @@ function WaveClusterSVG() {
           <stop offset="1" stopColor="rgba(8, 47, 73, 0)" />
         </linearGradient>
         <filter id="ocean-bg-wave-blur-far" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
         </filter>
         <filter id="ocean-bg-wave-blur-mid" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
         </filter>
         <filter id="ocean-bg-wave-blur-near" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
         </filter>
       </defs>
       {/* Far layer */}

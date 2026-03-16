@@ -1,4 +1,4 @@
-/* Ocean background: SVG creatures — subtle, non-congesting, noticeable */
+/* Ocean background: SVG creatures — subtle, non-congesting, noticeable. Optimized for smooth 60fps. */
 
 .ocean-bg {
   position: fixed;
@@ -7,20 +7,21 @@
   pointer-events: none;
   mix-blend-mode: screen;
   overflow: hidden;
+  contain: layout style paint;
+  transform: translateZ(0);
 }
 
 .ocean-bg__creature {
   position: absolute;
-  will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+  contain: layout style;
 }
 
 .ocean-bg__svg {
   display: block;
   opacity: 0.28;
   transition: opacity 0.8s ease;
-  filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.15));
 }
 
 .ocean-bg__svg--jelly {
@@ -53,6 +54,7 @@
   height: clamp(160px, 22vh, 240px);
   overflow: hidden;
   mix-blend-mode: screen;
+  contain: layout style paint;
 }
 
 .ocean-bg__waves-svg {

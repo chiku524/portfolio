@@ -377,7 +377,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   margin: 0 auto;
 }
 
-/* Scroll Progress Indicator */
+/* Scroll Progress Indicator - transform-based bar for compositor-only updates */
 .scroll-progress {
   position: fixed;
   top: 0;
@@ -387,11 +387,14 @@ body[data-depth='trench'] .nav-wrapper::after {
   z-index: 21;
   background: rgba(2, 6, 23, 0.3);
   pointer-events: none;
+  contain: layout style paint;
 }
 
 .scroll-progress__bar {
   height: 100%;
-  width: calc(var(--scroll-progress) * 100%);
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(var(--scroll-progress));
   background: linear-gradient(90deg, rgba(18, 246, 255, 0.8), rgba(255, 144, 111, 0.8));
   box-shadow: 0 0 8px rgba(18, 246, 255, 0.5);
   contain: paint;

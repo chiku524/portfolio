@@ -477,7 +477,8 @@ function Portfolio() {
     let lastPastHero = false
     let cachedMaxScroll = 0
     let lastScrollHeight = 0
-    const SCROLL_PROGRESS_THROTTLE_MS = 120
+    const SCROLL_PROGRESS_THROTTLE_MS = 150
+    const PROGRESS_STEPS = 20
 
     const updateScrollProgress = () => {
       const vh = window.innerHeight
@@ -491,8 +492,14 @@ function Portfolio() {
         }
       }
       const progress = cachedMaxScroll > 0 ? Math.min(scrollY / cachedMaxScroll, 1) : 0
+      const pastHero = scrollY > 0.8 * vh
+      if (pastHero !== lastPastHero) {
+        lastPastHero = pastHero
+        if (pastHero) document.body.classList.add('past-hero')
+        else document.body.classList.remove('past-hero')
+      }
       const now = Date.now()
-      const rounded = Math.round(progress * 25) / 25
+      const rounded = Math.round(progress * PROGRESS_STEPS) / PROGRESS_STEPS
       if (now - lastCssVarUpdate >= SCROLL_PROGRESS_THROTTLE_MS || rounded !== lastRoundedProgress) {
         lastCssVarUpdate = now
         lastRoundedProgress = rounded
@@ -501,12 +508,6 @@ function Portfolio() {
         if (roundedPercent !== Number(container.getAttribute('aria-valuenow'))) {
           container.setAttribute('aria-valuenow', roundedPercent)
         }
-      }
-      const pastHero = scrollY > 0.8 * vh
-      if (pastHero !== lastPastHero) {
-        lastPastHero = pastHero
-        if (pastHero) document.body.classList.add('past-hero')
-        else document.body.classList.remove('past-hero')
       }
       ticking = false
     }
@@ -1001,6 +1002,11 @@ function Portfolio() {
   try {
     return (
       <div className="app">
+        {/* Ocean background always visible (SVG + CSS, lightweight); heavy decorations only when user enables full experience */}
+        <div className="ocean-orbs" aria-hidden="true">
+          <span /><span /><span /><span /><span />
+        </div>
+        <OceanBackground />
         {!perfMode && (
           <>
             {!deferHeavyDecorations && (
@@ -1012,10 +1018,6 @@ function Portfolio() {
                 </div>
               </>
             )}
-            <div className="ocean-orbs" aria-hidden="true">
-              <span /><span /><span /><span /><span />
-            </div>
-            <OceanBackground />
           </>
         )}
         <div className="depth-overlay" aria-hidden="true" />
@@ -1465,6 +1467,7 @@ function Portfolio() {
                       name="name"
                       type="text"
                       placeholder="Avery Finley"
+                      autoComplete="name"
                       required
                       aria-invalid={formErrors.name ? 'true' : 'false'}
                       aria-describedby={formErrors.name ? 'name-error' : undefined}
@@ -1482,6 +1485,7 @@ function Portfolio() {
                       name="email"
                       type="email"
                       placeholder="you@crew.xyz"
+                      autoComplete="email"
                       required
                       aria-invalid={formErrors.email ? 'true' : 'false'}
                       aria-describedby={formErrors.email ? 'email-error' : undefined}
@@ -1494,7 +1498,7 @@ function Portfolio() {
                   </div>
                   <div className="form-field">
                     <label htmlFor="topic">Mission type</label>
-                    <select id="topic" name="topic" defaultValue="collab">
+                    <select id="topic" name="topic" defaultValue="collab" autoComplete="off">
                       <option value="collab">Product or feature sprint</option>
                       <option value="consult">Consulting / advisory</option>
                       <option value="content">Content & media wave</option>
@@ -1509,6 +1513,7 @@ function Portfolio() {
                       name="message"
                       placeholder="What waters are we charting together?"
                       rows={4}
+                      autoComplete="off"
                       required
                       aria-invalid={formErrors.message ? 'true' : 'false'}
                       aria-describedby={formErrors.message ? 'message-error' : undefined}
