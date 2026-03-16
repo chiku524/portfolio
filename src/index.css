@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
-
-/* Font-display optimization handled by Google Fonts API with display=swap parameter */
+/* Fonts loaded async via index.html link (media=print onload) to avoid blocking paint */
 
 :root {
-  --font-heading: 'Comfortaa', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-body: 'Comfortaa', 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Comfortaa', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Comfortaa', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-accent: 'Comfortaa', system-ui, sans-serif;
   font-family: var(--font-body);
   line-height: 1.6;
@@ -39,6 +37,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: none;
   -webkit-overflow-scrolling: touch;
   scroll-padding-top: calc(var(--nav-height) + 1rem);
 }

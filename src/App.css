@@ -68,6 +68,27 @@ button {
   z-index: 1;
 }
 
+/* Performance mode: lightweight experience by default (no canvas, trails, ocean animations) */
+body.perf-mode .depth-overlay {
+  opacity: 0.35;
+  background: radial-gradient(circle at 50% 40%, rgba(56, 189, 248, 0.25), transparent 65%);
+}
+
+.footer__perf-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer__perf-toggle:hover {
+  color: var(--accent-soft);
+}
+
 .background-canvas {
   position: fixed;
   inset: 0;

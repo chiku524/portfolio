@@ -59,6 +59,31 @@ function Portfolio() {
   const [formErrors, setFormErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
+  const [perfMode, setPerfMode] = useState(() => {
+    try {
+      if (typeof sessionStorage === 'undefined') return true
+      return sessionStorage.getItem('portfolio-full-animations') !== '1'
+    } catch {
+      return true
+    }
+  })
+
+  useEffect(() => {
+    if (typeof document === 'undefined' || !document.body) return
+    if (perfMode) {
+      document.body.classList.add('perf-mode')
+    } else {
+      document.body.classList.remove('perf-mode')
+    }
+    return () => document.body.classList.remove('perf-mode')
+  }, [perfMode])
+
+  const enableFullAnimations = useCallback(() => {
+    try {
+      sessionStorage.setItem('portfolio-full-animations', '1')
+      setPerfMode(false)
+    } catch {}
+  }, [])
 
   useEffect(() => {
     try {
@@ -791,6 +816,7 @@ function Portfolio() {
   }, [ensureVideoLoaded, proofOfWork])
 
   useEffect(() => {
+    if (perfMode) return
     const sections = Array.from(document.querySelectorAll('[data-depth]'))
     if (!sections.length) return
 
@@ -841,270 +867,7 @@ function Portfolio() {
         delete document.body.dataset.depth
       }
     }
-  }, [])
-
-  useEffect(() => {
-    const snappables = Array.from(document.querySelectorAll('[data-snappable="true"]'))
-      .filter(el => !el.classList.contains('section--contact')) // Exclude contact section from scroll snapping
-    if (!snappables.length) return
-
-    const contactSection = document.querySelector('.section--contact')
-
-    // Disable scroll snapping entirely on touch devices (mobile)
-    let isTouchDevice = false
-    try {
-      if (window.matchMedia) {
-        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-      }
-    } catch (error) {
-      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-    }
-    
-    if (isTouchDevice) return
-
-    let isAnimating = false
-    let scrollTimeout = null
-    let lastScrollTime = 0
-    let scrollVelocity = 0
-    let cachedActive = snappables[0]
-    let lastScrollYForActive = window.scrollY
-    let lastClosestSectionTime = 0
-    const SCROLL_Y_THRESHOLD = 25
-    const LAYOUT_THROTTLE_MS = 50
-    let lastScrollableTarget = null
-    let lastHadScrollableParent = false
-    let lastScrollYForContact = window.scrollY
-    let lastInContactSection = false
-
-    const composedPath = (event) => {
-      if (typeof event.composedPath === 'function') return event.composedPath()
-      const path = []
-      let target = event.target
-      while (target) {
-        path.push(target)
-        target = target.parentNode
-      }
-      path.push(window)
-      return path
-    }
-
-    // Use viewport intersection: section with largest visible area is "active"
-    const getClosestSection = () => {
-      const vh = window.innerHeight
-      let best = snappables[0]
-      let bestArea = 0
-
-      snappables.forEach((section) => {
-        const rect = section.getBoundingClientRect()
-        const visibleTop = Math.max(0, rect.top)
-        const visibleBottom = Math.min(vh, rect.bottom)
-        const visibleHeight = Math.max(0, visibleBottom - visibleTop)
-        const area = visibleHeight * Math.min(rect.width, window.innerWidth)
-        if (area > bestArea) {
-          bestArea = area
-          best = section
-        }
-      })
-      return best
-    }
-
-    const getActiveSection = () => {
-      const scrollY = window.scrollY
-      const now = Date.now()
-      const scrollMoved = Math.abs(scrollY - lastScrollYForActive) > SCROLL_Y_THRESHOLD
-      const throttleExpired = now - lastClosestSectionTime >= LAYOUT_THROTTLE_MS
-      if (!scrollMoved && !throttleExpired) return cachedActive
-      if (scrollMoved) lastScrollYForActive = scrollY
-      if (scrollMoved || throttleExpired) {
-        lastClosestSectionTime = now
-        cachedActive = getClosestSection()
-      }
-      return cachedActive
-    }
-
-    const hasScrollableParent = (event) => {
-      const path = composedPath(event)
-      for (const node of path) {
-        if (!(node instanceof HTMLElement)) continue
-        if (node.dataset.snapLock === 'false') return true
-        const style = window.getComputedStyle(node)
-        const overflowY = style.overflowY
-        const canScroll = (overflowY === 'auto' || overflowY === 'scroll') && node.scrollHeight > node.clientHeight + 1
-        if (canScroll) {
-          const atTop = node.scrollTop <= 0
-          const atBottom = node.scrollTop + node.clientHeight >= node.scrollHeight - 1
-          if ((event.deltaY < 0 && !atTop) || (event.deltaY > 0 && !atBottom)) return true
-        }
-        if (node === document.body) break
-      }
-      return false
-    }
-
-    const scrollToIndex = (targetIndex, immediate = false) => {
-      const clampedIndex = Math.max(0, Math.min(targetIndex, snappables.length - 1))
-      const target = snappables[clampedIndex]
-      if (!target) return
-      isAnimating = true
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      setTimeout(() => { isAnimating = false }, immediate ? 800 : 700)
-    }
-
-    // Content hidden above or below viewport (simplified math)
-    const canScrollWithinSection = (section, direction) => {
-      const rect = section.getBoundingClientRect()
-      const vh = window.innerHeight
-      const hiddenAbove = rect.top < 0 ? -rect.top : 0
-      const hiddenBelow = rect.bottom > vh ? rect.bottom - vh : 0
-      const threshold = 100
-      return direction > 0 ? hiddenBelow > threshold : hiddenAbove > threshold
-    }
-
-    const handleWheel = (event) => {
-      // Ignore small scroll movements
-      if (Math.abs(event.deltaY) < 15) return
-      
-      // Always allow normal scrolling in contact section (cache result while scroll position similar)
-      if (contactSection) {
-        const scrollY = window.scrollY
-        if (Math.abs(scrollY - lastScrollYForContact) > SCROLL_Y_THRESHOLD) {
-          lastScrollYForContact = scrollY
-          const contactRect = contactSection.getBoundingClientRect()
-          lastInContactSection = contactRect.top < window.innerHeight && contactRect.bottom > 0
-        }
-        if (lastInContactSection) {
-          if (scrollTimeout) {
-            clearTimeout(scrollTimeout)
-            scrollTimeout = null
-          }
-          return
-        }
-      }
-      
-      // Don't interfere with scrollable parents (cache by target to avoid getComputedStyle every wheel)
-      if (event.target !== lastScrollableTarget) {
-        lastScrollableTarget = event.target
-        lastHadScrollableParent = hasScrollableParent(event)
-      }
-      if (lastHadScrollableParent) return
-      
-      // Prevent default only during animation
-      if (isAnimating) {
-        event.preventDefault()
-        return
-      }
-      
-      const active = getActiveSection()
-      const currentIndex = snappables.indexOf(active)
-      if (currentIndex === -1) return
-      
-      const scrollDirection = event.deltaY > 0 ? 1 : -1
-      const canScroll = canScrollWithinSection(active, scrollDirection)
-      
-      // Allow normal scrolling if there's content to scroll within the section
-      if (canScroll) {
-        // Clear any pending snap
-        if (scrollTimeout) {
-          clearTimeout(scrollTimeout)
-          scrollTimeout = null
-        }
-        return
-      }
-      
-      // Special case: last section scrolling down - allow normal scroll to footer
-      if (scrollDirection > 0 && currentIndex === snappables.length - 1) {
-        const documentHeight = document.documentElement.scrollHeight
-        const currentScrollBottom = window.scrollY + window.innerHeight
-        const distanceToBottom = documentHeight - currentScrollBottom
-        if (distanceToBottom > 50) {
-          if (scrollTimeout) {
-            clearTimeout(scrollTimeout)
-            scrollTimeout = null
-          }
-          return
-        }
-      }
-      
-      // Track scroll velocity for smoother snapping
-      const now = Date.now()
-      const timeDelta = now - lastScrollTime
-      lastScrollTime = now
-      
-      if (timeDelta < 100) {
-        scrollVelocity += scrollDirection
-      } else {
-        scrollVelocity = scrollDirection
-      }
-      
-      // Clamp velocity
-      scrollVelocity = Math.max(-5, Math.min(5, scrollVelocity))
-      
-      // Clear existing timeout
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout)
-      }
-      
-      // Prevent default to prepare for snap
-      event.preventDefault()
-      
-      // Debounce: snap after scrolling stops
-      scrollTimeout = setTimeout(() => {
-        if (isAnimating) {
-          scrollTimeout = null
-          return
-        }
-        
-        // Determine target based on scroll direction
-        const targetIndex = scrollVelocity > 0 
-          ? Math.min(currentIndex + 1, snappables.length - 1)
-          : Math.max(currentIndex - 1, 0)
-        
-        if (targetIndex !== currentIndex) {
-          scrollToIndex(targetIndex)
-        }
-        
-        scrollVelocity = 0
-        scrollTimeout = null
-      }, 120) // Reduced delay for more responsive feel
-    }
-
-    const handleKeydown = (event) => {
-      const forwardKeys = ['ArrowDown', 'PageDown', 'Space']
-      const backwardKeys = ['ArrowUp', 'PageUp']
-      if (!forwardKeys.includes(event.code) && !backwardKeys.includes(event.code)) return
-      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || event.target instanceof HTMLSelectElement) {
-        return
-      }
-      
-      event.preventDefault()
-      
-      if (isAnimating) return
-      
-      const active = getActiveSection()
-      const currentIndex = snappables.indexOf(active)
-      if (currentIndex === -1) return
-
-      let delta = forwardKeys.includes(event.code) ? 1 : -1
-      if (event.code === 'Space' && event.shiftKey) {
-        delta = -1
-      }
-      
-      const targetIndex = Math.max(0, Math.min(currentIndex + delta, snappables.length - 1))
-      if (targetIndex !== currentIndex) {
-        scrollToIndex(targetIndex, true)
-      }
-    }
-
-    window.addEventListener('wheel', handleWheel, { passive: false })
-    window.addEventListener('keydown', handleKeydown, { passive: false })
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel)
-      window.removeEventListener('keydown', handleKeydown)
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout)
-      }
-    }
-  }, [])
+  }, [perfMode])
 
   useEffect(() => {
     const audioEl = audioRef.current
@@ -1143,98 +906,94 @@ function Portfolio() {
   try {
     return (
       <div className="app">
-        <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
+        {!perfMode && (
+          <>
+            <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
+            <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
+            <div ref={trailRef} className="cursor-trail" aria-hidden="true">
+              <canvas ref={trailCanvasRef} className="cursor-trail__canvas" />
+            </div>
+            <div className="wave-cluster" aria-hidden="true">
+              <span className="wave wave--far" />
+              <span className="wave wave--mid" />
+              <span className="wave wave--near" />
+            </div>
+            <div className="ocean-kelp ocean-kelp--left" aria-hidden="true">
+              <span /><span /><span />
+            </div>
+            <div className="ocean-kelp ocean-kelp--right" aria-hidden="true">
+              <span /><span /><span />
+            </div>
+            <div className="ocean-orbs" aria-hidden="true">
+              <span /><span /><span /><span /><span />
+            </div>
+            <div className="sea-turtle" aria-hidden="true">
+              <span className="turtle-shell" />
+              <span className="turtle-head" />
+              <span className="turtle-fin turtle-fin--front-left" />
+              <span className="turtle-fin turtle-fin--front-right" />
+              <span className="turtle-fin turtle-fin--back-left" />
+              <span className="turtle-fin turtle-fin--back-right" />
+            </div>
+            <div className="manta-ray" aria-hidden="true">
+              <span className="manta-body" />
+              <span className="manta-tail" />
+            </div>
+            <div className="jellyfish-field" aria-hidden="true">
+              <div className="jellyfish jellyfish--one">
+                <span className="jellyfish__body" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--one" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--two" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--three" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--four" />
+              </div>
+              <div className="jellyfish jellyfish--two">
+                <span className="jellyfish__body" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--one" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--two" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--three" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--four" />
+              </div>
+              <div className="jellyfish jellyfish--three">
+                <span className="jellyfish__body" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--one" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--two" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--three" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--four" />
+              </div>
+              <div className="jellyfish jellyfish--mini">
+                <span className="jellyfish__body" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--one" />
+                <span className="jellyfish__tentacle jellyfish__tentacle--three" />
+              </div>
+            </div>
+            <div className="coastal-silhouette" aria-hidden="true">
+              <span className="coastline" />
+              <span className="lighthouse">
+                <span className="lighthouse__tower" />
+                <span className="lighthouse__cap" />
+                <span className="lighthouse__light">
+                  <span className="lighthouse__beam lighthouse__beam--left" />
+                  <span className="lighthouse__beam lighthouse__beam--right" />
+                </span>
+              </span>
+              <span className="palm palm--left">
+                <span className="palm__trunk" />
+                <span className="palm__leaf palm__leaf--one" />
+                <span className="palm__leaf palm__leaf--two" />
+                <span className="palm__leaf palm__leaf--three" />
+              </span>
+              <span className="palm palm--right">
+                <span className="palm__trunk" />
+                <span className="palm__leaf palm__leaf--one" />
+                <span className="palm__leaf palm__leaf--two" />
+                <span className="palm__leaf palm__leaf--three" />
+              </span>
+            </div>
+          </>
+        )}
         <div className="depth-overlay" aria-hidden="true" />
-        <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
-        <div ref={trailRef} className="cursor-trail" aria-hidden="true">
-        <canvas ref={trailCanvasRef} className="cursor-trail__canvas" />
-      </div>
-      <div className="wave-cluster" aria-hidden="true">
-        <span className="wave wave--far" />
-        <span className="wave wave--mid" />
-        <span className="wave wave--near" />
-      </div>
-      <div className="ocean-kelp ocean-kelp--left" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </div>
-      <div className="ocean-kelp ocean-kelp--right" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-      </div>
-      <div className="ocean-orbs" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-        <span />
-        <span />
-      </div>
-      <div className="sea-turtle" aria-hidden="true">
-        <span className="turtle-shell" />
-        <span className="turtle-head" />
-        <span className="turtle-fin turtle-fin--front-left" />
-        <span className="turtle-fin turtle-fin--front-right" />
-        <span className="turtle-fin turtle-fin--back-left" />
-        <span className="turtle-fin turtle-fin--back-right" />
-      </div>
-      <div className="manta-ray" aria-hidden="true">
-        <span className="manta-body" />
-        <span className="manta-tail" />
-      </div>
-      <div className="jellyfish-field" aria-hidden="true">
-        <div className="jellyfish jellyfish--one">
-          <span className="jellyfish__body" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--one" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--two" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--three" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--four" />
-        </div>
-        <div className="jellyfish jellyfish--two">
-          <span className="jellyfish__body" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--one" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--two" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--three" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--four" />
-        </div>
-        <div className="jellyfish jellyfish--three">
-          <span className="jellyfish__body" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--one" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--two" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--three" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--four" />
-        </div>
-        <div className="jellyfish jellyfish--mini">
-          <span className="jellyfish__body" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--one" />
-          <span className="jellyfish__tentacle jellyfish__tentacle--three" />
-        </div>
-      </div>
-      <div className="coastal-silhouette" aria-hidden="true">
-        <span className="coastline" />
-        <span className="lighthouse">
-          <span className="lighthouse__tower" />
-          <span className="lighthouse__cap" />
-          <span className="lighthouse__light">
-            <span className="lighthouse__beam lighthouse__beam--left" />
-            <span className="lighthouse__beam lighthouse__beam--right" />
-          </span>
-        </span>
-        <span className="palm palm--left">
-          <span className="palm__trunk" />
-          <span className="palm__leaf palm__leaf--one" />
-          <span className="palm__leaf palm__leaf--two" />
-          <span className="palm__leaf palm__leaf--three" />
-        </span>
-        <span className="palm palm--right">
-          <span className="palm__trunk" />
-          <span className="palm__leaf palm__leaf--one" />
-          <span className="palm__leaf palm__leaf--two" />
-          <span className="palm__leaf palm__leaf--three" />
-        </span>
-      </div>
-      <div className="app__content">
+        <div className="app__content">
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>
@@ -1333,35 +1092,36 @@ function Portfolio() {
         </header>
 
         <header className="hero" id="top" data-snappable="true" data-depth="surface">
-          <div className="hero__aurora hero__aurora--one" />
-          <div className="hero__aurora hero__aurora--two" />
-          <div className="hero__aurora hero__aurora--three" />
-          <div className="hero__ripples hero__ripples--one" />
-          <div className="hero__ripples hero__ripples--two" />
-          <div className="hero__spray" aria-hidden="true">
-            <span className="hero__spray-line hero__spray-line--one" />
-            <span className="hero__spray-line hero__spray-line--two" />
-            <span className="hero__spray-line hero__spray-line--three" />
-          </div>
-          <div className="hero__sparkles" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="hero__bubbles" aria-hidden="true">
-            <span className="hero__bubble hero__bubble--one" />
-            <span className="hero__bubble hero__bubble--two" />
-            <span className="hero__bubble hero__bubble--three" />
-          </div>
-          <div className="hero__fish-squad" aria-hidden="true">
-            <div className="fish fish--one" />
-            <div className="fish fish--two" />
-            <div className="fish fish--three" />
-            <div className="fish fish--four" />
-            <div className="fish fish--five" />
-            <div className="fish fish--six" />
-          </div>
+          {!perfMode && (
+            <>
+              <div className="hero__aurora hero__aurora--one" />
+              <div className="hero__aurora hero__aurora--two" />
+              <div className="hero__aurora hero__aurora--three" />
+              <div className="hero__ripples hero__ripples--one" />
+              <div className="hero__ripples hero__ripples--two" />
+              <div className="hero__spray" aria-hidden="true">
+                <span className="hero__spray-line hero__spray-line--one" />
+                <span className="hero__spray-line hero__spray-line--two" />
+                <span className="hero__spray-line hero__spray-line--three" />
+              </div>
+              <div className="hero__sparkles" aria-hidden="true">
+                <span /><span /><span /><span />
+              </div>
+              <div className="hero__bubbles" aria-hidden="true">
+                <span className="hero__bubble hero__bubble--one" />
+                <span className="hero__bubble hero__bubble--two" />
+                <span className="hero__bubble hero__bubble--three" />
+              </div>
+              <div className="hero__fish-squad" aria-hidden="true">
+                <div className="fish fish--one" />
+                <div className="fish fish--two" />
+                <div className="fish fish--three" />
+                <div className="fish fish--four" />
+                <div className="fish fish--five" />
+                <div className="fish fish--six" />
+              </div>
+            </>
+          )}
           <div className="hero__inner page-shell">
             <div className="hero__content reveal">
               <div className="hero__eyebrow">
@@ -1815,6 +1575,14 @@ function Portfolio() {
               <Link to="/terms-of-service">Terms</Link>
               {' · '}
               <Link to="/privacy-policy">Privacy</Link>
+              {perfMode && (
+                <>
+                  {' · '}
+                  <button type="button" className="footer__perf-toggle" onClick={enableFullAnimations}>
+                    Enable full experience
+                  </button>
+                </>
+              )}
             </span>
           </div>
         </footer>
