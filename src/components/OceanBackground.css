@@ -14,6 +14,12 @@
   overflow: hidden;
   contain: paint;
   transform: translateZ(0);
+  animation: oceanBgAmbient 24s ease-in-out infinite;
+}
+
+@keyframes oceanBgAmbient {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.97; }
 }
 
 .ocean-bg__creature {
@@ -77,29 +83,30 @@
 }
 
 .ocean-bg__wave--far {
-  animation: oceanBgWaveFlow 44s linear infinite;
-  opacity: 0.9;
+  animation: oceanBgWaveFlow 44s linear infinite, oceanBgWavePulse 12s ease-in-out infinite;
+  opacity: 0.88;
 }
 
 .ocean-bg__wave--mid {
-  animation: oceanBgWaveFlow 34s linear infinite;
-  animation-delay: -8s;
-  opacity: 0.95;
+  animation: oceanBgWaveFlow 34s linear infinite, oceanBgWavePulse 14s ease-in-out infinite 1s;
+  animation-delay: 0s, 1s;
+  opacity: 0.92;
 }
 
 .ocean-bg__wave--near {
-  animation: oceanBgWaveFlow 26s linear infinite;
-  animation-delay: -4s;
-  opacity: 1;
+  animation: oceanBgWaveFlow 26s linear infinite, oceanBgWavePulse 10s ease-in-out infinite 0.5s;
+  animation-delay: 0s, 0.5s;
+  opacity: 0.98;
 }
 
 @keyframes oceanBgWaveFlow {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(33.333%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(33.333%); }
+}
+
+@keyframes oceanBgWavePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.82; }
 }
 
 /* ----- Kelp: left and right fronds ----- */
@@ -195,11 +202,11 @@
   }
 }
 
-/* ----- Sea turtle: position and swim ----- */
+/* ----- Sea turtle: position and swim (varied duration for dynamism) ----- */
 .ocean-bg__turtle {
   left: 14vw;
   bottom: 26vh;
-  animation: oceanBgTurtleSwim 40s ease-in-out infinite;
+  animation: oceanBgTurtleSwim 38s ease-in-out infinite;
 }
 
 .ocean-bg__turtle-fin {
@@ -401,24 +408,7 @@ body[data-depth='trench'] .ocean-bg__svg {
   opacity: 0.38;
 }
 
-/* Pause all ocean-bg animations when scrolled past hero */
-body.past-hero .ocean-bg__waves .ocean-bg__wave,
-body.past-hero .ocean-bg__kelp-stem,
-body.past-hero .ocean-bg__turtle,
-body.past-hero .ocean-bg__jellyfish--1,
-body.past-hero .ocean-bg__jellyfish--2,
-body.past-hero .ocean-bg__manta,
-body.past-hero .ocean-bg__seahorse--1,
-body.past-hero .ocean-bg__seahorse--2 {
-  animation-play-state: paused !important;
-}
-
-body.past-hero .ocean-bg-jelly-body,
-body.past-hero .ocean-bg-tentacle,
-body.past-hero .ocean-bg-manta-tail,
-body.past-hero .ocean-bg__turtle-fin {
-  animation-play-state: paused !important;
-}
+/* Keep all ocean-bg animations running when scrolled (no pause) so the scene stays dynamic */
 
 /* Reduced motion: hide animated creatures, keep layout intact */
 @media (prefers-reduced-motion: reduce) {
