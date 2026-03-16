@@ -39,6 +39,7 @@ import NotionAuthResult from './pages/NotionAuthResult'
 import TheBlockchainCircus from './pages/TheBlockchainCircus'
 import TikTokCallback from './pages/TikTokCallback'
 import GitHubActivityChart from './components/GitHubActivityChart'
+import OceanBackground from './components/OceanBackground'
 
 function Portfolio() {
   useSeo({
@@ -1011,83 +1012,10 @@ function Portfolio() {
                 </div>
               </>
             )}
-            <div className="wave-cluster" aria-hidden="true">
-              <span className="wave wave--far" />
-              <span className="wave wave--mid" />
-              <span className="wave wave--near" />
-            </div>
-            <div className="ocean-kelp ocean-kelp--left" aria-hidden="true">
-              <span /><span /><span />
-            </div>
-            <div className="ocean-kelp ocean-kelp--right" aria-hidden="true">
-              <span /><span /><span />
-            </div>
             <div className="ocean-orbs" aria-hidden="true">
               <span /><span /><span /><span /><span />
             </div>
-            <div className="sea-turtle" aria-hidden="true">
-              <span className="turtle-shell" />
-              <span className="turtle-head" />
-              <span className="turtle-fin turtle-fin--front-left" />
-              <span className="turtle-fin turtle-fin--front-right" />
-              <span className="turtle-fin turtle-fin--back-left" />
-              <span className="turtle-fin turtle-fin--back-right" />
-            </div>
-            <div className="manta-ray" aria-hidden="true">
-              <span className="manta-body" />
-              <span className="manta-tail" />
-            </div>
-            <div className="jellyfish-field" aria-hidden="true">
-              <div className="jellyfish jellyfish--one">
-                <span className="jellyfish__body" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--one" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--two" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--three" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--four" />
-              </div>
-              <div className="jellyfish jellyfish--two">
-                <span className="jellyfish__body" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--one" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--two" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--three" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--four" />
-              </div>
-              <div className="jellyfish jellyfish--three">
-                <span className="jellyfish__body" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--one" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--two" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--three" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--four" />
-              </div>
-              <div className="jellyfish jellyfish--mini">
-                <span className="jellyfish__body" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--one" />
-                <span className="jellyfish__tentacle jellyfish__tentacle--three" />
-              </div>
-            </div>
-            <div className="coastal-silhouette" aria-hidden="true">
-              <span className="coastline" />
-              <span className="lighthouse">
-                <span className="lighthouse__tower" />
-                <span className="lighthouse__cap" />
-                <span className="lighthouse__light">
-                  <span className="lighthouse__beam lighthouse__beam--left" />
-                  <span className="lighthouse__beam lighthouse__beam--right" />
-                </span>
-              </span>
-              <span className="palm palm--left">
-                <span className="palm__trunk" />
-                <span className="palm__leaf palm__leaf--one" />
-                <span className="palm__leaf palm__leaf--two" />
-                <span className="palm__leaf palm__leaf--three" />
-              </span>
-              <span className="palm palm--right">
-                <span className="palm__trunk" />
-                <span className="palm__leaf palm__leaf--one" />
-                <span className="palm__leaf palm__leaf--two" />
-                <span className="palm__leaf palm__leaf--three" />
-              </span>
-            </div>
+            <OceanBackground />
           </>
         )}
         <div className="depth-overlay" aria-hidden="true" />

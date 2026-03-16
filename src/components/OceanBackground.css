@@ -1,0 +1,428 @@
+/* Ocean background: SVG creatures — subtle, non-congesting, noticeable */
+
+.ocean-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  overflow: hidden;
+}
+
+.ocean-bg__creature {
+  position: absolute;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.ocean-bg__svg {
+  display: block;
+  opacity: 0.28;
+  transition: opacity 0.8s ease;
+  filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.15));
+}
+
+.ocean-bg__svg--jelly {
+  width: clamp(56px, 7vw, 100px);
+  height: auto;
+}
+
+.ocean-bg__svg--manta {
+  width: clamp(100px, 12vw, 180px);
+  height: auto;
+}
+
+.ocean-bg__svg--seahorse {
+  width: clamp(36px, 4.5vw, 60px);
+  height: auto;
+}
+
+.ocean-bg__svg--turtle {
+  width: clamp(140px, 16vw, 220px);
+  height: auto;
+  opacity: 0.72;
+}
+
+/* ----- Waves: full-width cluster at bottom ----- */
+.ocean-bg__waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(160px, 22vh, 240px);
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+.ocean-bg__waves-svg {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.ocean-bg__wave {
+  transform-origin: center bottom;
+}
+
+.ocean-bg__wave--far {
+  animation: oceanBgWaveFlow 44s linear infinite;
+  opacity: 0.9;
+}
+
+.ocean-bg__wave--mid {
+  animation: oceanBgWaveFlow 34s linear infinite;
+  animation-delay: -8s;
+  opacity: 0.95;
+}
+
+.ocean-bg__wave--near {
+  animation: oceanBgWaveFlow 26s linear infinite;
+  animation-delay: -4s;
+  opacity: 1;
+}
+
+@keyframes oceanBgWaveFlow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(33.333%);
+  }
+}
+
+/* ----- Kelp: left and right fronds ----- */
+.ocean-bg__kelp {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: clamp(100px, 14vw, 220px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ocean-bg__kelp--left {
+  left: max(-2vw, -30px);
+}
+
+.ocean-bg__kelp--right {
+  right: max(-2vw, -30px);
+  transform: scaleX(-1);
+}
+
+.ocean-bg__kelp-stem {
+  flex: 1;
+  height: clamp(42vh, 52vh, 60vh);
+  max-height: 420px;
+  display: flex;
+  align-items: flex-end;
+  transform-origin: bottom center;
+  animation: oceanBgKelpSway 13s ease-in-out infinite;
+}
+
+.ocean-bg__kelp-stem--2 {
+  animation-duration: 15s;
+  animation-delay: -3s;
+  transform-origin: bottom right;
+}
+
+.ocean-bg__kelp-stem--3 {
+  animation-duration: 17s;
+  animation-delay: -6s;
+  transform-origin: bottom left;
+  height: clamp(36vh, 46vh, 52vh);
+}
+
+.ocean-bg__kelp-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0.6;
+}
+
+.ocean-bg__kelp-frond {
+  transform-origin: center bottom;
+}
+
+@keyframes oceanBgKelpSway {
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0);
+  }
+  50% {
+    transform: rotate(3deg) translateY(-3%);
+  }
+}
+
+.ocean-bg__kelp-stem--2 {
+  animation-name: oceanBgKelpSway2;
+}
+
+@keyframes oceanBgKelpSway2 {
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0);
+  }
+  50% {
+    transform: rotate(4deg) translateY(-2%);
+  }
+}
+
+.ocean-bg__kelp-stem--3 {
+  animation-name: oceanBgKelpSway3;
+}
+
+@keyframes oceanBgKelpSway3 {
+  0%,
+  100% {
+    transform: rotate(-1deg) translateY(0);
+  }
+  50% {
+    transform: rotate(2.5deg) translateY(-4%);
+  }
+}
+
+/* ----- Sea turtle: position and swim ----- */
+.ocean-bg__turtle {
+  left: 14vw;
+  bottom: 26vh;
+  animation: oceanBgTurtleSwim 40s ease-in-out infinite;
+}
+
+.ocean-bg__turtle-fin {
+  transform-origin: center center;
+}
+
+.ocean-bg__turtle-fin--front-left {
+  animation: oceanBgFinFlap 3.8s ease-in-out infinite;
+}
+
+.ocean-bg__turtle-fin--front-right {
+  animation: oceanBgFinFlap 3.8s ease-in-out infinite reverse;
+}
+
+.ocean-bg__turtle-fin--back-left {
+  animation: oceanBgFinFlap 4.2s ease-in-out infinite;
+}
+
+.ocean-bg__turtle-fin--back-right {
+  animation: oceanBgFinFlap 4.2s ease-in-out infinite reverse;
+}
+
+@keyframes oceanBgTurtleSwim {
+  0% {
+    transform: translate(-10vw, -2vh) rotate(2deg) scale(0.92);
+  }
+  50% {
+    transform: translate(10vw, 3vh) rotate(-2deg) scale(1);
+  }
+  100% {
+    transform: translate(-10vw, -2vh) rotate(2deg) scale(0.92);
+  }
+}
+
+@keyframes oceanBgFinFlap {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+
+/* Positions: spread out so the page doesn’t feel congested */
+.ocean-bg__jellyfish--1 {
+  left: 12%;
+  bottom: 24%;
+  animation: oceanBgDrift 42s ease-in-out infinite;
+}
+
+.ocean-bg__jellyfish--2 {
+  right: 18%;
+  bottom: 32%;
+  animation: oceanBgDrift 38s ease-in-out infinite reverse;
+  animation-delay: -12s;
+}
+
+.ocean-bg__manta {
+  right: 8%;
+  bottom: 38%;
+  animation: oceanBgDriftHorizontal 48s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+.ocean-bg__seahorse--1 {
+  left: 22%;
+  bottom: 42%;
+  animation: oceanBgSeahorseFloat 44s ease-in-out infinite;
+  animation-delay: -8s;
+}
+
+.ocean-bg__seahorse--2 {
+  right: 28%;
+  bottom: 22%;
+  transform: scaleX(-1);
+  animation: oceanBgSeahorseFloatReverse 40s ease-in-out infinite;
+  animation-delay: -20s;
+}
+
+/* Slow, gentle drift — noticeable but not distracting */
+@keyframes oceanBgDrift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(3%, -4%) scale(1.02);
+  }
+  66% {
+    transform: translate(-2%, 2%) scale(0.98);
+  }
+}
+
+@keyframes oceanBgDriftHorizontal {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-6%, 3%) scale(1.03);
+  }
+}
+
+@keyframes oceanBgSeahorseFloat {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(4%, -3%);
+  }
+}
+
+@keyframes oceanBgSeahorseFloatReverse {
+  0%,
+  100% {
+    transform: scaleX(-1) translate(0, 0);
+  }
+  50% {
+    transform: scaleX(-1) translate(-4%, 3%);
+  }
+}
+
+/* Jellyfish tentacle sway */
+.ocean-bg-jelly-body {
+  animation: oceanBgJellyPulse 5s ease-in-out infinite;
+}
+
+.ocean-bg-tentacle {
+  transform-origin: top center;
+  animation: oceanBgTentacleSway 4s ease-in-out infinite;
+}
+
+.ocean-bg-tentacle--2 {
+  animation-delay: -0.8s;
+}
+
+.ocean-bg-tentacle--3 {
+  animation-delay: -1.6s;
+}
+
+@keyframes oceanBgJellyPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scaleY(1.05);
+  }
+}
+
+@keyframes oceanBgTentacleSway {
+  0%,
+  100% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+/* Manta tail subtle motion */
+.ocean-bg-manta-tail {
+  transform-origin: top center;
+  animation: oceanBgTailSway 6s ease-in-out infinite;
+}
+
+@keyframes oceanBgTailSway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+/* Depth-based opacity: slightly more visible in “deeper” sections, still subtle */
+body[data-depth='surface'] .ocean-bg__svg {
+  opacity: 0.2;
+}
+
+body[data-depth='reef'] .ocean-bg__svg {
+  opacity: 0.26;
+}
+
+body[data-depth='mid'] .ocean-bg__svg {
+  opacity: 0.3;
+}
+
+body[data-depth='deep'] .ocean-bg__svg {
+  opacity: 0.34;
+}
+
+body[data-depth='trench'] .ocean-bg__svg {
+  opacity: 0.38;
+}
+
+/* Pause all ocean-bg animations when scrolled past hero */
+body.past-hero .ocean-bg__waves .ocean-bg__wave,
+body.past-hero .ocean-bg__kelp-stem,
+body.past-hero .ocean-bg__turtle,
+body.past-hero .ocean-bg__jellyfish--1,
+body.past-hero .ocean-bg__jellyfish--2,
+body.past-hero .ocean-bg__manta,
+body.past-hero .ocean-bg__seahorse--1,
+body.past-hero .ocean-bg__seahorse--2 {
+  animation-play-state: paused !important;
+}
+
+body.past-hero .ocean-bg-jelly-body,
+body.past-hero .ocean-bg-tentacle,
+body.past-hero .ocean-bg-manta-tail,
+body.past-hero .ocean-bg__turtle-fin {
+  animation-play-state: paused !important;
+}
+
+/* Reduced motion: hide animated creatures, keep layout intact */
+@media (prefers-reduced-motion: reduce) {
+  .ocean-bg {
+    display: none;
+  }
+}
+
+/* Touch devices: hide to avoid clutter and save resources (align with existing ocean decorations) */
+@media (hover: none) and (pointer: coarse) {
+  .ocean-bg {
+    display: none !important;
+  }
+}
