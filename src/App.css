@@ -1554,9 +1554,13 @@ body[data-depth='trench'] .nav-wrapper::after {
   transform: translateZ(0);
 }
 
-/* Only apply scroll-snap to sections that need it, exclude contact section */
+/* Scroll-snap: hero and sections (except contact) snap to start; contact allows free scroll */
 .section:not(.section--contact) {
   scroll-snap-align: start;
+}
+
+.section--contact {
+  scroll-snap-align: none;
 }
 
 .section__header {

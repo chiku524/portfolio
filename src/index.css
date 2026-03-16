@@ -37,7 +37,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: none;
+  scroll-snap-type: y proximity;
   -webkit-overflow-scrolling: touch;
   scroll-padding-top: calc(var(--nav-height) + 1rem);
 }
@@ -45,6 +45,7 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+    scroll-snap-type: none;
   }
 }
 

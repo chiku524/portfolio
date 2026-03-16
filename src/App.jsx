@@ -461,19 +461,22 @@ function Portfolio() {
     if (!container || !bar) return
 
     let ticking = false
-    let lastUpdate = 0
-    const SCROLL_PROGRESS_THROTTLE_MS = 100
+    let lastCssVarUpdate = 0
+    let lastRoundedProgress = -1
+    const SCROLL_PROGRESS_CSS_THROTTLE_MS = 250
 
     const updateScrollProgress = () => {
-      const now = Date.now()
       const maxScroll = document.body.scrollHeight - window.innerHeight
       const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0
       const progressPercent = progress * 100
       bar.style.width = `${progressPercent}%`
       container.setAttribute('aria-valuenow', Math.round(progressPercent))
-      if (now - lastUpdate >= SCROLL_PROGRESS_THROTTLE_MS) {
-        lastUpdate = now
-        document.documentElement.style.setProperty('--scroll-progress', progress.toFixed(3))
+      const now = Date.now()
+      const rounded = Math.round(progress * 50) / 50
+      if (now - lastCssVarUpdate >= SCROLL_PROGRESS_CSS_THROTTLE_MS || rounded !== lastRoundedProgress) {
+        lastCssVarUpdate = now
+        lastRoundedProgress = rounded
+        document.documentElement.style.setProperty('--scroll-progress', String(rounded))
       }
       ticking = false
     }
@@ -839,7 +842,8 @@ function Portfolio() {
 
     let lastDepth = sections[0]?.dataset.depth || 'surface'
     document.body.dataset.depth = lastDepth
-    let depthThrottleId = null
+    let lastDepthUpdateTime = 0
+    const DEPTH_UPDATE_THROTTLE_MS = 400
 
     if (typeof IntersectionObserver === 'undefined') {
       return () => {
@@ -850,23 +854,21 @@ function Portfolio() {
     try {
       const observer = new IntersectionObserver(
         (entries) => {
-          if (depthThrottleId) return
-          depthThrottleId = window.requestAnimationFrame(() => {
-            depthThrottleId = null
-            let best = null
-            let bestRatio = 0
-            for (let i = 0; i < entries.length; i++) {
-              const entry = entries[i]
-              if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
-                bestRatio = entry.intersectionRatio
-                best = entry.target.dataset.depth || 'surface'
-              }
+          let best = null
+          let bestRatio = 0
+          for (let i = 0; i < entries.length; i++) {
+            const entry = entries[i]
+            if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
+              bestRatio = entry.intersectionRatio
+              best = entry.target.dataset.depth || 'surface'
             }
-            if (best && best !== lastDepth) {
-              lastDepth = best
-              document.body.dataset.depth = lastDepth
-            }
-          })
+          }
+          if (!best || best === lastDepth) return
+          const now = Date.now()
+          if (now - lastDepthUpdateTime < DEPTH_UPDATE_THROTTLE_MS) return
+          lastDepthUpdateTime = now
+          lastDepth = best
+          document.body.dataset.depth = lastDepth
         },
         { threshold: [0.25, 0.55, 0.85] },
       )
@@ -874,7 +876,6 @@ function Portfolio() {
       sections.forEach((section) => observer.observe(section))
 
       return () => {
-        if (depthThrottleId) cancelAnimationFrame(depthThrottleId)
         observer.disconnect()
         delete document.body.dataset.depth
       }
@@ -885,6 +886,44 @@ function Portfolio() {
       }
     }
   }, [perfMode])
+
+  useEffect(() => {
+    const snappables = Array.from(document.querySelectorAll('[data-snappable="true"]'))
+      .filter((el) => !el.classList.contains('section--contact'))
+    if (!snappables.length) return
+
+    const getCurrentIndex = () => {
+      const vh = window.innerHeight
+      let bestIdx = 0
+      let bestArea = 0
+      snappables.forEach((el, i) => {
+        const r = el.getBoundingClientRect()
+        const top = Math.max(0, r.top)
+        const bottom = Math.min(vh, r.bottom)
+        const area = Math.max(0, bottom - top) * Math.min(r.width, window.innerWidth)
+        if (area > bestArea) {
+          bestArea = area
+          bestIdx = i
+        }
+      })
+      return bestIdx
+    }
+
+    const handleKeydown = (e) => {
+      const forward = ['ArrowDown', 'PageDown', 'Space']
+      const backward = ['ArrowUp', 'PageUp']
+      if (!forward.includes(e.code) && !backward.includes(e.code)) return
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return
+      e.preventDefault()
+      const idx = getCurrentIndex()
+      const delta = e.code === 'Space' && e.shiftKey ? -1 : forward.includes(e.code) ? 1 : -1
+      const next = Math.max(0, Math.min(idx + delta, snappables.length - 1))
+      if (next !== idx) snappables[next].scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+
+    window.addEventListener('keydown', handleKeydown, { passive: false })
+    return () => window.removeEventListener('keydown', handleKeydown)
+  }, [])
 
   useEffect(() => {
     const audioEl = audioRef.current
