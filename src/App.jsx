@@ -147,14 +147,22 @@ function Portfolio() {
     }
 
     try {
+      let revealRaf = null
+      const pendingReveal = new Set()
+      const flushReveal = () => {
+        revealRaf = null
+        pendingReveal.forEach((el) => {
+          el.classList.add('is-visible')
+          observer.unobserve(el)
+        })
+        pendingReveal.clear()
+      }
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible')
-              observer.unobserve(entry.target)
-            }
+            if (entry.isIntersecting) pendingReveal.add(entry.target)
           })
+          if (pendingReveal.size && !revealRaf) revealRaf = requestAnimationFrame(flushReveal)
         },
         {
           threshold: 0.12,
@@ -177,7 +185,10 @@ function Portfolio() {
         observer.observe(el)
       })
 
-      return () => observer.disconnect()
+      return () => {
+        if (revealRaf) cancelAnimationFrame(revealRaf)
+        observer.disconnect()
+      }
     } catch (error) {
       console.error('IntersectionObserver error:', error)
       // Fallback: show all elements immediately
@@ -463,6 +474,7 @@ function Portfolio() {
     let ticking = false
     let lastCssVarUpdate = 0
     let lastRoundedProgress = -1
+    let lastPastHero = false
     const SCROLL_PROGRESS_CSS_THROTTLE_MS = 250
 
     const updateScrollProgress = () => {
@@ -470,7 +482,10 @@ function Portfolio() {
       const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0
       const progressPercent = progress * 100
       bar.style.width = `${progressPercent}%`
-      container.setAttribute('aria-valuenow', Math.round(progressPercent))
+      const roundedPercent = Math.round(progressPercent)
+      if (roundedPercent !== Number(container.getAttribute('aria-valuenow'))) {
+        container.setAttribute('aria-valuenow', roundedPercent)
+      }
       const now = Date.now()
       const rounded = Math.round(progress * 50) / 50
       if (now - lastCssVarUpdate >= SCROLL_PROGRESS_CSS_THROTTLE_MS || rounded !== lastRoundedProgress) {
@@ -479,7 +494,11 @@ function Portfolio() {
         document.documentElement.style.setProperty('--scroll-progress', String(rounded))
       }
       const pastHero = window.scrollY > 0.8 * window.innerHeight
-      document.body.classList.toggle('past-hero', pastHero)
+      if (pastHero !== lastPastHero) {
+        lastPastHero = pastHero
+        if (pastHero) document.body.classList.add('past-hero')
+        else document.body.classList.remove('past-hero')
+      }
       ticking = false
     }
 
