@@ -925,6 +925,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .scroll-progress__bar {
   height: 100%;
+  width: calc(var(--scroll-progress) * 100%);
   background: linear-gradient(90deg, rgba(18, 246, 255, 0.8), rgba(255, 144, 111, 0.8));
   box-shadow: 0 0 8px rgba(18, 246, 255, 0.5);
   contain: paint;
@@ -1574,7 +1575,6 @@ body[data-depth='trench'] .nav-wrapper::after {
   scroll-margin-top: calc(var(--nav-height) + 1.25rem);
   content-visibility: auto;
   contain-intrinsic-size: auto 500px;
-  transform: translateZ(0);
 }
 
 /* Scroll-snap: hero and sections (except contact) snap to start; contact allows free scroll */

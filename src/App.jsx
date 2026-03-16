@@ -474,25 +474,34 @@ function Portfolio() {
     let lastCssVarUpdate = 0
     let lastRoundedProgress = -1
     let lastPastHero = false
-    const SCROLL_PROGRESS_CSS_THROTTLE_MS = 250
+    let cachedMaxScroll = 0
+    let lastScrollHeight = 0
+    const SCROLL_PROGRESS_THROTTLE_MS = 120
 
     const updateScrollProgress = () => {
-      const maxScroll = document.body.scrollHeight - window.innerHeight
-      const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0
-      const progressPercent = progress * 100
-      bar.style.width = `${progressPercent}%`
-      const roundedPercent = Math.round(progressPercent)
-      if (roundedPercent !== Number(container.getAttribute('aria-valuenow'))) {
-        container.setAttribute('aria-valuenow', roundedPercent)
+      const vh = window.innerHeight
+      const scrollY = window.scrollY
+      const needRefresh = lastScrollHeight === 0 || scrollY > cachedMaxScroll * 0.95
+      if (needRefresh) {
+        const sh = document.body.scrollHeight
+        if (sh !== lastScrollHeight) {
+          lastScrollHeight = sh
+          cachedMaxScroll = Math.max(0, sh - vh)
+        }
       }
+      const progress = cachedMaxScroll > 0 ? Math.min(scrollY / cachedMaxScroll, 1) : 0
       const now = Date.now()
-      const rounded = Math.round(progress * 50) / 50
-      if (now - lastCssVarUpdate >= SCROLL_PROGRESS_CSS_THROTTLE_MS || rounded !== lastRoundedProgress) {
+      const rounded = Math.round(progress * 25) / 25
+      if (now - lastCssVarUpdate >= SCROLL_PROGRESS_THROTTLE_MS || rounded !== lastRoundedProgress) {
         lastCssVarUpdate = now
         lastRoundedProgress = rounded
         document.documentElement.style.setProperty('--scroll-progress', String(rounded))
+        const roundedPercent = Math.round(progress * 100)
+        if (roundedPercent !== Number(container.getAttribute('aria-valuenow'))) {
+          container.setAttribute('aria-valuenow', roundedPercent)
+        }
       }
-      const pastHero = window.scrollY > 0.8 * window.innerHeight
+      const pastHero = scrollY > 0.8 * vh
       if (pastHero !== lastPastHero) {
         lastPastHero = pastHero
         if (pastHero) document.body.classList.add('past-hero')
@@ -503,15 +512,24 @@ function Portfolio() {
 
     const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(updateScrollProgress)
         ticking = true
+        window.requestAnimationFrame(updateScrollProgress)
       }
+    }
+
+    const onResize = () => {
+      lastScrollHeight = 0
+      updateScrollProgress()
     }
 
     updateScrollProgress()
     window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', onResize)
 
-    return () => window.removeEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', onResize)
+    }
   }, [])
 
   // Close mobile menu on Escape key and prevent body scroll when open
@@ -1079,7 +1097,7 @@ function Portfolio() {
         </a>
         {/* Scroll Progress Indicator - updated via ref to avoid re-renders during scroll */}
         <div ref={scrollProgressRef} className="scroll-progress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Page scroll progress">
-          <div ref={scrollProgressBarRef} className="scroll-progress__bar" style={{ width: '0%' }} />
+          <div ref={scrollProgressBarRef} className="scroll-progress__bar" />
         </div>
         <header className="nav-wrapper">
           <nav className="nav page-shell">
