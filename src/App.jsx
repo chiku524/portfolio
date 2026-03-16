@@ -61,12 +61,22 @@ function Portfolio() {
   const [submitStatus, setSubmitStatus] = useState(null)
   const [perfMode, setPerfMode] = useState(() => {
     try {
-      if (typeof sessionStorage === 'undefined') return true
-      return sessionStorage.getItem('portfolio-full-animations') !== '1'
+      if (typeof sessionStorage === 'undefined') return false
+      return sessionStorage.getItem('portfolio-reduce-animations') === '1'
     } catch {
-      return true
+      return false
     }
   })
+  const [deferHeavyDecorations, setDeferHeavyDecorations] = useState(true)
+
+  useEffect(() => {
+    if (perfMode) return
+    const id = requestIdleCallback(
+      () => setDeferHeavyDecorations(false),
+      { timeout: 1800 }
+    )
+    return () => cancelIdleCallback(id)
+  }, [perfMode])
 
   useEffect(() => {
     if (typeof document === 'undefined' || !document.body) return
@@ -80,8 +90,15 @@ function Portfolio() {
 
   const enableFullAnimations = useCallback(() => {
     try {
-      sessionStorage.setItem('portfolio-full-animations', '1')
+      sessionStorage.removeItem('portfolio-reduce-animations')
       setPerfMode(false)
+    } catch {}
+  }, [])
+
+  const reduceAnimations = useCallback(() => {
+    try {
+      sessionStorage.setItem('portfolio-reduce-animations', '1')
+      setPerfMode(true)
     } catch {}
   }, [])
 
@@ -908,11 +925,15 @@ function Portfolio() {
       <div className="app">
         {!perfMode && (
           <>
-            <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
-            <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
-            <div ref={trailRef} className="cursor-trail" aria-hidden="true">
-              <canvas ref={trailCanvasRef} className="cursor-trail__canvas" />
-            </div>
+            {!deferHeavyDecorations && (
+              <>
+                <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
+                <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
+                <div ref={trailRef} className="cursor-trail" aria-hidden="true">
+                  <canvas ref={trailCanvasRef} className="cursor-trail__canvas" />
+                </div>
+              </>
+            )}
             <div className="wave-cluster" aria-hidden="true">
               <span className="wave wave--far" />
               <span className="wave wave--mid" />
@@ -1575,11 +1596,18 @@ function Portfolio() {
               <Link to="/terms-of-service">Terms</Link>
               {' · '}
               <Link to="/privacy-policy">Privacy</Link>
-              {perfMode && (
+              {perfMode ? (
                 <>
                   {' · '}
                   <button type="button" className="footer__perf-toggle" onClick={enableFullAnimations}>
                     Enable full experience
+                  </button>
+                </>
+              ) : (
+                <>
+                  {' · '}
+                  <button type="button" className="footer__perf-toggle" onClick={reduceAnimations}>
+                    Reduce animations
                   </button>
                 </>
               )}
