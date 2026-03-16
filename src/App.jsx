@@ -166,13 +166,10 @@ function Portfolio() {
           })
           if (pendingReveal.size && !revealRaf) revealRaf = requestAnimationFrame(flushReveal)
         },
-        {
-          threshold: 0.12,
-          rootMargin: '0px 0px -12% 0px',
-        },
+        { threshold: 0.08, rootMargin: '0px 0px -8% 0px' },
       )
 
-      const maxStep = 6
+      const maxStep = 5
       revealEls.forEach((el, index) => {
         const customDelay = el.dataset.revealDelay
         if (customDelay) {
@@ -182,7 +179,7 @@ function Portfolio() {
           const hasCustomStep = !Number.isNaN(parsedStep)
           const step = hasCustomStep ? parsedStep : Math.min(index, maxStep)
           const clampedStep = Math.max(0, Math.min(step, maxStep))
-          el.style.setProperty('--reveal-delay', `${clampedStep * 60}ms`)
+          el.style.setProperty('--reveal-delay', `${clampedStep * 40}ms`)
         }
         observer.observe(el)
       })
