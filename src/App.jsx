@@ -947,13 +947,13 @@ function Portfolio() {
   }
 
   const oceanLayers = (
-    <>
+    <div className="ocean-layers-wrapper" aria-hidden="true">
       <div className="ocean-orbs" aria-hidden="true">
         <span /><span /><span /><span /><span />
       </div>
       <OceanBackground light />
       <div className="depth-overlay" aria-hidden="true" />
-    </>
+    </div>
   )
 
   try {

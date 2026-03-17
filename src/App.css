@@ -68,6 +68,17 @@ button {
   z-index: 1;
 }
 
+.ocean-layers-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ocean-layers-wrapper * {
+  pointer-events: none;
+}
+
 /* Pause full-experience animations while user is actively scrolling to prevent lag */
 body.is-scrolling .hero__aurora,
 body.is-scrolling .hero__ripples,
