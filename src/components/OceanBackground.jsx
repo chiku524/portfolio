@@ -82,10 +82,10 @@ function JellyfishSVG({ className }) {
           <stop offset="1" stopColor="rgba(100,150,180,0.06)" />
         </linearGradient>
       </defs>
-      <path d="M 40 8 Q 62 10 66 32 Q 68 48 40 52 Q 12 48 14 32 Q 18 10 40 8 Z" fill="url(#ob-jelly-body)" />
-      <path d="M 20 50 Q 12 78 16 136" stroke="rgba(200,220,235,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
-      <path d="M 40 52 Q 36 88 40 136" stroke="rgba(200,220,235,0.22)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-      <path d="M 60 50 Q 68 80 64 132" stroke="rgba(200,220,235,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__jelly-bell" d="M 40 8 Q 62 10 66 32 Q 68 48 40 52 Q 12 48 14 32 Q 18 10 40 8 Z" fill="url(#ob-jelly-body)" />
+      <path className="ocean-bg__jelly-tentacle" d="M 20 50 Q 12 78 16 136" stroke="rgba(200,220,235,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__jelly-tentacle ocean-bg__jelly-tentacle--2" d="M 40 52 Q 36 88 40 136" stroke="rgba(200,220,235,0.22)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__jelly-tentacle ocean-bg__jelly-tentacle--3" d="M 60 50 Q 68 80 64 132" stroke="rgba(200,220,235,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
     </svg>
   )
 }

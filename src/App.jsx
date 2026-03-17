@@ -1312,8 +1312,6 @@ function Portfolio() {
               })}
             </div>
           </section>
-          <div className="wave-divider wave-divider--shallow" aria-hidden="true" />
-
           <section className="section section--skills page-shell" id="skills" data-snappable="true" data-depth="mid">
             <div className="section__header reveal">
               <h2>
@@ -1364,8 +1362,6 @@ function Portfolio() {
               <GitHubActivityChart username="chiku524" className="reveal" />
             </div>
           </section>
-          <div className="wave-divider wave-divider--mid" aria-hidden="true" />
-
           <section className="section section--currents page-shell" id="aspirations" data-snappable="true" data-depth="deep">
             <div className="section__header reveal">
               <h2>
@@ -1404,8 +1400,6 @@ function Portfolio() {
               </div>
             </div>
           </section>
-          <div className="wave-divider wave-divider--deep" aria-hidden="true" />
-
           <section className="section section--contact page-shell" id="contact" data-snappable="true" data-depth="trench">
             <div className="section__header reveal" data-reveal-step="0">
               <h2>
