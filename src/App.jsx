@@ -496,16 +496,77 @@ function Portfolio() {
     }
   }, [])
 
-  // Ensure mouse wheel scrolls the page (workaround for fixed overlays blocking native scroll in some browsers)
+  // Section-based wheel scroll: several wheel ticks = one step (leniency for trackpad); tall sections have multiple steps within them
   useEffect(() => {
+    const getStops = () => {
+      const sections = document.querySelectorAll('[data-snappable="true"]')
+      if (!sections.length) return []
+      const vh = window.innerHeight
+      const stops = []
+      sections.forEach((el) => {
+        const top = el.getBoundingClientRect().top + window.scrollY
+        const height = el.offsetHeight
+        if (height <= vh * 1.2) {
+          stops.push(Math.max(0, Math.round(top)))
+        } else {
+          let y = top
+          const step = Math.max(vh * 0.85, 1)
+          while (y < top + height - vh * 0.3) {
+            stops.push(Math.round(y))
+            y += step
+          }
+          stops.push(Math.round(top + height - vh))
+        }
+      })
+      const maxScroll = document.documentElement.scrollHeight - vh
+      return [...new Set(stops)].map((s) => Math.max(0, Math.min(s, maxScroll))).sort((a, b) => a - b)
+    }
+
+    let stops = getStops()
+    let scrollAccum = 0
+    const TICK_THRESHOLD = 120
+
     const handleWheel = (e) => {
       const target = e.target
       if (target.closest('textarea, [contenteditable="true"], input, select, iframe')) return
-      window.scrollBy(0, e.deltaY)
       e.preventDefault()
+
+      scrollAccum += e.deltaY
+      stops = getStops()
+      if (!stops.length) return
+
+      const scrollY = window.scrollY
+
+      if (scrollAccum >= TICK_THRESHOLD) {
+        const nextIdx = stops.findIndex((s) => s > scrollY + 15)
+        const fromIdx = nextIdx >= 0 ? nextIdx : stops.length - 1
+        const maxSteps = stops.length - fromIdx
+        const steps = Math.min(Math.floor(scrollAccum / TICK_THRESHOLD), maxSteps)
+        scrollAccum -= steps * TICK_THRESHOLD
+        if (steps > 0) {
+          const nextStop = stops[Math.min(fromIdx + steps - 1, stops.length - 1)]
+          window.scrollTo({ top: nextStop, behavior: 'smooth' })
+        }
+      } else if (scrollAccum <= -TICK_THRESHOLD) {
+        const prevStopVal = [...stops].reverse().find((s) => s < scrollY - 15)
+        const prevIdx = prevStopVal != null ? stops.indexOf(prevStopVal) : 0
+        const maxSteps = prevIdx + 1
+        const steps = Math.min(Math.floor(-scrollAccum / TICK_THRESHOLD), maxSteps)
+        scrollAccum += steps * TICK_THRESHOLD
+        if (steps > 0) {
+          const prevStop = stops[Math.max(prevIdx - steps + 1, 0)]
+          window.scrollTo({ top: prevStop, behavior: 'smooth' })
+        }
+      }
     }
+
+    const onResize = () => { stops = getStops() }
+    window.addEventListener('resize', onResize)
     document.addEventListener('wheel', handleWheel, { passive: false, capture: true })
-    return () => document.removeEventListener('wheel', handleWheel, { capture: true })
+    return () => {
+      window.removeEventListener('resize', onResize)
+      document.removeEventListener('wheel', handleWheel, { capture: true })
+    }
   }, [])
 
   // Pause full-experience animations while user is scrolling to prevent lag
@@ -963,7 +1024,7 @@ function Portfolio() {
       <div className="ocean-orbs" aria-hidden="true">
         <span /><span /><span /><span /><span />
       </div>
-      <OceanBackground light />
+      <OceanBackground />
       <div className="depth-overlay" aria-hidden="true" />
     </div>
   )
