@@ -496,6 +496,18 @@ function Portfolio() {
     }
   }, [])
 
+  // Ensure mouse wheel scrolls the page (workaround for fixed overlays blocking native scroll in some browsers)
+  useEffect(() => {
+    const handleWheel = (e) => {
+      const target = e.target
+      if (target.closest('textarea, [contenteditable="true"], input, select, iframe')) return
+      window.scrollBy(0, e.deltaY)
+      e.preventDefault()
+    }
+    document.addEventListener('wheel', handleWheel, { passive: false, capture: true })
+    return () => document.removeEventListener('wheel', handleWheel, { capture: true })
+  }, [])
+
   // Pause full-experience animations while user is scrolling to prevent lag
   useEffect(() => {
     let scrollEndTimer = null
