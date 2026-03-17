@@ -68,25 +68,26 @@ button {
   z-index: 1;
 }
 
-/* Performance mode: lightweight experience by default (no canvas, trails, ocean animations) */
-body.perf-mode .depth-overlay {
-  opacity: 0.35;
-  background: radial-gradient(circle at 50% 40%, rgba(56, 189, 248, 0.25), transparent 65%);
+/* Pause full-experience animations while user is actively scrolling to prevent lag */
+body.is-scrolling .hero__aurora,
+body.is-scrolling .hero__ripples,
+body.is-scrolling .hero__spray .hero__spray-line,
+body.is-scrolling .hero__sparkles span,
+body.is-scrolling .hero__bubbles .hero__bubble,
+body.is-scrolling .hero__fish-squad .fish,
+body.is-scrolling .hero__content h1 span,
+body.is-scrolling .hero__tagline,
+body.is-scrolling .hero__wave,
+body.is-scrolling .ocean-orbs span,
+body.is-scrolling .nav-wrapper::after,
+body.is-scrolling .wave-divider::before,
+body.is-scrolling .wave-divider::after {
+  animation-play-state: paused !important;
 }
 
-.footer__perf-toggle {
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  color: var(--accent);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.footer__perf-toggle:hover {
-  color: var(--accent-soft);
+body.is-scrolling .ocean-bg,
+body.is-scrolling .ocean-bg * {
+  animation-play-state: paused !important;
 }
 
 /* Pause decorative animations when scrolled past hero to prevent lag (30+ simultaneous animations + blur are costly) */
@@ -193,6 +194,8 @@ body.past-hero .wave-divider::after {
   pointer-events: none;
   z-index: 0;
   mix-blend-mode: screen;
+  contain: strict;
+  overflow: hidden;
 }
 
 .ocean-orbs span {
@@ -207,6 +210,7 @@ body.past-hero .wave-divider::after {
   transition: opacity 0.8s ease, transform 0.8s ease;
   transform: translateZ(0);
   backface-visibility: hidden;
+  contain: strict;
 }
 
 .ocean-orbs span:nth-child(1) {
@@ -405,6 +409,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   background: linear-gradient(90deg, rgba(18, 246, 255, 0.8), rgba(255, 144, 111, 0.8));
   box-shadow: 0 0 8px rgba(18, 246, 255, 0.5);
   contain: paint;
+  transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  will-change: transform;
 }
 
 .nav-wrapper {
@@ -1046,6 +1052,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   position: relative;
   padding: 0 0 4rem;
   width: 100%;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 400px;
   scroll-margin-top: calc(var(--nav-height) + 1.25rem);
   content-visibility: auto;
   contain-intrinsic-size: auto 500px;

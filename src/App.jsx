@@ -61,49 +61,14 @@ function Portfolio() {
   const [formErrors, setFormErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
-  const [perfMode, setPerfMode] = useState(() => {
-    try {
-      if (typeof sessionStorage === 'undefined') return true
-      return sessionStorage.getItem('portfolio-full-animations') !== '1'
-    } catch {
-      return true
-    }
-  })
   const [deferHeavyDecorations, setDeferHeavyDecorations] = useState(true)
 
   useEffect(() => {
-    if (perfMode) return
     const id = requestIdleCallback(
       () => setDeferHeavyDecorations(false),
       { timeout: 1800 }
     )
     return () => cancelIdleCallback(id)
-  }, [perfMode])
-
-  useEffect(() => {
-    if (typeof document === 'undefined' || !document.body) return
-    if (perfMode) {
-      document.body.classList.add('perf-mode')
-    } else {
-      document.body.classList.remove('perf-mode')
-    }
-    return () => document.body.classList.remove('perf-mode')
-  }, [perfMode])
-
-  const enableFullAnimations = useCallback(() => {
-    try {
-      sessionStorage.setItem('portfolio-full-animations', '1')
-      sessionStorage.removeItem('portfolio-reduce-animations')
-      setPerfMode(false)
-    } catch {}
-  }, [])
-
-  const reduceAnimations = useCallback(() => {
-    try {
-      sessionStorage.setItem('portfolio-reduce-animations', '1')
-      sessionStorage.removeItem('portfolio-full-animations')
-      setPerfMode(true)
-    } catch {}
   }, [])
 
   // Lazy-load Calendly script only when contact section is in view to reduce initial load and main-thread work
@@ -479,25 +444,13 @@ function Portfolio() {
     if (!container || !bar) return
 
     let ticking = false
-    let lastCssVarUpdate = 0
-    let lastRoundedProgress = -1
     let lastPastHero = false
     let cachedMaxScroll = 0
     let lastScrollHeight = 0
-    const SCROLL_PROGRESS_THROTTLE_MS = 120
-    const PROGRESS_STEPS = 10
-    const SCROLL_RUN_MIN_INTERVAL_MS = 90
 
     const updateScrollProgress = () => {
-      const now = Date.now()
       const vh = window.innerHeight
       const scrollY = window.scrollY
-      const pastHero = scrollY > 0.8 * vh
-      const recentRun = now - lastCssVarUpdate < SCROLL_RUN_MIN_INTERVAL_MS
-      if (recentRun && pastHero === lastPastHero && lastRoundedProgress >= 0) {
-        ticking = false
-        return
-      }
       const needRefresh = lastScrollHeight === 0 || scrollY > cachedMaxScroll * 0.95
       if (needRefresh) {
         const sh = document.body.scrollHeight
@@ -507,22 +460,16 @@ function Portfolio() {
         }
       }
       const progress = cachedMaxScroll > 0 ? Math.min(scrollY / cachedMaxScroll, 1) : 0
+      const pastHero = scrollY > 0.8 * vh
       if (pastHero !== lastPastHero) {
         lastPastHero = pastHero
         if (pastHero) document.body.classList.add('past-hero')
         else document.body.classList.remove('past-hero')
       }
-      const rounded = Math.round(progress * PROGRESS_STEPS) / PROGRESS_STEPS
-      const throttleElapsed = now - lastCssVarUpdate >= SCROLL_PROGRESS_THROTTLE_MS
-      const progressChanged = rounded !== lastRoundedProgress
-      if (throttleElapsed || progressChanged) {
-        lastCssVarUpdate = now
-        lastRoundedProgress = rounded
-        document.documentElement.style.setProperty('--scroll-progress', String(rounded))
-        const roundedPercent = Math.round(progress * 100)
-        if (roundedPercent !== Number(container.getAttribute('aria-valuenow'))) {
-          container.setAttribute('aria-valuenow', roundedPercent)
-        }
+      document.documentElement.style.setProperty('--scroll-progress', String(progress))
+      const roundedPercent = Math.round(progress * 100)
+      if (roundedPercent !== Number(container.getAttribute('aria-valuenow'))) {
+        container.setAttribute('aria-valuenow', roundedPercent)
       }
       ticking = false
     }
@@ -546,6 +493,38 @@ function Portfolio() {
     return () => {
       window.removeEventListener('scroll', handleScroll)
       window.removeEventListener('resize', onResize)
+    }
+  }, [])
+
+  // Pause full-experience animations while user is scrolling to prevent lag
+  useEffect(() => {
+    let scrollEndTimer = null
+    const SCROLL_END_MS = 140
+
+    const markScrolling = () => {
+      document.body.classList.add('is-scrolling')
+      if (scrollEndTimer) clearTimeout(scrollEndTimer)
+      scrollEndTimer = setTimeout(() => {
+        document.body.classList.remove('is-scrolling')
+        scrollEndTimer = null
+      }, SCROLL_END_MS)
+    }
+
+    const handleScrollKey = (e) => {
+      if (['Space', 'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp'].includes(e.code)) markScrolling()
+    }
+    window.addEventListener('scroll', markScrolling, { passive: true })
+    window.addEventListener('wheel', markScrolling, { passive: true })
+    window.addEventListener('touchmove', markScrolling, { passive: true })
+    window.addEventListener('keydown', handleScrollKey)
+
+    return () => {
+      if (scrollEndTimer) clearTimeout(scrollEndTimer)
+      document.body.classList.remove('is-scrolling')
+      window.removeEventListener('scroll', markScrolling)
+      window.removeEventListener('wheel', markScrolling)
+      window.removeEventListener('touchmove', markScrolling)
+      window.removeEventListener('keydown', handleScrollKey)
     }
   }, [])
 
@@ -891,58 +870,9 @@ function Portfolio() {
   }, [ensureVideoLoaded, proofOfWork])
 
   useEffect(() => {
-    if (perfMode) return
-    const sections = Array.from(document.querySelectorAll('[data-depth]'))
-    if (!sections.length) return
-
-    let lastDepth = sections[0]?.dataset.depth || 'surface'
-    document.body.dataset.depth = lastDepth
-    let depthDebounceId = null
-    const DEPTH_DEBOUNCE_MS = 280
-
-    if (typeof IntersectionObserver === 'undefined') {
-      return () => {
-        delete document.body.dataset.depth
-      }
-    }
-
-    try {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          let best = null
-          let bestRatio = 0
-          for (let i = 0; i < entries.length; i++) {
-            const entry = entries[i]
-            if (entry.isIntersecting && entry.intersectionRatio > bestRatio) {
-              bestRatio = entry.intersectionRatio
-              best = entry.target.dataset.depth || 'surface'
-            }
-          }
-          if (!best || best === lastDepth) return
-          lastDepth = best
-          if (depthDebounceId) clearTimeout(depthDebounceId)
-          depthDebounceId = setTimeout(() => {
-            depthDebounceId = null
-            document.body.dataset.depth = lastDepth
-          }, DEPTH_DEBOUNCE_MS)
-        },
-        { threshold: [0.25, 0.55, 0.85] },
-      )
-
-      sections.forEach((section) => observer.observe(section))
-
-      return () => {
-        if (depthDebounceId) clearTimeout(depthDebounceId)
-        observer.disconnect()
-        delete document.body.dataset.depth
-      }
-    } catch (error) {
-      console.error('Depth IntersectionObserver error:', error)
-      return () => {
-        delete document.body.dataset.depth
-      }
-    }
-  }, [perfMode])
+    document.body.dataset.depth = 'surface'
+    return () => { delete document.body.dataset.depth }
+  }, [])
 
   useEffect(() => {
     const snappables = Array.from(document.querySelectorAll('[data-snappable="true"]'))
@@ -1018,12 +948,10 @@ function Portfolio() {
 
   const oceanLayers = (
     <>
-      {!perfMode && (
-        <div className="ocean-orbs" aria-hidden="true">
-          <span /><span /><span /><span /><span />
-        </div>
-      )}
-      {!perfMode && <OceanBackground />}
+      <div className="ocean-orbs" aria-hidden="true">
+        <span /><span /><span /><span /><span />
+      </div>
+      <OceanBackground light />
       <div className="depth-overlay" aria-hidden="true" />
     </>
   )
@@ -1033,17 +961,13 @@ function Portfolio() {
       <div className="app">
         {/* Ocean layers portaled to body so they use viewport as containing block (avoids auto x auto when parent has transform) */}
         {typeof document !== 'undefined' && document.body && createPortal(oceanLayers, document.body)}
-        {!perfMode && (
+        {!deferHeavyDecorations && (
           <>
-            {!deferHeavyDecorations && (
-              <>
-                <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
-                <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
-                <div ref={trailRef} className="cursor-trail" aria-hidden="true">
-                  <canvas ref={trailCanvasRef} className="cursor-trail__canvas" />
-                </div>
-              </>
-            )}
+            <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
+            <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
+            <div ref={trailRef} className="cursor-trail" aria-hidden="true">
+              <canvas ref={trailCanvasRef} className="cursor-trail__canvas" />
+            </div>
           </>
         )}
         <div className="app__content">
@@ -1145,36 +1069,10 @@ function Portfolio() {
         </header>
 
         <header className="hero" id="top" data-snappable="true" data-depth="surface">
-          {!perfMode && (
-            <>
-              <div className="hero__aurora hero__aurora--one" />
-              <div className="hero__aurora hero__aurora--two" />
-              <div className="hero__aurora hero__aurora--three" />
-              <div className="hero__ripples hero__ripples--one" />
-              <div className="hero__ripples hero__ripples--two" />
-              <div className="hero__spray" aria-hidden="true">
-                <span className="hero__spray-line hero__spray-line--one" />
-                <span className="hero__spray-line hero__spray-line--two" />
-                <span className="hero__spray-line hero__spray-line--three" />
-              </div>
-              <div className="hero__sparkles" aria-hidden="true">
-                <span /><span /><span /><span />
-              </div>
-              <div className="hero__bubbles" aria-hidden="true">
-                <span className="hero__bubble hero__bubble--one" />
-                <span className="hero__bubble hero__bubble--two" />
-                <span className="hero__bubble hero__bubble--three" />
-              </div>
-              <div className="hero__fish-squad" aria-hidden="true">
-                <div className="fish fish--one" />
-                <div className="fish fish--two" />
-                <div className="fish fish--three" />
-                <div className="fish fish--four" />
-                <div className="fish fish--five" />
-                <div className="fish fish--six" />
-              </div>
-            </>
-          )}
+          <>
+            <div className="hero__aurora hero__aurora--one" />
+            <div className="hero__aurora hero__aurora--two" />
+          </>
           <div className="hero__inner page-shell">
             <div className="hero__content reveal">
               <div className="hero__eyebrow">
@@ -1631,21 +1529,6 @@ function Portfolio() {
               <Link to="/terms-of-service">Terms</Link>
               {' · '}
               <Link to="/privacy-policy">Privacy</Link>
-              {perfMode ? (
-                <>
-                  {' · '}
-                  <button type="button" className="footer__perf-toggle" onClick={enableFullAnimations}>
-                    Enable full experience
-                  </button>
-                </>
-              ) : (
-                <>
-                  {' · '}
-                  <button type="button" className="footer__perf-toggle" onClick={reduceAnimations}>
-                    Reduce animations
-                  </button>
-                </>
-              )}
             </span>
           </div>
         </footer>

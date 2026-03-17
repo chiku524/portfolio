@@ -39,6 +39,7 @@ html {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   scroll-padding-top: calc(var(--nav-height) + 1rem);
+  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -58,6 +59,7 @@ body {
   overflow-x: hidden;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
+  overflow-anchor: auto;
 }
 
 a {

@@ -281,32 +281,36 @@ function SeahorseSVG({ className }) {
   )
 }
 
-function OceanBackground() {
+function OceanBackground({ light = false }) {
   return (
-    <div className="ocean-bg" aria-hidden="true">
+    <div className="ocean-bg" aria-hidden="true" data-light={light ? 'true' : undefined}>
       <div className="ocean-bg__waves">
         <WaveClusterSVG />
       </div>
-      <KelpGroup side="left" />
-      <KelpGroup side="right" />
-      <div className="ocean-bg__creature ocean-bg__turtle">
-        <SeaTurtleSVG className="ocean-bg__svg ocean-bg__svg--turtle" />
-      </div>
-      <div className="ocean-bg__creature ocean-bg__jellyfish ocean-bg__jellyfish--1">
-        <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" />
-      </div>
-      <div className="ocean-bg__creature ocean-bg__jellyfish ocean-bg__jellyfish--2">
-        <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" />
-      </div>
-      <div className="ocean-bg__creature ocean-bg__manta">
-        <MantaSVG className="ocean-bg__svg ocean-bg__svg--manta" />
-      </div>
-      <div className="ocean-bg__creature ocean-bg__seahorse ocean-bg__seahorse--1">
-        <SeahorseSVG className="ocean-bg__svg ocean-bg__svg--seahorse" />
-      </div>
-      <div className="ocean-bg__creature ocean-bg__seahorse ocean-bg__seahorse--2">
-        <SeahorseSVG className="ocean-bg__svg ocean-bg__svg--seahorse" />
-      </div>
+      {!light && (
+        <>
+          <KelpGroup side="left" />
+          <KelpGroup side="right" />
+          <div className="ocean-bg__creature ocean-bg__turtle">
+            <SeaTurtleSVG className="ocean-bg__svg ocean-bg__svg--turtle" />
+          </div>
+          <div className="ocean-bg__creature ocean-bg__jellyfish ocean-bg__jellyfish--1">
+            <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" />
+          </div>
+          <div className="ocean-bg__creature ocean-bg__jellyfish ocean-bg__jellyfish--2">
+            <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" />
+          </div>
+          <div className="ocean-bg__creature ocean-bg__manta">
+            <MantaSVG className="ocean-bg__svg ocean-bg__svg--manta" />
+          </div>
+          <div className="ocean-bg__creature ocean-bg__seahorse ocean-bg__seahorse--1">
+            <SeahorseSVG className="ocean-bg__svg ocean-bg__svg--seahorse" />
+          </div>
+          <div className="ocean-bg__creature ocean-bg__seahorse ocean-bg__seahorse--2">
+            <SeahorseSVG className="ocean-bg__svg ocean-bg__svg--seahorse" />
+          </div>
+        </>
+      )}
     </div>
   )
 }
