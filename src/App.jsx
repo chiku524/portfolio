@@ -522,6 +522,7 @@ function Portfolio() {
         }
       })
       const maxScroll = document.documentElement.scrollHeight - vh
+      stops.push(maxScroll)
       return [...new Set(stops)].map((s) => Math.max(0, Math.min(s, maxScroll))).sort((a, b) => a - b)
     }
 
