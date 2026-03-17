@@ -502,20 +502,23 @@ function Portfolio() {
       const sections = document.querySelectorAll('[data-snappable="true"]')
       if (!sections.length) return []
       const vh = window.innerHeight
+      const navEl = document.querySelector('.nav-wrapper')
+      const navHeight = navEl ? navEl.offsetHeight : 72
+      const offset = navHeight
       const stops = []
       sections.forEach((el) => {
         const top = el.getBoundingClientRect().top + window.scrollY
         const height = el.offsetHeight
         if (height <= vh * 1.2) {
-          stops.push(Math.max(0, Math.round(top)))
+          stops.push(Math.max(0, Math.round(top - offset)))
         } else {
           let y = top
           const step = Math.max(vh * 0.85, 1)
           while (y < top + height - vh * 0.3) {
-            stops.push(Math.round(y))
+            stops.push(Math.max(0, Math.round(y - offset)))
             y += step
           }
-          stops.push(Math.round(top + height - vh))
+          stops.push(Math.max(0, Math.round(top + height - vh - offset)))
         }
       })
       const maxScroll = document.documentElement.scrollHeight - vh
