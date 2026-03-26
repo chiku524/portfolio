@@ -496,8 +496,16 @@ function Portfolio() {
     }
   }, [])
 
-  // Section-based wheel scroll: several wheel ticks = one step (leniency for trackpad); tall sections have multiple steps within them
+  // Section-based wheel scroll (desktop / fine pointer only — avoids fighting native touch scroll)
   useEffect(() => {
+    let isCoarseTouch = false
+    try {
+      isCoarseTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+    } catch {
+      isCoarseTouch = 'ontouchstart' in window || (navigator.maxTouchPoints ?? 0) > 0
+    }
+    if (isCoarseTouch) return
+
     const getStops = () => {
       const sections = document.querySelectorAll('[data-snappable="true"]')
       if (!sections.length) return []
@@ -1557,9 +1565,8 @@ function Portfolio() {
                 </a>
                 <div className="calendar-inline">
                   <div
-                    className="calendly-inline-widget"
+                    className="calendly-inline-widget calendly-inline-widget--embed"
                     data-url={calendlyLink}
-                    style={{ minWidth: '320px', height: '480px' }}
                   />
                 </div>
                 <a className="calendly-direct" href={calendlyLink} target="_blank" rel="noreferrer">

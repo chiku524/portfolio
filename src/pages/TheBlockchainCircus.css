@@ -1,14 +1,21 @@
 .blockchain-circus-page {
   min-height: 100vh;
+  min-height: 100dvh;
   background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
   color: #e2e8f0;
-  padding: 2rem 1rem;
+  padding: calc(2rem + env(safe-area-inset-top, 0px)) calc(1rem + env(safe-area-inset-right, 0px))
+    calc(2rem + env(safe-area-inset-bottom, 0px)) calc(1rem + env(safe-area-inset-left, 0px));
   line-height: 1.7;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .blockchain-circus-page__container {
   max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
 }
 
 .blockchain-circus-page__header {
@@ -385,6 +392,11 @@
 }
 
 @media (max-width: 768px) {
+  .blockchain-circus-page {
+    padding: calc(1.25rem + env(safe-area-inset-top, 0px)) calc(0.75rem + env(safe-area-inset-right, 0px))
+      calc(1.5rem + env(safe-area-inset-bottom, 0px)) calc(0.75rem + env(safe-area-inset-left, 0px));
+  }
+
   .blockchain-circus-page__hero h1 {
     font-size: 2rem;
   }

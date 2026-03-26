@@ -38,7 +38,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  scroll-padding-top: calc(var(--nav-height) + 1rem);
+  scroll-padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + 1rem);
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -52,11 +52,15 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   background: radial-gradient(circle at 15% 20%, rgba(20, 201, 201, 0.14), transparent 55%),
     radial-gradient(circle at 78% 8%, rgba(255, 144, 111, 0.12), transparent 52%),
     radial-gradient(circle at 40% 88%, rgba(18, 246, 255, 0.08), transparent 60%),
     linear-gradient(180deg, var(--brand-midnight), #0d1a33 55%, #071021);
-  padding: calc(var(--nav-height) + var(--page-padding)) var(--page-padding) 5rem;
+  padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + var(--page-padding));
+  padding-right: calc(var(--page-padding) + env(safe-area-inset-right, 0px));
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+  padding-left: calc(var(--page-padding) + env(safe-area-inset-left, 0px));
   overflow-x: hidden;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
@@ -90,13 +94,17 @@ a:hover {
   transition: top 0.2s ease;
 }
 .skip-link:focus {
-  top: 1rem;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
+  left: calc(var(--page-padding) + env(safe-area-inset-left, 0px));
   outline: 2px solid var(--accent-soft);
   outline-offset: 2px;
 }
 
 @media (max-width: 768px) {
   body {
-    padding: calc(var(--nav-height) + 1.25rem) 1rem 4rem;
+    padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + 1.25rem);
+    padding-right: calc(1rem + env(safe-area-inset-right, 0px));
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+    padding-left: calc(1rem + env(safe-area-inset-left, 0px));
   }
 }

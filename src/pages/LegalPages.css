@@ -1,19 +1,26 @@
 .legal-page {
   min-height: 100vh;
+  min-height: 100dvh;
   background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
   color: #e2e8f0;
-  padding: 2rem 1rem;
+  padding: calc(2rem + env(safe-area-inset-top, 0px)) calc(1rem + env(safe-area-inset-right, 0px))
+    calc(2rem + env(safe-area-inset-bottom, 0px)) calc(1rem + env(safe-area-inset-left, 0px));
   line-height: 1.7;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .legal-page__container {
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
   background: rgba(15, 23, 42, 0.6);
   border-radius: 1rem;
   padding: 3rem 2rem;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
 }
 
 .legal-page__header {
@@ -130,15 +137,16 @@
 
 @media (max-width: 768px) {
   .legal-page {
-    padding: 1rem 0.5rem;
+    padding: calc(1rem + env(safe-area-inset-top, 0px)) calc(0.75rem + env(safe-area-inset-right, 0px))
+      calc(1rem + env(safe-area-inset-bottom, 0px)) calc(0.75rem + env(safe-area-inset-left, 0px));
   }
 
   .legal-page__container {
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.25rem;
   }
 
   .legal-page__header h1 {
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 6vw + 0.5rem, 2rem);
   }
 
   .legal-page__content h2 {
