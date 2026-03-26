@@ -6,6 +6,7 @@ import { Analytics } from '@vercel/analytics/react'
 import './index.css'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+import { scheduleWhenIdle } from './utils/scheduleIdle'
 
 // Only load Vercel insights when storage is available (avoids Datadog "No storage available" when blocked)
 function isStorageAvailable() {
@@ -22,10 +23,10 @@ function isStorageAvailable() {
 function Root() {
   const [loadInsights, setLoadInsights] = useState(false)
   useEffect(() => {
-    const id = requestIdleCallback(() => {
+    const cancel = scheduleWhenIdle(() => {
       if (isStorageAvailable()) setLoadInsights(true)
     }, { timeout: 3500 })
-    return () => cancelIdleCallback(id)
+    return cancel
   }, [])
   return (
     <>

@@ -32,6 +32,7 @@ import { NOTION_AUTH_URL } from './config/notion'
 import { initAnalytics, trackEvent, trackPageView } from './utils/analytics'
 import { useSeo } from './utils/useSeo'
 import { measureWebVitals } from './utils/webVitals'
+import { scheduleWhenIdle } from './utils/scheduleIdle'
 import TermsOfService from './pages/TermsOfService'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import PortfolioTermsOfService from './pages/PortfolioTermsOfService'
@@ -64,11 +65,8 @@ function Portfolio() {
   const [deferHeavyDecorations, setDeferHeavyDecorations] = useState(true)
 
   useEffect(() => {
-    const id = requestIdleCallback(
-      () => setDeferHeavyDecorations(false),
-      { timeout: 1800 }
-    )
-    return () => cancelIdleCallback(id)
+    const cancel = scheduleWhenIdle(() => setDeferHeavyDecorations(false), { timeout: 1800 })
+    return cancel
   }, [])
 
   // Lazy-load Calendly script only when contact section is in view to reduce initial load and main-thread work
