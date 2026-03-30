@@ -540,11 +540,13 @@ function Portfolio() {
     const handleWheel = (e) => {
       const target = e.target
       if (target.closest('textarea, [contenteditable="true"], input, select, iframe')) return
-      e.preventDefault()
 
-      scrollAccum += e.deltaY
       stops = getStops()
+      // No section snap targets (e.g. alternate routes): never hijack wheel — native scroll must work
       if (!stops.length) return
+
+      e.preventDefault()
+      scrollAccum += e.deltaY
 
       const scrollY = window.scrollY
 

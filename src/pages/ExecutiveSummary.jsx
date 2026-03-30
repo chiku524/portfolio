@@ -15,6 +15,10 @@ export default function ExecutiveSummary() {
 
   useEffect(() => {
     trackPageView('/executive-summary')
+    // Portfolio leaves wheel/scroll-related body state; clear so this route scrolls normally
+    document.body.classList.remove('past-hero', 'is-scrolling')
+    document.body.style.overflow = ''
+    delete document.body.dataset.depth
   }, [])
 
   return (
