@@ -106,7 +106,7 @@ export const measureWebVitals = () => {
           observers.forEach((observer) => {
             try {
               observer.disconnect()
-            } catch (e) { /* already disconnected */ }
+            } catch { /* already disconnected */ }
           })
           observers.length = 0
         }, 10000)
@@ -129,7 +129,7 @@ export const measureWebVitals = () => {
         observers.forEach((observer) => {
           try {
             observer.disconnect()
-          } catch (e) { /* ignore */ }
+          } catch { /* ignore */ }
         })
         observers.length = 0
       } catch (error) {

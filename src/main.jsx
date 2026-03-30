@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- Vite entry: bootstrap only */
 import { StrictMode, useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
@@ -53,7 +54,7 @@ if (typeof window !== 'undefined') {
           event.preventDefault()
           return true
         }
-      } catch (_) { /* ignore */ }
+      } catch { /* ignore */ }
     }
   }, true)
 }

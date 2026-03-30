@@ -40,6 +40,7 @@ import PortfolioPrivacyPolicy from './pages/PortfolioPrivacyPolicy'
 import NotionAuthResult from './pages/NotionAuthResult'
 import TheBlockchainCircus from './pages/TheBlockchainCircus'
 import TikTokCallback from './pages/TikTokCallback'
+import ExecutiveSummary from './pages/ExecutiveSummary'
 import GitHubActivityChart from './components/GitHubActivityChart'
 import OceanBackground from './components/OceanBackground'
 
@@ -176,7 +177,7 @@ function Portfolio() {
       if (window.matchMedia) {
         isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
       }
-    } catch (error) {
+    } catch {
       isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     }
 
@@ -273,7 +274,7 @@ function Portfolio() {
       if (window.matchMedia) {
         isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
       }
-    } catch (error) {
+    } catch {
       // Fallback: assume touch device if matchMedia fails
       isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     }
@@ -350,7 +351,7 @@ function Portfolio() {
       if (window.matchMedia) {
         isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
       }
-    } catch (error) {
+    } catch {
       isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
     }
 
@@ -363,7 +364,7 @@ function Portfolio() {
     try {
       ctx = canvas.getContext('2d', { alpha: true })
       if (!ctx) return
-    } catch (error) {
+    } catch {
       canvas.style.display = 'none'
       return
     }
@@ -431,7 +432,7 @@ function Portfolio() {
       if (ctx) {
         try {
           ctx.clearRect(0, 0, width, height)
-        } catch (e) { /* ignore */ }
+        } catch { /* ignore */ }
       }
     }
   }, [])
@@ -1092,7 +1093,7 @@ function Portfolio() {
               <a 
                 href="#proof" 
                 aria-label="View proof of work" 
-                onClick={(e) => {
+                onClick={() => {
                   trackEvent('nav_click', { link: 'proof' })
                   setIsMobileMenuOpen(false)
                 }}
@@ -1103,7 +1104,7 @@ function Portfolio() {
               <a 
                 href="#skills" 
                 aria-label="View skills" 
-                onClick={(e) => {
+                onClick={() => {
                   trackEvent('nav_click', { link: 'skills' })
                   setIsMobileMenuOpen(false)
                 }}
@@ -1114,7 +1115,7 @@ function Portfolio() {
               <a 
                 href="#aspirations" 
                 aria-label="View aspirations" 
-                onClick={(e) => {
+                onClick={() => {
                   trackEvent('nav_click', { link: 'aspirations' })
                   setIsMobileMenuOpen(false)
                 }}
@@ -1125,7 +1126,7 @@ function Portfolio() {
               <a 
                 href="#contact" 
                 aria-label="View contact information" 
-                onClick={(e) => {
+                onClick={() => {
                   trackEvent('nav_click', { link: 'contact' })
                   setIsMobileMenuOpen(false)
                 }}
@@ -1641,6 +1642,7 @@ function App() {
       <Route path="/the-blockchain-circus/terms-of-service" element={<TermsOfService />} />
       <Route path="/the-blockchain-circus/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/tiktok-callback" element={<TikTokCallback />} />
+      <Route path="/executive-summary" element={<ExecutiveSummary />} />
     </Routes>
   )
 }
