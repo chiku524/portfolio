@@ -6,17 +6,12 @@
 import { writeFileSync, mkdirSync } from 'fs'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
+import { getSiteUrl } from './getSiteUrl.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const publicDir = join(__dirname, '..', 'public')
 
-const baseUrl = (() => {
-  const vercel = process.env.VERCEL_URL
-  const site = process.env.SITE_URL
-  if (vercel) return `https://${vercel}`
-  if (site) return site.replace(/\/$/, '')
-  return 'https://nicochikuji-portfolio.vercel.app' // fallback for local builds; Vercel sets VERCEL_URL
-})()
+const baseUrl = getSiteUrl()
 
 const today = new Date().toISOString().slice(0, 10)
 

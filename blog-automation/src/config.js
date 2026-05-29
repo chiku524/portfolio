@@ -23,6 +23,6 @@ export const PROJECTS = [
   { name: "Boing Express", github: { owner: "chiku524", repo: "boing.express" }, notionHubId: "313c0750-e6ae-8190-9057-f9309bff4709", domain: "boing.express" },
   { name: "Boing Explorer", github: { owner: "chiku524", repo: "boing-explorer" }, notionHubId: "313c0750-e6ae-81ee-9a88-fbfa056be74c", domain: "boing.observer" },
   { name: "Boing Finance", github: { owner: "chiku524", repo: "boing.finance" }, notionHubId: "313c0750-e6ae-81e9-9036-ef82f0f40fa2", domain: "boing.finance" },
-  { name: "Portfolio", github: { owner: "chiku524", repo: "portfolio" }, notionHubId: "313c0750-e6ae-81ba-b34a-f8ac1e287b09", domain: "nico.builds" },
+  { name: "Portfolio", github: { owner: "chiku524", repo: "portfolio" }, notionHubId: "313c0750-e6ae-81ba-b34a-f8ac1e287b09", domain: "nicochikuji-portfolio.vercel.app" },
   { name: "Schmiedeler Associates", github: { owner: "chiku524", repo: "schmiedeler-associates" }, notionHubId: "313c0750-e6ae-81da-b873-c8960e667fc7", domain: null },
 ]

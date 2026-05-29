@@ -28,6 +28,8 @@ async function main() {
           left: '18mm',
         },
         printBackground: true,
+        // Keeps the full resume on a single A4 with current content
+        scale: 0.95,
       },
       stylesheet: resumeCss,
     }

@@ -203,7 +203,7 @@ Opening (3–5) → Main (10–15) → Closing (2–3). One idea per slide; 5–
 
 ## Resources
 
-- **Portfolio:** https://nico.builds
+- **Portfolio:** https://nicochikuji-portfolio.vercel.app
 - **Email:** nico.chikuji@gmail.com
 - **Fonts:** [Comfortaa on Google Fonts](https://fonts.google.com/specimen/Comfortaa)
 
