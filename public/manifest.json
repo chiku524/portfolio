@@ -18,6 +18,28 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/social-image.png",
+      "sizes": "1200x1200",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "nico.builds portfolio preview"
+    },
+    {
+      "src": "/social-image.png",
+      "sizes": "1200x1200",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "nico.builds social profile image"
     }
   ],
   "categories": ["portfolio", "developer", "web"],
