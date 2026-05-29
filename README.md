@@ -32,7 +32,7 @@ npm run lint
 
 - `npm run media:process` - Process media files for projects
 - `npm run image:resize` - Resize images
-- `npm run og:generate` - Generate `og-image.png` for social sharing (Python + Pillow)
+- `npm run og:generate` - Generate `public/og-image.png` (1200×630) and `public/social-image.png` (1200×1200) for social sharing (Python + Pillow)
 
 ## SEO
 
@@ -43,7 +43,10 @@ The site is optimized for search engines and social sharing:
 - **Per-route meta** – Title and description via `useSeo` on each page
 - **Open Graph & Twitter** – Meta tags for social previews
 
-**OG image:** Run `npm run og:generate` to regenerate `public/og-image.png` (requires Python + Pillow; see `scripts/requirements-og.txt`).
+**Social images:** Run `npm run og:generate` to regenerate oceanic-themed preview assets (requires Python + Pillow; see `scripts/requirements-og.txt`).
+
+- `public/og-image.png` — link previews (Discord, Twitter/X, LinkedIn, iMessage)
+- `public/social-image.png` — square profile/banner use (Instagram, GitHub social, avatars)
 
 ## Notion Integration
 
