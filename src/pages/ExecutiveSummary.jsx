@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
 import { useSeo } from '../utils/useSeo'
+import { useStandalonePage } from '../utils/useStandalonePage'
 import './LegalPages.css'
 
 const CALENDLY = 'https://calendly.com/nico-chikuji/30min'
@@ -13,12 +14,10 @@ export default function ExecutiveSummary() {
       'One-page overview: full-stack delivery across web3 and AI, signature products, operating principles, and how to connect.',
   })
 
+  useStandalonePage()
+
   useEffect(() => {
     trackPageView('/executive-summary')
-    // Portfolio leaves wheel/scroll-related body state; clear so this route scrolls normally
-    document.body.classList.remove('past-hero', 'is-scrolling')
-    document.body.style.overflow = ''
-    delete document.body.dataset.depth
   }, [])
 
   return (
@@ -166,17 +165,14 @@ export default function ExecutiveSummary() {
 
           <section>
             <h2>Connect</h2>
-            <p>
+            <p className="legal-page__connect">
               <a href="mailto:nico.builds@outlook.com">nico.builds@outlook.com</a>
-              {' · '}
               <a href="https://www.linkedin.com/in/nico-chikuji/" target="_blank" rel="noreferrer">
                 LinkedIn
               </a>
-              {' · '}
               <a href="https://github.com/chiku524" target="_blank" rel="noreferrer">
                 GitHub
               </a>
-              {' · '}
               <a href={CALENDLY} target="_blank" rel="noreferrer">
                 Calendly (30 min)
               </a>

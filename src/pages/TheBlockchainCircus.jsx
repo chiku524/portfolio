@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView, trackEvent } from '../utils/analytics'
 import { useSeo } from '../utils/useSeo'
+import { useStandalonePage } from '../utils/useStandalonePage'
 import profilePicture from '../assets/blockchain-circus/profile-1024x1024.png'
 import './TheBlockchainCircus.css'
 
@@ -11,6 +12,7 @@ export default function TheBlockchainCircus() {
     description:
       'The Blockchain Circus - Automated AI video generation & publishing for educational blockchain content. n8n workflows, RunwayML, TikTok integration.',
   })
+  useStandalonePage()
   useEffect(() => {
     trackPageView('/the-blockchain-circus')
   }, [])
@@ -40,6 +42,9 @@ export default function TheBlockchainCircus() {
                 src={profilePicture} 
                 alt="The Blockchain Circus profile picture - cute pug mascot" 
                 className="profile-picture"
+                width={200}
+                height={200}
+                loading="lazy"
               />
             </div>
             <h1>The Blockchain Circus</h1>
@@ -180,7 +185,7 @@ export default function TheBlockchainCircus() {
                 href="https://www.tiktok.com/@TheBlockchainCircus"
                 target="_blank"
                 rel="noreferrer"
-                className="button button--primary"
+                className="blockchain-circus-page__button blockchain-circus-page__button--primary"
                 onClick={handleTikTokClick}
               >
                 Visit TikTok Profile ↗

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
 import { useSeo } from '../utils/useSeo'
+import { useStandalonePage } from '../utils/useStandalonePage'
 import './LegalPages.css'
 
 export default function PortfolioPrivacyPolicy() {
@@ -10,6 +11,7 @@ export default function PortfolioPrivacyPolicy() {
     description:
       'Privacy Policy for nico.builds portfolio. How I collect, use, and protect your information when you visit or contact me.',
   })
+  useStandalonePage()
   useEffect(() => {
     trackPageView('/privacy-policy')
   }, [])

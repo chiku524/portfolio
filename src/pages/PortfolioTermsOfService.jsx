@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
 import { useSeo } from '../utils/useSeo'
+import { useStandalonePage } from '../utils/useStandalonePage'
 import './LegalPages.css'
 
 export default function PortfolioTermsOfService() {
@@ -10,6 +11,7 @@ export default function PortfolioTermsOfService() {
     description:
       'Terms of Service for nico.builds portfolio. Freelance developer open to collaboration—I value my time and skills, and never settle for less.',
   })
+  useStandalonePage()
   useEffect(() => {
     trackPageView('/terms-of-service')
   }, [])

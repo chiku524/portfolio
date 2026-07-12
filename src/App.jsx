@@ -538,6 +538,10 @@ function Portfolio() {
     const TICK_THRESHOLD = 120
 
     const handleWheel = (e) => {
+      try {
+        if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return
+      } catch { /* ignore */ }
+
       const target = e.target
       if (target.closest('textarea, [contenteditable="true"], input, select, iframe')) return
 
@@ -614,7 +618,7 @@ function Portfolio() {
     }
   }, [])
 
-  // Close mobile menu on Escape key and prevent body scroll when open
+  // Close mobile menu on Escape key and prevent body scroll when open (iOS-safe lock)
   useEffect(() => {
     const handleEscape = (event) => {
       if (isMobileMenuOpen && event.key === 'Escape') {
@@ -623,20 +627,43 @@ function Portfolio() {
     }
 
     if (isMobileMenuOpen) {
-      // Prevent body scroll when menu is open
-      const originalStyle = window.getComputedStyle(document.body).overflow
+      const scrollY = window.scrollY
+      const originalStyle = {
+        overflow: document.body.style.overflow,
+        position: document.body.style.position,
+        top: document.body.style.top,
+        width: document.body.style.width,
+      }
+
       document.body.style.overflow = 'hidden'
-      
-      // Listen for Escape key
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = '100%'
+
       document.addEventListener('keydown', handleEscape)
-      
+
       return () => {
-        // Restore body scroll when menu closes
-        document.body.style.overflow = originalStyle
+        document.body.style.overflow = originalStyle.overflow
+        document.body.style.position = originalStyle.position
+        document.body.style.top = originalStyle.top
+        document.body.style.width = originalStyle.width
+        window.scrollTo(0, scrollY)
         document.removeEventListener('keydown', handleEscape)
       }
     }
   }, [isMobileMenuOpen])
+
+  // Clear scroll-lock / animation state when leaving the portfolio route
+  useEffect(() => {
+    return () => {
+      document.body.classList.remove('past-hero', 'is-scrolling')
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      delete document.body.dataset.depth
+    }
+  }, [])
 
   const handleMenuToggle = (event) => {
     event.stopPropagation()
@@ -1136,9 +1163,22 @@ function Portfolio() {
                 <Mail className="nav__link-icon" size={14} aria-hidden />
                 Contact
               </a>
+              <a
+                className="nav__cta nav__cta--menu"
+                href={calendlyLink}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Book a build sprint on Calendly"
+                onClick={() => {
+                  trackEvent('nav_click', { link: 'book_sprint_menu' })
+                  setIsMobileMenuOpen(false)
+                }}
+              >
+                Book a build sprint
+              </a>
             </div>
             <div className="nav__actions">
-              <a className="nav__cta" href={calendlyLink} target="_blank" rel="noreferrer" aria-label="Book a build sprint on Calendly">
+              <a className="nav__cta nav__cta--header" href={calendlyLink} target="_blank" rel="noreferrer" aria-label="Book a build sprint on Calendly">
                 Book a build sprint
               </a>
               <button
@@ -1579,7 +1619,7 @@ function Portfolio() {
       </main>
 
         <footer className="footer">
-          <div className="footer__inner reveal" data-reveal-step="0">
+          <div className="footer__inner page-shell reveal" data-reveal-step="0">
             <div className="footer__brand">
               <img className="footer__logo" src={logoMark} alt="nico.builds logo" loading="lazy" />
               <div className="footer__brand-copy">

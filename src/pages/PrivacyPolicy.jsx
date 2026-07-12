@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
 import { useSeo } from '../utils/useSeo'
+import { useStandalonePage } from '../utils/useStandalonePage'
 import './LegalPages.css'
 
 export default function PrivacyPolicy() {
@@ -10,6 +11,7 @@ export default function PrivacyPolicy() {
     description:
       'Privacy Policy for The Blockchain Circus. How we collect, use, and protect information for our TikTok automation service.',
   })
+  useStandalonePage()
   useEffect(() => {
     trackPageView('/the-blockchain-circus/privacy-policy')
   }, [])

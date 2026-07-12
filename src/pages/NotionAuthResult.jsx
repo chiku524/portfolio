@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
 import { useSeo } from '../utils/useSeo'
+import { useStandalonePage } from '../utils/useStandalonePage'
 import './LegalPages.css'
 
 export default function NotionAuthResult() {
@@ -13,6 +14,8 @@ export default function NotionAuthResult() {
     title: status === 'success' ? 'Notion Connected | nico.builds' : 'Notion Auth | nico.builds',
     description: status === 'success' ? 'Notion integration connected successfully.' : 'Notion authorization result.',
   })
+
+  useStandalonePage()
 
   useEffect(() => {
     trackPageView(`/auth/notion/${status || 'unknown'}`)
@@ -44,11 +47,13 @@ export default function NotionAuthResult() {
               )}
             </section>
           )}
-
-          <p>
-            <Link to="/">← Back to Portfolio</Link>
-          </p>
         </div>
+
+        <footer className="legal-page__footer">
+          <Link to="/" className="legal-page__back-link">
+            ← Back to Portfolio
+          </Link>
+        </footer>
       </div>
     </div>
   )

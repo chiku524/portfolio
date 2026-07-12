@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { trackPageView } from '../utils/analytics'
 import { useSeo } from '../utils/useSeo'
+import { useStandalonePage } from '../utils/useStandalonePage'
 import './LegalPages.css'
 
 export default function TermsOfService() {
@@ -10,6 +11,7 @@ export default function TermsOfService() {
     description:
       'Terms of Service for The Blockchain Circus TikTok automation service. Educational blockchain content automation.',
   })
+  useStandalonePage()
   useEffect(() => {
     trackPageView('/the-blockchain-circus/terms-of-service')
   }, [])

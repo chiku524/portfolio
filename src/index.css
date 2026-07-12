@@ -37,10 +37,9 @@
 
 html {
   scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
   scroll-padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + 1rem);
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -62,7 +61,8 @@ body {
   padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
   padding-left: calc(var(--page-padding) + env(safe-area-inset-left, 0px));
   overflow-x: hidden;
-  overscroll-behavior-y: contain;
+  overflow-x: clip;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overflow-anchor: auto;
 }
@@ -78,6 +78,9 @@ a:hover {
 
 #root {
   width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Skip link: hidden until focused for accessibility & SEO */
@@ -101,10 +104,29 @@ a:hover {
 }
 
 @media (max-width: 768px) {
+  :root {
+    --page-padding: 1rem;
+  }
+
   body {
     padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + 1.25rem);
-    padding-right: calc(1rem + env(safe-area-inset-right, 0px));
+    padding-right: calc(var(--page-padding) + env(safe-area-inset-right, 0px));
     padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
-    padding-left: calc(1rem + env(safe-area-inset-left, 0px));
+    padding-left: calc(var(--page-padding) + env(safe-area-inset-left, 0px));
   }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --page-padding: 0.75rem;
+  }
+}
+
+/* Secondary routes: no portfolio nav, so drop body inset reserved for it */
+body.route-standalone {
+  padding: 0;
+}
+
+html:has(body.route-standalone) {
+  scroll-padding-top: 1rem;
 }
