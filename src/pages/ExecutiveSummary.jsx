@@ -111,10 +111,30 @@ export default function ExecutiveSummary() {
                 </a>
               </li>
               <li>
+                <strong>TxLINE Predict</strong> — Verifiable World Cup prediction markets on Solana with live
+                match data and Merkle-proof settlement.{' '}
+                <a href="https://txline-predict.vercel.app/" target="_blank" rel="noreferrer">
+                  txline-predict.vercel.app
+                </a>
+              </li>
+              <li>
                 <strong>The Studio Circus</strong> — AI-forward educational series across tech, sports, global
                 events, and blockchain storytelling.{' '}
                 <a href="https://thestudiocircus.io/" target="_blank" rel="noreferrer">
                   thestudiocircus.io
+                </a>
+              </li>
+              <li>
+                <strong>Immersive Labs</strong> — Text-to-Unity game asset studio and marketing site for the
+                Video Game Generation Studio.{' '}
+                <a href="https://immersivelabs.space/" target="_blank" rel="noreferrer">
+                  immersivelabs.space
+                </a>
+              </li>
+              <li>
+                <strong>SnappyPie</strong> — AI micro-tutor that turns a photo into a structured visual lesson.{' '}
+                <a href="https://snappypie.app/" target="_blank" rel="noreferrer">
+                  snappypie.app
                 </a>
               </li>
               <li>
@@ -130,6 +150,37 @@ export default function ExecutiveSummary() {
                 <a href="https://vibeminer.tech/" target="_blank" rel="noreferrer">
                   vibeminer.tech
                 </a>
+              </li>
+              <li>
+                <strong>Albion Silver Helper</strong> — Client-side Albion Online profit tools for flips,
+                refining, and crafting.{' '}
+                <a href="https://albion-silver-helper.vercel.app/" target="_blank" rel="noreferrer">
+                  albion-silver-helper.vercel.app
+                </a>
+              </li>
+              <li>
+                <strong>GW2 TP Profit</strong> — Guild Wars 2 trading post scanner and profit calculator.{' '}
+                <a href="https://gw2-tp-profit.vercel.app/" target="_blank" rel="noreferrer">
+                  gw2-tp-profit.vercel.app
+                </a>
+              </li>
+              <li>
+                <strong>Fab Products</strong> — Unreal Engine editor plugins and starter kits for Epic Fab.{' '}
+                <a href="https://github.com/chiku524/fab-products" target="_blank" rel="noreferrer">
+                  github.com/chiku524/fab-products
+                </a>
+              </li>
+              <li>
+                <strong>Schmiedeler &amp; Associates</strong> — Institutional client website for import/export
+                representation.{' '}
+                <a href="https://schmiedeler.com/" target="_blank" rel="noreferrer">
+                  schmiedeler.com
+                </a>
+              </li>
+              <li>
+                <strong>The Blockchain Circus</strong> — Automated TikTok AI video pipeline for blockchain
+                education.{' '}
+                <a href="/the-blockchain-circus">nico.builds/the-blockchain-circus</a>
               </li>
               <li>
                 <strong>Boing Network</strong> — L1 ecosystem vision: account abstraction, adaptive gas, and a

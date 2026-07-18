@@ -358,7 +358,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .page-shell {
-  width: min(1100px, 100%);
+  width: min(1760px, 100%);
   max-width: 100%;
   margin: 0 auto;
   min-width: 0;
@@ -1138,11 +1138,11 @@ body[data-depth='trench'] .nav-wrapper::after {
 .project-grid {
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
 }
 
 /* Boing ecosystem card spans 2 cols on wide screens */
-@media (min-width: 900px) {
+@media (min-width: 1100px) {
   .project-card--ecosystem {
     grid-column: span 2;
   }
@@ -1995,7 +1995,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .footer__inner {
-  width: min(1100px, 100%);
+  width: min(1760px, 100%);
   max-width: 100%;
   margin-inline: auto;
   background: rgba(15, 23, 42, 0.8);
