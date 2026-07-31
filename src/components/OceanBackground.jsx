@@ -47,6 +47,143 @@ function SurfaceGlow() {
   )
 }
 
+/* ----- Coral reef floor: layered silhouettes anchored to the seabed ----- */
+function BrainCoralSVG({ className, style }) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <defs>
+        <radialGradient id={`rc-brain-${style?.['--coral-id'] || 0}`} cx="0.4" cy="0.25" r="0.85">
+          <stop stopColor="rgba(180, 201, 120, 0.55)" />
+          <stop offset="1" stopColor="rgba(96, 130, 70, 0.35)" />
+        </radialGradient>
+      </defs>
+      <path
+        d="M4 80 Q0 42 28 30 Q42 6 70 14 Q100 4 116 32 Q122 56 98 70 Q68 86 40 78 Q16 84 4 80 Z"
+        fill={`url(#rc-brain-${style?.['--coral-id'] || 0})`}
+      />
+      <path d="M16 62 Q30 46 44 58 Q58 42 74 56 Q90 44 104 56" stroke="rgba(60, 90, 45, 0.4)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M22 48 Q34 34 48 44 Q62 30 78 42 Q92 32 102 42" stroke="rgba(60, 90, 45, 0.35)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M30 68 Q44 58 56 68 Q70 56 86 66" stroke="rgba(60, 90, 45, 0.3)" strokeWidth="2" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function StaghornCoralSVG({ className, style }) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <defs>
+        <linearGradient id={`rc-stag-${style?.['--coral-id'] || 0}`} x1="0.3" y1="1" x2="0.6" y2="0">
+          <stop stopColor="rgba(255, 144, 111, 0.55)" />
+          <stop offset="1" stopColor="rgba(255, 176, 140, 0.3)" />
+        </linearGradient>
+      </defs>
+      <g className="ocean-bg__coral-sway">
+        <path d="M50 140 C 46 112 34 98 22 82 C 12 70 8 54 14 38" stroke={`url(#rc-stag-${style?.['--coral-id'] || 0})`} strokeWidth="7" fill="none" strokeLinecap="round" />
+        <path d="M14 38 C 10 30 12 20 20 12" stroke={`url(#rc-stag-${style?.['--coral-id'] || 0})`} strokeWidth="5" fill="none" strokeLinecap="round" />
+        <path d="M22 82 C 16 76 8 74 2 78" stroke={`url(#rc-stag-${style?.['--coral-id'] || 0})`} strokeWidth="5" fill="none" strokeLinecap="round" />
+        <path d="M50 140 C 50 106 50 84 50 58 C 50 42 54 30 62 20" stroke={`url(#rc-stag-${style?.['--coral-id'] || 0})`} strokeWidth="7" fill="none" strokeLinecap="round" />
+        <path d="M62 20 C 66 12 74 8 82 10" stroke={`url(#rc-stag-${style?.['--coral-id'] || 0})`} strokeWidth="5" fill="none" strokeLinecap="round" />
+        <path d="M50 140 C 54 110 66 96 78 80 C 88 68 92 52 86 36" stroke={`url(#rc-stag-${style?.['--coral-id'] || 0})`} strokeWidth="7" fill="none" strokeLinecap="round" />
+        <path d="M86 36 C 90 28 98 24 100 16" stroke={`url(#rc-stag-${style?.['--coral-id'] || 0})`} strokeWidth="5" fill="none" strokeLinecap="round" />
+      </g>
+    </svg>
+  )
+}
+
+function FanCoralSVG({ className, style }) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <defs>
+        <linearGradient id={`rc-fan-${style?.['--coral-id'] || 0}`} x1="0.5" y1="1" x2="0.5" y2="0">
+          <stop stopColor="rgba(244, 114, 182, 0.5)" />
+          <stop offset="1" stopColor="rgba(232, 150, 210, 0.18)" />
+        </linearGradient>
+      </defs>
+      <g className="ocean-bg__coral-fan">
+        <path
+          d="M50 90 C 22 84 4 56 10 18 C 26 38 40 54 50 90 Z"
+          fill={`url(#rc-fan-${style?.['--coral-id'] || 0})`}
+        />
+        <path
+          d="M50 90 C 78 84 96 56 90 18 C 74 38 60 54 50 90 Z"
+          fill={`url(#rc-fan-${style?.['--coral-id'] || 0})`}
+        />
+        <path d="M50 90 L18 28" stroke="rgba(255, 214, 235, 0.3)" strokeWidth="1.2" />
+        <path d="M50 90 L30 20" stroke="rgba(255, 214, 235, 0.28)" strokeWidth="1.2" />
+        <path d="M50 90 L44 16" stroke="rgba(255, 214, 235, 0.26)" strokeWidth="1.2" />
+        <path d="M50 90 L56 16" stroke="rgba(255, 214, 235, 0.26)" strokeWidth="1.2" />
+        <path d="M50 90 L70 20" stroke="rgba(255, 214, 235, 0.28)" strokeWidth="1.2" />
+        <path d="M50 90 L82 28" stroke="rgba(255, 214, 235, 0.3)" strokeWidth="1.2" />
+      </g>
+    </svg>
+  )
+}
+
+function AnemoneSVG({ className, style }) {
+  const tentacles = Array.from({ length: 9 }, (_, i) => i)
+  return (
+    <svg className={className} style={style} viewBox="0 0 100 70" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <defs>
+        <radialGradient id={`rc-anem-${style?.['--coral-id'] || 0}`} cx="0.5" cy="1" r="0.9">
+          <stop stopColor="rgba(232, 150, 210, 0.5)" />
+          <stop offset="1" stopColor="rgba(180, 110, 170, 0.25)" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="50" cy="66" rx="32" ry="6" fill={`url(#rc-anem-${style?.['--coral-id'] || 0})`} />
+      {tentacles.map((i) => {
+        const x = 10 + i * 10
+        const sway = (i % 3) - 1
+        return (
+          <path
+            key={i}
+            className="ocean-bg__anemone-tentacle"
+            style={{ '--tentacle-delay': `${i * 0.28}s`, '--tentacle-sway': `${sway}deg` }}
+            d={`M${x} 64 Q ${x - 4} 40 ${x + 2} 20 Q ${x + 5} 10 ${x} 2`}
+            stroke="rgba(255, 200, 232, 0.4)"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+          />
+        )
+      })}
+    </svg>
+  )
+}
+
+function SeaGrassSVG({ className, style }) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--1" d="M10 100 Q4 62 16 24 Q19 12 22 2" stroke="rgba(45, 212, 191, 0.4)" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--2" d="M30 100 Q36 58 24 20 Q21 8 25 -4" stroke="rgba(20, 201, 201, 0.36)" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--3" d="M46 100 Q52 64 40 28 Q36 16 40 4" stroke="rgba(45, 212, 191, 0.32)" strokeWidth="4" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function ReefBed() {
+  return (
+    <div className="ocean-bg__reef" aria-hidden>
+      <div className="ocean-bg__reef-floor" />
+      <div className="ocean-bg__reef-back">
+        <BrainCoralSVG className="ocean-bg__coral ocean-bg__coral--brain-back" style={{ left: '4%', '--coral-id': 'bb1' }} />
+        <StaghornCoralSVG className="ocean-bg__coral ocean-bg__coral--staghorn-back" style={{ left: '34%', '--coral-id': 'sb1' }} />
+        <FanCoralSVG className="ocean-bg__coral ocean-bg__coral--fan-back" style={{ left: '62%', '--coral-id': 'fb1' }} />
+        <BrainCoralSVG className="ocean-bg__coral ocean-bg__coral--brain-back2" style={{ left: '86%', '--coral-id': 'bb2' }} />
+      </div>
+      <div className="ocean-bg__reef-front">
+        <SeaGrassSVG className="ocean-bg__coral ocean-bg__coral--grass ocean-bg__coral--grass-1" style={{ left: '0%' }} />
+        <StaghornCoralSVG className="ocean-bg__coral ocean-bg__coral--staghorn-1" style={{ left: '10%', '--coral-id': 's1' }} />
+        <AnemoneSVG className="ocean-bg__coral ocean-bg__coral--anemone-1" style={{ left: '24%', '--coral-id': 'a1' }} />
+        <FanCoralSVG className="ocean-bg__coral ocean-bg__coral--fan-1" style={{ left: '40%', '--coral-id': 'f1' }} />
+        <BrainCoralSVG className="ocean-bg__coral ocean-bg__coral--brain-1" style={{ left: '54%', '--coral-id': 'b1' }} />
+        <SeaGrassSVG className="ocean-bg__coral ocean-bg__coral--grass ocean-bg__coral--grass-2" style={{ left: '64%' }} />
+        <StaghornCoralSVG className="ocean-bg__coral ocean-bg__coral--staghorn-2" style={{ left: '76%', '--coral-id': 's2' }} />
+        <AnemoneSVG className="ocean-bg__coral ocean-bg__coral--anemone-2" style={{ left: '90%', '--coral-id': 'a2' }} />
+      </div>
+    </div>
+  )
+}
+
 /* ----- Optional: subtle creature accents (turtle + one jelly) ----- */
 function SeaTurtleSVG({ className }) {
   return (
@@ -94,8 +231,9 @@ function OceanBackground({ light = false }) {
   return (
     <div className="ocean-bg" aria-hidden="true" data-light={light ? 'true' : undefined}>
       <GradientMesh />
-      <Bubbles />
       <SurfaceGlow />
+      <ReefBed />
+      <Bubbles />
       {!light && (
         <>
           <div className="ocean-bg__creature ocean-bg__turtle">

@@ -195,6 +195,219 @@
   75% { opacity: 0.85; transform: translateX(1%) scaleY(1.03); }
 }
 
+/* ----- Coral reef floor: layered silhouettes anchored to the seabed ----- */
+.ocean-bg__reef {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(150px, 24vh, 300px);
+  overflow: hidden;
+  contain: strict;
+  opacity: 0.85;
+  transition: opacity 1.2s ease;
+}
+
+.ocean-bg__reef-floor {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(12, 74, 110, 0.08) 40%,
+    rgba(8, 47, 73, 0.22) 100%
+  );
+}
+
+.ocean-bg__reef-back,
+.ocean-bg__reef-front {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+}
+
+.ocean-bg__reef-back {
+  filter: blur(1.5px) saturate(0.85);
+  opacity: 0.55;
+}
+
+.ocean-bg__reef-front {
+  opacity: 0.9;
+}
+
+.ocean-bg__coral {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Back row: smaller, set further from viewer */
+.ocean-bg__coral--brain-back,
+.ocean-bg__coral--brain-back2 {
+  width: clamp(70px, 8vw, 110px);
+  height: auto;
+  bottom: -6%;
+}
+
+.ocean-bg__coral--staghorn-back {
+  width: clamp(55px, 6.5vw, 90px);
+  height: auto;
+  bottom: -4%;
+}
+
+.ocean-bg__coral--fan-back {
+  width: clamp(60px, 7vw, 95px);
+  height: auto;
+  bottom: -4%;
+}
+
+/* Front row: larger, more saturated, closer to viewer */
+.ocean-bg__coral--staghorn-1,
+.ocean-bg__coral--staghorn-2 {
+  width: clamp(80px, 9.5vw, 130px);
+  height: auto;
+}
+
+.ocean-bg__coral--anemone-1,
+.ocean-bg__coral--anemone-2 {
+  width: clamp(90px, 10.5vw, 140px);
+  height: auto;
+}
+
+.ocean-bg__coral--fan-1 {
+  width: clamp(85px, 10vw, 135px);
+  height: auto;
+}
+
+.ocean-bg__coral--brain-1 {
+  width: clamp(90px, 11vw, 145px);
+  height: auto;
+  bottom: -6%;
+}
+
+.ocean-bg__coral--grass {
+  width: clamp(50px, 6vw, 85px);
+  height: auto;
+}
+
+/* Fan coral: gentle sway like caught in a slow current */
+.ocean-bg__coral-fan {
+  transform-origin: 50% 100%;
+  animation: oceanBgFanSway 7s ease-in-out infinite;
+}
+
+.ocean-bg__coral--fan-back .ocean-bg__coral-fan {
+  animation-duration: 9s;
+  animation-delay: -3s;
+}
+
+@keyframes oceanBgFanSway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+/* Staghorn coral: subtle branch-tip drift */
+.ocean-bg__coral-sway {
+  transform-origin: 50% 100%;
+  animation: oceanBgStaghornSway 11s ease-in-out infinite;
+}
+
+.ocean-bg__coral--staghorn-back .ocean-bg__coral-sway {
+  animation-duration: 13s;
+  animation-delay: -5s;
+}
+
+.ocean-bg__coral--staghorn-2 .ocean-bg__coral-sway {
+  animation-delay: -6s;
+}
+
+@keyframes oceanBgStaghornSway {
+  0%, 100% { transform: rotate(-1.4deg); }
+  50% { transform: rotate(1.4deg); }
+}
+
+/* Anemone: individually staggered tentacle undulation */
+.ocean-bg__anemone-tentacle {
+  transform-origin: 50% 100%;
+  animation: oceanBgTentacleWave 4s ease-in-out infinite;
+  animation-delay: var(--tentacle-delay, 0s);
+}
+
+@keyframes oceanBgTentacleWave {
+  0%, 100% { transform: rotate(calc(var(--tentacle-sway, 0deg) * -1)); }
+  50% { transform: rotate(var(--tentacle-sway, 0deg)); }
+}
+
+/* Sea grass: staggered current sway */
+.ocean-bg__grass-blade {
+  transform-origin: 50% 100%;
+  animation: oceanBgGrassSway 6s ease-in-out infinite;
+}
+
+.ocean-bg__grass-blade--2 {
+  animation-duration: 5s;
+  animation-delay: -1.5s;
+}
+
+.ocean-bg__grass-blade--3 {
+  animation-duration: 6.6s;
+  animation-delay: -3s;
+}
+
+@keyframes oceanBgGrassSway {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+/* Brain coral: near-static, only a slow bioluminescent breathing glow */
+.ocean-bg__coral--brain-back,
+.ocean-bg__coral--brain-back2,
+.ocean-bg__coral--brain-1 {
+  animation: oceanBgBrainGlow 14s ease-in-out infinite;
+}
+
+.ocean-bg__coral--brain-back2 {
+  animation-delay: -7s;
+}
+
+@keyframes oceanBgBrainGlow {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.15); }
+}
+
+/* Reef vividness follows scroll depth — most vibrant at the "reef" section itself */
+body[data-depth='surface'] .ocean-bg__reef {
+  opacity: 0.65;
+}
+
+body[data-depth='reef'] .ocean-bg__reef {
+  opacity: 1;
+}
+
+body[data-depth='mid'] .ocean-bg__reef {
+  opacity: 0.8;
+}
+
+body[data-depth='deep'] .ocean-bg__reef {
+  opacity: 0.55;
+}
+
+body[data-depth='trench'] .ocean-bg__reef {
+  opacity: 0.35;
+}
+
+/* Light variant: keep the reef but hush its saturation and motion further */
+.ocean-bg[data-light='true'] .ocean-bg__reef {
+  opacity: 0.4;
+}
+
 /* ----- Creatures: subtle accent (turtle + one jelly) ----- */
 .ocean-bg__creature {
   position: absolute;
