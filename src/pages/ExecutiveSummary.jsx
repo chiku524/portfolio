@@ -195,8 +195,8 @@ export default function ExecutiveSummary() {
           <section>
             <h2>Direction &amp; aspirations</h2>
             <p>
-              <strong>Innovation × precision:</strong> I want every release to feel &quot;tide tested&quot;—fast
-              to prototype, disciplined to validate, relentless on polish.
+              <strong>Innovation × precision:</strong> I want every release to feel production-ready—fast
+              to prototype, disciplined to validate, and thorough on polish.
             </p>
             <p>
               <strong>Community-first collaboration:</strong> I seek partnerships with founders, DAOs, and

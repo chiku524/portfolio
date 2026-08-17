@@ -111,18 +111,16 @@ Import: `@import url('./brand-kit/colors/palette.css');`
 ### Key phrases
 
 - "Flow Beyond Limits"
-- "Tide-tested precision"
-- "Future internet habitats"
-- "Live reefs" (projects)
-- "Dive equipment" (skills)
-- "Signal the crew" (contact)
+- "Stay Playful, Ship Serious."
+- "Building digital products that perform with precision"
+- "Selected Work"
+- "Capabilities"
+- "Contact"
 
-### Oceanic metaphors (use sparingly)
+### Oceanic metaphors (visual theme only)
 
-- Navigation: "Chart the map", "Signal the crew"
-- Depth: "Tide-tested precision", "Deep dive"
-- Community: "Live reefs", "Crew on deck"
-- Innovation: "Next wave", "Breaking the timeline"
+The site’s visual language is aquatic. UI copy stays professional and direct—reserve nautical phrasing for
+the slogan and brand mark, not section titles or CTAs.
 
 ### By context
 

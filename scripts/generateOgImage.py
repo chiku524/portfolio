@@ -334,7 +334,7 @@ def generate_image(size, layout, font_path, logo_path):
     centered_text(draw, "Full-Stack Developer", text_start + 76, tag_font, TEXT_PRIMARY, width)
     draw_flourish(draw, width, text_start + 122)
     centered_text(draw, "Flow Beyond Limits", text_start + 138, motto_font, ACCENT_CORAL, width)
-    centered_text(draw, "Crafting future internet habitats", text_start + 182, desc_font, TEXT_TERTIARY, width)
+    centered_text(draw, "Building products that perform with precision", text_start + 182, desc_font, TEXT_TERTIARY, width)
     centered_text(draw, "nico.builds", height - (48 if layout == "og" else 56), brand_font, TEXT_SECONDARY, width)
 
     return canvas.convert("RGB")

@@ -50,7 +50,7 @@ function Portfolio() {
   useSeo({
     title: 'Nico Chikuji | Full-Stack Developer | Flow Beyond Limits',
     description:
-      'Full-stack developer crafting future internet habitats with tide-tested precision. From web3 reefs to AI-powered currents, building products that perform, delight, and echo community culture.',
+      'Full-stack developer building web3, AI, and product systems that perform and scale. Flow beyond limits. Stay Playful, Ship Serious.',
   })
   const backgroundCanvasRef = useRef(null)
   const videoRefs = useRef({})
@@ -961,37 +961,37 @@ function Portfolio() {
       label: 'X (Twitter)',
       handle: '@NChikuji',
       url: 'https://x.com/NChikuji',
-      tone: 'Daily alpha, ship logs, and NFT-sidequest energy.',
+      tone: 'Product updates, shipping notes, and current work.',
     },
     {
       label: 'LinkedIn',
       handle: 'nicholas-chikuji',
       url: 'https://www.linkedin.com/in/nico-chikuji/',
-      tone: 'Professional storyline, collab invites, and growth ops.',
+      tone: 'Background, collaboration, and professional inquiries.',
     },
     {
       label: 'GitHub',
       handle: 'chiku524',
       url: 'https://github.com/chiku524',
-      tone: 'Repos, experiments, and proof that the commits keep flowing.',
+      tone: 'Source, experiments, and ongoing development.',
     },
     {
       label: 'Reddit',
       handle: 'u/nicopico524',
       url: 'https://www.reddit.com/user/nicopico524/',
-      tone: 'Community dives, AMAs, and meme-encoded research.',
+      tone: 'Community discussion and technical threads.',
     },
     {
       label: 'YouTube',
       handle: '@nicochikuji',
       url: 'https://www.youtube.com/@nicochikuji',
-      tone: 'Visual drops, walkthroughs, and behind-the-scenes builds.',
+      tone: 'Walkthroughs and behind-the-scenes build videos.',
     },
     {
       label: 'Discord',
       handle: 'nkc6469',
       url: 'https://discord.com/users/nkc6469',
-      tone: 'Real-time scheming. DM for invites, demos, or chaos.',
+      tone: 'Direct messages for demos, questions, or collaboration.',
       isUserHandle: true,
     },
   ]
@@ -1336,14 +1336,14 @@ function Portfolio() {
             >
               <a 
                 href="#proof" 
-                aria-label="View proof of work" 
+                aria-label="View selected work" 
                 onClick={() => {
                   trackEvent('nav_click', { link: 'proof' })
                   setIsMobileMenuOpen(false)
                 }}
               >
                 <Anchor className="nav__link-icon" size={14} aria-hidden />
-                Proof
+                Work
               </a>
               <a 
                 href="#skills" 
@@ -1358,14 +1358,14 @@ function Portfolio() {
               </a>
               <a 
                 href="#aspirations" 
-                aria-label="View aspirations" 
+                aria-label="View approach" 
                 onClick={() => {
                   trackEvent('nav_click', { link: 'aspirations' })
                   setIsMobileMenuOpen(false)
                 }}
               >
                 <Compass className="nav__link-icon" size={14} aria-hidden />
-                Aspirations
+                Approach
               </a>
               <a 
                 href="#contact" 
@@ -1383,18 +1383,18 @@ function Portfolio() {
                 href={calendlyLink}
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Book a build sprint on Calendly"
+                aria-label="Book a call on Calendly"
                 onClick={() => {
                   trackEvent('nav_click', { link: 'book_sprint_menu' })
                   setIsMobileMenuOpen(false)
                 }}
               >
-                Book a build sprint
+                Book a call
               </a>
             </div>
             <div className="nav__actions">
-              <a className="nav__cta nav__cta--header" href={calendlyLink} target="_blank" rel="noreferrer" aria-label="Book a build sprint on Calendly">
-                Book a build sprint
+              <a className="nav__cta nav__cta--header" href={calendlyLink} target="_blank" rel="noreferrer" aria-label="Book a call on Calendly">
+                Book a call
               </a>
               <button
                 type="button"
@@ -1419,28 +1419,28 @@ function Portfolio() {
                 full-stack developer
               </div>
               <h1 className="hero-enter" style={{ '--enter-delay': '120ms' }}>
-                Designing future internet habitats <span>with tide-tested precision.</span>
+                Building digital products <span>that perform with precision.</span>
               </h1>
               <p className="hero__mantra hero-enter" style={{ '--enter-delay': '220ms' }}>
-                Flow beyond limits. Stay playful, ship serious.
+                Flow beyond limits. Stay Playful, Ship Serious.
               </p>
               <p className="hero__tagline hero-enter" style={{ '--enter-delay': '300ms' }}>
-                From web3 reefs to AI-powered currents, I craft products that perform, delight, and echo
-                community culture. Every launch: charted, memorable, seaworthy.
+                I work across web3, AI, and the modern web—shipping products that are reliable, considered,
+                and built for the people who use them.
               </p>
               <div className="hero__actions hero-enter" style={{ '--enter-delay': '400ms' }}>
                 <a className="button button--primary" href="#proof">
-                  Explore live reefs
+                  View selected work
                   <ExternalLink className="button__icon-svg" size={16} aria-hidden />
                 </a>
                 <a className="button button--ghost" href={calendlyLink} target="_blank" rel="noreferrer">
-                  Launch a voyage
+                  Book a call
                   <Calendar className="button__icon-svg" size={16} aria-hidden />
                 </a>
               </div>
               <div className="hero__meta hero-enter" style={{ '--enter-delay': '500ms' }}>
                 <span>
-                  Currently collaborating with AI copilots, founders, and legendary crews on the next big wave.
+                  Currently collaborating with founders, operators, and AI-assisted teams on new product work.
                 </span>
               </div>
               <div className="hero__values hero-enter" style={{ '--enter-delay': '580ms' }}>
@@ -1462,9 +1462,9 @@ function Portfolio() {
             <div className="section__header reveal">
               <h2>
                 <Anchor className="section__header-icon" size={28} aria-hidden />
-                Live Reef Signals
+                Selected Work
               </h2>
-              <p>Production ecosystems sailing today—dive in to see them operating in the wild.</p>
+              <p>Products in production, from web3 and AI to client platforms.</p>
             </div>
             <div className="project-grid">
               {proofOfWork.map((project, index) => {
@@ -1538,7 +1538,7 @@ function Portfolio() {
                         </div>
                       )}
                       <div className="project-card__overlay">
-                        <span><ExternalLink className="project-card__overlay-icon" size={18} aria-hidden /> {isInternalLink ? 'View project' : 'Visit reef'}</span>
+                        <span><ExternalLink className="project-card__overlay-icon" size={18} aria-hidden /> {isInternalLink ? 'View project' : 'Visit site'}</span>
                       </div>
                       <div className="project-card__caustic" aria-hidden="true" />
                       <div className="project-card__shimmer" aria-hidden="true" />
@@ -1581,17 +1581,17 @@ function Portfolio() {
             <div className="section__header reveal">
               <h2>
                 <Wrench className="section__header-icon" size={28} aria-hidden />
-                Dive Equipment
+                Capabilities
               </h2>
-              <p>Capabilities tuned for fast shipping, resilient scaling, and community-first experiences.</p>
+              <p>The tools and practices I use to ship quickly without sacrificing quality.</p>
             </div>
             <div className="columns columns--stagger">
               <div className="card card--column reveal" data-reveal-step="0">
-                <h3><LayoutDashboard className="card__title-icon" size={20} aria-hidden /> Product Charter</h3>
+                <h3><LayoutDashboard className="card__title-icon" size={20} aria-hidden /> Product Engineering</h3>
                 <ul>
-                  <li>Full-stack delivery with React, Next.js, Supabase, Node, and resilient infra.</li>
-                  <li>Design systems that balance premium polish, crisp UX flows, and measurable KPIs.</li>
-                  <li>Reliable release cadence—async rituals, pair sessions, and transparent roadmaps.</li>
+                  <li>Full-stack delivery with React, Next.js, Supabase, Node, and reliable infrastructure.</li>
+                  <li>Design systems that balance polish, clear UX, and measurable outcomes.</li>
+                  <li>A steady release cadence—async collaboration, pairing, and transparent roadmaps.</li>
                 </ul>
               </div>
               <div className="card card--column reveal" data-reveal-step="1">
@@ -1603,11 +1603,11 @@ function Portfolio() {
                 </ul>
               </div>
               <div className="card card--column reveal" data-reveal-step="2">
-                <h3><Globe className="card__title-icon" size={20} aria-hidden /> Web3 & Culture</h3>
+                <h3><Globe className="card__title-icon" size={20} aria-hidden /> Web3 & Community</h3>
                 <ul>
-                  <li>Composable dApps with wallet UX that feels familiar, safe, and fun to click through.</li>
-                  <li>On-chain insights—dashboards, bots, automated reporting—fueled by AI analysis.</li>
-                  <li>Community playbooks across lore, memes, launch comms, and retention loops.</li>
+                  <li>Composable dApps with wallet UX that feels familiar, safe, and easy to use.</li>
+                  <li>On-chain insights—dashboards, bots, and reporting—supported by AI analysis.</li>
+                  <li>Community playbooks covering launches, communication, and retention.</li>
                 </ul>
               </div>
             </div>
@@ -1621,8 +1621,8 @@ function Portfolio() {
                 ))}
               </div>
               <p className="toolkit__note">
-                Cursor stays glued to my right hand. Everything else—Pisces, CapCut, Canva, custom GPTs—slides in
-                when it amplifies output.
+                Cursor is my primary environment. Other tools—Pisces, CapCut, Canva, custom GPTs—come in
+                when they improve the outcome.
               </p>
               <GitHubActivityChart username="chiku524" className="reveal" />
             </div>
@@ -1631,9 +1631,9 @@ function Portfolio() {
             <div className="section__header reveal">
               <h2>
                 <Compass className="section__header-icon" size={28} aria-hidden />
-                Future Currents
+                Approach
               </h2>
-              <p>Always charting the next voyage—preferably with a co-captain on deck.</p>
+              <p>How I like to work, and the teams I do my best work with.</p>
             </div>
             <div className="aspirations">
               <div className="aspirations__card reveal" data-reveal-step="0">
@@ -1641,8 +1641,8 @@ function Portfolio() {
                 <span className="aspirations__label">01</span>
                 <h3>Innovation × Precision</h3>
                 <p>
-                  Future habitats deserve engineering rigor. I prototype fast, validate with data, and polish
-                  relentlessly so every release feels tide tested.
+                  Strong products need engineering rigor. I prototype quickly, validate with data, and polish
+                  until every release is ready for production.
                 </p>
               </div>
               <div className="aspirations__card reveal" data-reveal-step="1">
@@ -1650,8 +1650,8 @@ function Portfolio() {
                 <span className="aspirations__label">02</span>
                 <h3>Community-First Collaboration</h3>
                 <p>
-                  Co-creating with founders, DAOs, and creators keeps the reef thriving—open comms, async rituals,
-                  and transparent roadmaps invite everyone on deck.
+                  I do my best work alongside founders, DAOs, and creators—open communication, async rituals,
+                  and transparent roadmaps so everyone stays aligned.
                 </p>
               </div>
               <div className="aspirations__card reveal" data-reveal-step="2">
@@ -1659,8 +1659,8 @@ function Portfolio() {
                 <span className="aspirations__label">03</span>
                 <h3>Playful Seriousness</h3>
                 <p>
-                  Tone stays light, craft stays sharp. Humor, lore, and trust weave into every ship date so teams
-                  feel energized to chase the next wave together.
+                  Tone can stay light while the craft stays sharp. Humor and trust belong in the process so teams
+                  stay energized without losing the standard.
                 </p>
               </div>
             </div>
@@ -1669,11 +1669,10 @@ function Portfolio() {
             <div className="section__header reveal" data-reveal-step="0">
               <h2>
                 <Mail className="section__header-icon" size={28} aria-hidden />
-                Signal the Crew
+                Contact
               </h2>
               <p>
-                Plotting a stealth launch, growth sprint, or content wave? Drop a signal—we’ll chart the map
-                together.
+                Have a product, engagement, or collaboration in mind? Reach out and we can talk through it.
               </p>
             </div>
             <div className="contact-grid">
@@ -1683,10 +1682,10 @@ function Portfolio() {
                 <a className="contact-email" href="mailto:nico.builds@outlook.com">
                   nico.builds@outlook.com
                 </a>
-                <p>Send the plan, the problem, or the meme. I’ll respond faster than the tide changes.</p>
+                <p>Share the brief, the constraint, or the question. I typically reply within a day or two.</p>
               </div>
               <div className="card card--contact reveal" data-reveal-step="2">
-                <span className="card__badge card__badge--orbit">Signal buoys</span>
+                <span className="card__badge card__badge--orbit">Social</span>
                 <h3><Share2 className="card__title-icon" size={20} aria-hidden /> Social channels</h3>
                 <ul className="contact-socials">
                   {socialLinks.map((link) => {
@@ -1710,7 +1709,7 @@ function Portfolio() {
               </div>
               <div className="card card--contact reveal" data-reveal-step="3">
                 <span className="card__badge card__badge--signal">Message</span>
-                <h3><MessageSquare className="card__title-icon" size={20} aria-hidden /> Drop a message</h3>
+                <h3><MessageSquare className="card__title-icon" size={20} aria-hidden /> Send a message</h3>
                 <form
                   className="contact-form"
                   action="https://formsubmit.co/nico.builds@outlook.com"
@@ -1743,7 +1742,7 @@ function Portfolio() {
                       id="email"
                       name="email"
                       type="email"
-                      placeholder="you@crew.xyz"
+                      placeholder="you@company.com"
                       autoComplete="email"
                       required
                       aria-invalid={formErrors.email ? 'true' : 'false'}
@@ -1756,13 +1755,13 @@ function Portfolio() {
                     )}
                   </div>
                   <div className="form-field">
-                    <label htmlFor="topic">Mission type</label>
+                    <label htmlFor="topic">Inquiry type</label>
                     <select id="topic" name="topic" defaultValue="collab" autoComplete="off">
-                      <option value="collab">Product or feature sprint</option>
+                      <option value="collab">Product or feature work</option>
                       <option value="consult">Consulting / advisory</option>
-                      <option value="content">Content & media wave</option>
+                      <option value="content">Content and media</option>
                       <option value="speaking">Workshop / speaking</option>
-                      <option value="other">Something unexpected</option>
+                      <option value="other">Other</option>
                     </select>
                   </div>
                   <div className="form-field">
@@ -1770,7 +1769,7 @@ function Portfolio() {
                     <textarea
                       id="message"
                       name="message"
-                      placeholder="What waters are we charting together?"
+                      placeholder="How can I help?"
                       rows={4}
                       autoComplete="off"
                       required
@@ -1799,7 +1798,7 @@ function Portfolio() {
                     disabled={isSubmitting}
                     aria-busy={isSubmitting}
                   >
-                    {isSubmitting ? 'Sending...' : 'Send the signal'}
+                    {isSubmitting ? 'Sending...' : 'Send message'}
                   </button>
                   <p className="form-footnote">
                     Powered by FormSubmit for now—happy to sync via Matrix, Warpcast, or Discord if you prefer.{' '}
@@ -1811,14 +1810,14 @@ function Portfolio() {
               </div>
               <div className="card card--contact card--calendly reveal">
                 <span className="card__badge card__badge--spark">Book time</span>
-                <h3><Calendar className="card__title-icon" size={20} aria-hidden /> Discovery dive</h3>
+                <h3><Calendar className="card__title-icon" size={20} aria-hidden /> Intro call</h3>
                 <ul className="contact-next">
-                  <li>Align on mission objectives, milestones, and crew roles in 30 focused minutes.</li>
-                  <li>Swap docs, decks, and dashboards to accelerate our first sprint.</li>
-                  <li>Leave with next steps, resource needs, and a vibe-check summary.</li>
+                  <li>Align on objectives, milestones, and responsibilities in 30 focused minutes.</li>
+                  <li>Share docs, decks, and context so we can move quickly if we work together.</li>
+                  <li>Leave with next steps, resource needs, and a clear summary.</li>
                 </ul>
                 <a className="button button--primary contact-cta" href={calendlyLink} target="_blank" rel="noreferrer">
-                  Reserve a dive slot
+                  Schedule a call
                 </a>
                 <div className="calendar-inline">
                   <div
@@ -1840,18 +1839,18 @@ function Portfolio() {
               <img className="footer__logo" src={logoMark} alt="nico.builds logo" loading="lazy" />
               <div className="footer__brand-copy">
                 <span className="footer__brand-title">Flow Beyond Limits</span>
-                <span className="footer__brand-motto">Full-stack developer for playful, precision builds.</span>
+                <span className="footer__brand-motto">Full-stack developer for considered, high-quality builds.</span>
               </div>
             </div>
-            <h2>Let’s build something that breaks the timeline.</h2>
+            <h2>Let’s build something worth shipping.</h2>
             <p>
-              Slide into my DMs or drop a line via any project above. I love teaming up with curious builders,
-              founders, and designers who want to remix the future with transparency and trust.
+              Reach out directly or through any of the projects above. I work with founders, operators,
+              and designers who care about quality and follow-through.
             </p>
             <div className="footer__actions">
               <a className="button button--primary" href={calendlyLink} target="_blank" rel="noreferrer">
                 <Calendar className="button__icon-svg" size={16} aria-hidden />
-                Start a collab
+                Start a project
               </a>
               <a className="button button--ghost" href="#top">
                 <ArrowUp className="button__icon-svg" size={16} aria-hidden />
@@ -1859,7 +1858,7 @@ function Portfolio() {
               </a>
             </div>
             <span className="footer__note">
-              © {new Date().getFullYear()} nico.builds — fueled by AI copilots and meme-grade imagination.
+              © {new Date().getFullYear()} nico.builds — built with care and modern tooling.
               {' '}
               <Link to="/terms-of-service">Terms</Link>
               {' · '}

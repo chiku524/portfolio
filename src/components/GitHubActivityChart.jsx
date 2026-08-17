@@ -122,7 +122,7 @@ function GitHubActivityChart({ username = 'chiku524', className = '' }) {
   return (
     <div className={`github-activity ${className}`} aria-label="GitHub contribution activity">
       <div className="github-activity__header">
-        <h4 className="github-activity__title">Code rhythm</h4>
+        <h4 className="github-activity__title">GitHub activity</h4>
         {total !== null && (
           <span className="github-activity__total">
             {total.toLocaleString()} contributions in the last year
