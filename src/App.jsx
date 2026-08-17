@@ -43,6 +43,8 @@ import TikTokCallback from './pages/TikTokCallback'
 import ExecutiveSummary from './pages/ExecutiveSummary'
 import GitHubActivityChart from './components/GitHubActivityChart'
 import OceanBackground from './components/OceanBackground'
+import HeroAtmosphere from './components/HeroAtmosphere'
+import { prefersFinePointer, prefersReducedMotion } from './utils/motion'
 
 function Portfolio() {
   useSeo({
@@ -1055,9 +1057,129 @@ function Portfolio() {
   }, [ensureVideoLoaded, proofOfWork])
 
   useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll('[data-depth]'))
+    if (!nodes.length) {
+      document.body.dataset.depth = 'surface'
+      return () => { delete document.body.dataset.depth }
+    }
+
+    const setDepth = () => {
+      const vh = window.innerHeight
+      let best = 'surface'
+      let bestVisible = 0
+      nodes.forEach((el) => {
+        const r = el.getBoundingClientRect()
+        const visible = Math.min(r.bottom, vh) - Math.max(r.top, 0)
+        if (visible > bestVisible) {
+          bestVisible = visible
+          best = el.dataset.depth || 'surface'
+        }
+      })
+      if (document.body.dataset.depth !== best) {
+        document.body.dataset.depth = best
+      }
+    }
+
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        setDepth()
+        ticking = false
+      })
+    }
+
     document.body.dataset.depth = 'surface'
-    return () => { delete document.body.dataset.depth }
+    setDepth()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      delete document.body.dataset.depth
+    }
   }, [])
+
+  useEffect(() => {
+    if (!prefersFinePointer() || prefersReducedMotion()) return
+    const hero = document.querySelector('.hero')
+    if (!hero) return
+
+    let rafId = null
+    let targetX = 0
+    let targetY = 0
+    let currentX = 0
+    let currentY = 0
+
+    const tick = () => {
+      currentX += (targetX - currentX) * 0.07
+      currentY += (targetY - currentY) * 0.07
+      hero.style.setProperty('--px', currentX.toFixed(3))
+      hero.style.setProperty('--py', currentY.toFixed(3))
+      if (Math.abs(targetX - currentX) > 0.002 || Math.abs(targetY - currentY) > 0.002) {
+        rafId = requestAnimationFrame(tick)
+      } else {
+        rafId = null
+      }
+    }
+
+    const onMove = (event) => {
+      const w = window.innerWidth || 1
+      const h = window.innerHeight || 1
+      targetX = (event.clientX / w - 0.5) * 2
+      targetY = (event.clientY / h - 0.5) * 2
+      if (!rafId) rafId = requestAnimationFrame(tick)
+    }
+
+    window.addEventListener('pointermove', onMove, { passive: true })
+    return () => {
+      window.removeEventListener('pointermove', onMove)
+      if (rafId) cancelAnimationFrame(rafId)
+      hero.style.removeProperty('--px')
+      hero.style.removeProperty('--py')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!prefersFinePointer() || prefersReducedMotion()) return
+    const grid = document.querySelector('.project-grid')
+    if (!grid) return
+
+    let lastCard = null
+    const reset = (card) => {
+      card.style.setProperty('--tilt-x', '0deg')
+      card.style.setProperty('--tilt-y', '0deg')
+      card.style.setProperty('--glare-x', '50%')
+      card.style.setProperty('--glare-y', '50%')
+    }
+
+    const onMove = (event) => {
+      const card = event.target.closest('.project-card')
+      if (lastCard && lastCard !== card) reset(lastCard)
+      lastCard = card
+      if (!card || !grid.contains(card)) return
+      const rect = card.getBoundingClientRect()
+      const x = (event.clientX - rect.left) / Math.max(rect.width, 1)
+      const y = (event.clientY - rect.top) / Math.max(rect.height, 1)
+      card.style.setProperty('--tilt-x', `${((0.5 - y) * 6).toFixed(2)}deg`)
+      card.style.setProperty('--tilt-y', `${((x - 0.5) * 8).toFixed(2)}deg`)
+      card.style.setProperty('--glare-x', `${(x * 100).toFixed(1)}%`)
+      card.style.setProperty('--glare-y', `${(y * 100).toFixed(1)}%`)
+    }
+
+    const onLeave = () => {
+      if (lastCard) reset(lastCard)
+      lastCard = null
+    }
+
+    grid.addEventListener('pointermove', onMove, { passive: true })
+    grid.addEventListener('pointerleave', onLeave, { passive: true })
+    return () => {
+      grid.removeEventListener('pointermove', onMove)
+      grid.removeEventListener('pointerleave', onLeave)
+    }
+  }, [proofOfWork])
 
   useEffect(() => {
     const snappables = Array.from(document.querySelectorAll('[data-snappable="true"]'))
@@ -1267,26 +1389,25 @@ function Portfolio() {
         </header>
 
         <header className="hero" id="top" data-snappable="true" data-depth="surface">
-          <>
-            <div className="hero__aurora hero__aurora--one" />
-            <div className="hero__aurora hero__aurora--two" />
-          </>
+          <HeroAtmosphere />
           <div className="hero__inner page-shell">
-            <div className="hero__content reveal">
-              <div className="hero__eyebrow">
+            <div className="hero__content">
+              <div className="hero__eyebrow hero-enter" style={{ '--enter-delay': '40ms' }}>
                 <Code2 className="hero__eyebrow-icon" size={16} aria-hidden />
                 <span className="dot dot--cyan" />
                 full-stack developer
               </div>
-              <h1>
+              <h1 className="hero-enter" style={{ '--enter-delay': '120ms' }}>
                 Designing future internet habitats <span>with tide-tested precision.</span>
               </h1>
-              <p className="hero__mantra">Flow beyond limits. Stay playful, ship serious.</p>
-              <p className="hero__tagline">
+              <p className="hero__mantra hero-enter" style={{ '--enter-delay': '220ms' }}>
+                Flow beyond limits. Stay playful, ship serious.
+              </p>
+              <p className="hero__tagline hero-enter" style={{ '--enter-delay': '300ms' }}>
                 From web3 reefs to AI-powered currents, I craft products that perform, delight, and echo
                 community culture. Every launch: charted, memorable, seaworthy.
               </p>
-              <div className="hero__actions">
+              <div className="hero__actions hero-enter" style={{ '--enter-delay': '400ms' }}>
                 <a className="button button--primary" href="#proof">
                   Explore live reefs
                   <ExternalLink className="button__icon-svg" size={16} aria-hidden />
@@ -1296,12 +1417,12 @@ function Portfolio() {
                   <Calendar className="button__icon-svg" size={16} aria-hidden />
                 </a>
               </div>
-              <div className="hero__meta">
+              <div className="hero__meta hero-enter" style={{ '--enter-delay': '500ms' }}>
                 <span>
                   Currently collaborating with AI copilots, founders, and legendary crews on the next big wave.
                 </span>
               </div>
-              <div className="hero__values">
+              <div className="hero__values hero-enter" style={{ '--enter-delay': '580ms' }}>
                 <span className="value-chip"><Zap className="value-chip__icon" size={14} aria-hidden /> Innovation × Precision</span>
                 <span className="value-chip"><Users className="value-chip__icon" size={14} aria-hidden /> Community-First Collaboration</span>
                 <span className="value-chip"><Smile className="value-chip__icon" size={14} aria-hidden /> Playful Seriousness</span>
@@ -1325,7 +1446,7 @@ function Portfolio() {
               <p>Production ecosystems sailing today—dive in to see them operating in the wild.</p>
             </div>
             <div className="project-grid">
-              {proofOfWork.map((project) => {
+              {proofOfWork.map((project, index) => {
                 const isEcosystem = project.type === 'ecosystem'
                 const isInternalLink = !isEcosystem && project.url.startsWith('/')
                 const PreviewLink = isInternalLink ? Link : 'a'
@@ -1350,6 +1471,7 @@ function Portfolio() {
                     key={project.name}
                     className={`project-card reveal ${isEcosystem ? 'project-card--ecosystem' : ''}`}
                     data-project-name={project.name}
+                    data-reveal-step={index % 6}
                   >
                     <PreviewLink
                       className={`project-card__preview ${showFallback ? 'project-card__preview--fallback' : ''}`}
@@ -1397,6 +1519,7 @@ function Portfolio() {
                       <div className="project-card__overlay">
                         <span><ExternalLink className="project-card__overlay-icon" size={18} aria-hidden /> {isInternalLink ? 'View project' : 'Visit reef'}</span>
                       </div>
+                      <div className="project-card__caustic" aria-hidden="true" />
                       <div className="project-card__shimmer" aria-hidden="true" />
                     </PreviewLink>
                     <div className="project-card__body">
@@ -1442,7 +1565,7 @@ function Portfolio() {
               <p>Capabilities tuned for fast shipping, resilient scaling, and community-first experiences.</p>
             </div>
             <div className="columns columns--stagger">
-              <div className="card card--column reveal">
+              <div className="card card--column reveal" data-reveal-step="0">
                 <h3><LayoutDashboard className="card__title-icon" size={20} aria-hidden /> Product Charter</h3>
                 <ul>
                   <li>Full-stack delivery with React, Next.js, Supabase, Node, and resilient infra.</li>
@@ -1450,7 +1573,7 @@ function Portfolio() {
                   <li>Reliable release cadence—async rituals, pair sessions, and transparent roadmaps.</li>
                 </ul>
               </div>
-              <div className="card card--column reveal">
+              <div className="card card--column reveal" data-reveal-step="1">
                 <h3><Bot className="card__title-icon" size={20} aria-hidden /> AI Amplification</h3>
                 <ul>
                   <li>Cursor-first workflow for rapid ideation, refactors, automated QA, and docs.</li>
@@ -1458,7 +1581,7 @@ function Portfolio() {
                   <li>Copilots powering smart contracts, operational tooling, and creator pipelines.</li>
                 </ul>
               </div>
-              <div className="card card--column reveal">
+              <div className="card card--column reveal" data-reveal-step="2">
                 <h3><Globe className="card__title-icon" size={20} aria-hidden /> Web3 & Culture</h3>
                 <ul>
                   <li>Composable dApps with wallet UX that feels familiar, safe, and fun to click through.</li>
@@ -1492,7 +1615,7 @@ function Portfolio() {
               <p>Always charting the next voyage—preferably with a co-captain on deck.</p>
             </div>
             <div className="aspirations">
-              <div className="aspirations__card reveal">
+              <div className="aspirations__card reveal" data-reveal-step="0">
                 <Target className="aspirations__card-icon" size={24} aria-hidden />
                 <span className="aspirations__label">01</span>
                 <h3>Innovation × Precision</h3>
@@ -1501,7 +1624,7 @@ function Portfolio() {
                   relentlessly so every release feels tide tested.
                 </p>
               </div>
-              <div className="aspirations__card reveal">
+              <div className="aspirations__card reveal" data-reveal-step="1">
                 <Users className="aspirations__card-icon" size={24} aria-hidden />
                 <span className="aspirations__label">02</span>
                 <h3>Community-First Collaboration</h3>
@@ -1510,7 +1633,7 @@ function Portfolio() {
                   and transparent roadmaps invite everyone on deck.
                 </p>
               </div>
-              <div className="aspirations__card reveal">
+              <div className="aspirations__card reveal" data-reveal-step="2">
                 <Smile className="aspirations__card-icon" size={24} aria-hidden />
                 <span className="aspirations__label">03</span>
                 <h3>Playful Seriousness</h3>

@@ -184,6 +184,44 @@ function ReefBed() {
   )
 }
 
+/* ----- Surface light shafts: god-rays filtering through the water column ----- */
+function LightShafts() {
+  return (
+    <div className="ocean-bg__shafts" aria-hidden>
+      <span className="ocean-bg__shaft ocean-bg__shaft--1" />
+      <span className="ocean-bg__shaft ocean-bg__shaft--2" />
+      <span className="ocean-bg__shaft ocean-bg__shaft--3" />
+      <span className="ocean-bg__shaft ocean-bg__shaft--4" />
+    </div>
+  )
+}
+
+function DriftFishSVG({ id, className }) {
+  return (
+    <svg className={className} viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+      <defs>
+        <linearGradient id={`ob-drift-${id}`} x1="0.1" y1="0.2" x2="0.9" y2="0.85">
+          <stop stopColor="rgba(34, 211, 238, 0.55)" />
+          <stop offset="1" stopColor="rgba(14, 165, 233, 0.22)" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="34" cy="16" rx="24" ry="11" fill={`url(#ob-drift-${id})`} />
+      <path d="M58 16 L78 5 L71 16 L78 27 Z" fill={`url(#ob-drift-${id})`} />
+      <circle cx="20" cy="14" r="2" fill="rgba(8, 47, 73, 0.55)" />
+    </svg>
+  )
+}
+
+function DriftSchool() {
+  return (
+    <div className="ocean-bg__school" aria-hidden>
+      <DriftFishSVG id="a" className="ocean-bg__drift-fish ocean-bg__drift-fish--1" />
+      <DriftFishSVG id="b" className="ocean-bg__drift-fish ocean-bg__drift-fish--2" />
+      <DriftFishSVG id="c" className="ocean-bg__drift-fish ocean-bg__drift-fish--3" />
+    </div>
+  )
+}
+
 /* ----- Optional: subtle creature accents (turtle + one jelly) ----- */
 function SeaTurtleSVG({ className }) {
   return (
@@ -209,17 +247,17 @@ function SeaTurtleSVG({ className }) {
   )
 }
 
-function JellyfishSVG({ className }) {
+function JellyfishSVG({ className, jellyId = '1' }) {
   return (
     <svg className={className} viewBox="0 0 80 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
-        <linearGradient id="ob-jelly-body" x1="0.4" y1="0.1" x2="0.6" y2="0.95">
+        <linearGradient id={`ob-jelly-body-${jellyId}`} x1="0.4" y1="0.1" x2="0.6" y2="0.95">
           <stop stopColor="rgba(255,252,255,0.35)" />
           <stop offset="0.7" stopColor="rgba(160,195,215,0.2)" />
           <stop offset="1" stopColor="rgba(100,150,180,0.06)" />
         </linearGradient>
       </defs>
-      <path className="ocean-bg__jelly-bell" d="M 40 8 Q 62 10 66 32 Q 68 48 40 52 Q 12 48 14 32 Q 18 10 40 8 Z" fill="url(#ob-jelly-body)" />
+      <path className="ocean-bg__jelly-bell" d="M 40 8 Q 62 10 66 32 Q 68 48 40 52 Q 12 48 14 32 Q 18 10 40 8 Z" fill={`url(#ob-jelly-body-${jellyId})`} />
       <path className="ocean-bg__jelly-tentacle" d="M 20 50 Q 12 78 16 136" stroke="rgba(200,220,235,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
       <path className="ocean-bg__jelly-tentacle ocean-bg__jelly-tentacle--2" d="M 40 52 Q 36 88 40 136" stroke="rgba(200,220,235,0.22)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
       <path className="ocean-bg__jelly-tentacle ocean-bg__jelly-tentacle--3" d="M 60 50 Q 68 80 64 132" stroke="rgba(200,220,235,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
@@ -231,16 +269,21 @@ function OceanBackground({ light = false }) {
   return (
     <div className="ocean-bg" aria-hidden="true" data-light={light ? 'true' : undefined}>
       <GradientMesh />
+      <LightShafts />
       <SurfaceGlow />
       <ReefBed />
       <Bubbles />
       {!light && (
         <>
+          <DriftSchool />
           <div className="ocean-bg__creature ocean-bg__turtle">
             <SeaTurtleSVG className="ocean-bg__svg ocean-bg__svg--turtle" />
           </div>
           <div className="ocean-bg__creature ocean-bg__jellyfish ocean-bg__jellyfish--1">
-            <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" />
+            <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" jellyId="1" />
+          </div>
+          <div className="ocean-bg__creature ocean-bg__jellyfish ocean-bg__jellyfish--2">
+            <JellyfishSVG className="ocean-bg__svg ocean-bg__svg--jelly" jellyId="2" />
           </div>
         </>
       )}
