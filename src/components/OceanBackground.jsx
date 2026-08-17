@@ -205,9 +205,9 @@ function DriftFishSVG({ id, className }) {
           <stop offset="1" stopColor="rgba(14, 165, 233, 0.22)" />
         </linearGradient>
       </defs>
-      <ellipse cx="34" cy="16" rx="24" ry="11" fill={`url(#ob-drift-${id})`} />
-      <path d="M58 16 L78 5 L71 16 L78 27 Z" fill={`url(#ob-drift-${id})`} />
-      <circle cx="20" cy="14" r="2" fill="rgba(8, 47, 73, 0.55)" />
+      <ellipse cx="46" cy="16" rx="24" ry="11" fill={`url(#ob-drift-${id})`} />
+      <path d="M22 16 L2 5 L9 16 L2 27 Z" fill={`url(#ob-drift-${id})`} />
+      <circle cx="60" cy="14" r="2" fill="rgba(8, 47, 73, 0.55)" />
     </svg>
   )
 }

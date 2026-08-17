@@ -515,9 +515,30 @@ function Portfolio() {
       const navHeight = navEl ? navEl.offsetHeight : 72
       const offset = navHeight
       const stops = []
+
+      const collectRowTops = (section, selector) => {
+        const tops = []
+        section.querySelectorAll(selector).forEach((item) => {
+          const y = item.getBoundingClientRect().top + window.scrollY
+          if (!tops.some((existing) => Math.abs(existing - y) < 40)) {
+            tops.push(y)
+          }
+        })
+        return tops.sort((a, b) => a - b)
+      }
+
       sections.forEach((el) => {
         const top = el.getBoundingClientRect().top + window.scrollY
         const height = el.offsetHeight
+        const rowSelector = el.getAttribute('data-snap-rows')
+        if (rowSelector) {
+          stops.push(Math.max(0, Math.round(top - offset)))
+          collectRowTops(el, rowSelector).forEach((y, index) => {
+            if (index === 0) return
+            stops.push(Math.max(0, Math.round(y - offset)))
+          })
+          return
+        }
         if (height <= vh * 1.2) {
           stops.push(Math.max(0, Math.round(top - offset)))
         } else {
@@ -1437,7 +1458,7 @@ function Portfolio() {
         </header>
 
         <main id="main-content">
-          <section className="section section--proof page-shell" id="proof" data-snappable="true" data-depth="reef">
+          <section className="section section--proof page-shell" id="proof" data-snappable="true" data-depth="reef" data-snap-rows=".project-card">
             <div className="section__header reveal">
               <h2>
                 <Anchor className="section__header-icon" size={28} aria-hidden />
