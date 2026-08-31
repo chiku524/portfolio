@@ -145,6 +145,13 @@ export default function ExecutiveSummary() {
                 </a>
               </li>
               <li>
+                <strong>NFT Gallery</strong> — On-chain collection house with Loopkins, Afterimages, and
+                Inklings—trait studios, galleries, and ERC-721 launch paths.{' '}
+                <a href="https://nft-gallery.vercel.app/" target="_blank" rel="noreferrer">
+                  nft-gallery.vercel.app
+                </a>
+              </li>
+              <li>
                 <strong>VibeMiner</strong> — Accessible mining: minimal setup across multiple chains and
                 environments.{' '}
                 <a href="https://vibeminer.tech/" target="_blank" rel="noreferrer">

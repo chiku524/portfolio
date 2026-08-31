@@ -880,6 +880,15 @@ function Portfolio() {
         media: buildMediaPaths('Bountyhub'),
       },
       {
+        name: 'NFT Gallery',
+        url: 'https://nft-gallery.vercel.app/',
+        badge: 'NFT collections',
+        description:
+          'A house of on-chain collections—each drop with its own studio, traits, and launch path. Loopkins, Afterimages, and Inklings on OpenSea.',
+        highlight: 'Layered APNG PFPs, 1:1 loops, ERC-721 on Robinhood Chain and Ink.',
+        media: null,
+      },
+      {
         name: 'VibeMiner',
         url: 'https://vibeminer.tech/',
         badge: 'One-click mining',
