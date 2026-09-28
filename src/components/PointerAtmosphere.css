@@ -1,0 +1,22 @@
+.pointer-atmosphere {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  contain: strict;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .pointer-atmosphere {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pointer-atmosphere {
+    display: none !important;
+  }
+}

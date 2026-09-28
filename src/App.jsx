@@ -44,6 +44,7 @@ import ExecutiveSummary from './pages/ExecutiveSummary'
 import GitHubActivityChart from './components/GitHubActivityChart'
 import OceanBackground from './components/OceanBackground'
 import HeroAtmosphere from './components/HeroAtmosphere'
+import PointerAtmosphere from './components/PointerAtmosphere'
 import { prefersFinePointer, prefersReducedMotion } from './utils/motion'
 
 function Portfolio() {
@@ -54,9 +55,6 @@ function Portfolio() {
   })
   const backgroundCanvasRef = useRef(null)
   const videoRefs = useRef({})
-  const trailRef = useRef(null)
-  const trailCanvasRef = useRef(null)
-  const rippleLayerRef = useRef(null)
   const audioRef = useRef(null)
   const [isAudioOn, setIsAudioOn] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -166,181 +164,6 @@ function Portfolio() {
       revealEls.forEach((el) => {
         el.classList.add('is-visible')
       })
-    }
-  }, [])
-
-  useEffect(() => {
-    const canvas = trailCanvasRef.current
-    const container = trailRef.current
-    if (!canvas || !container) return
-
-    let isTouchDevice = false
-    try {
-      if (window.matchMedia) {
-        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-      }
-    } catch {
-      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-    }
-
-    if (isTouchDevice) return
-
-    const MAX_POINTS = 32
-    const THROTTLE_MS = 24
-    const points = []
-    let lastAddTime = 0
-    let rafId = null
-    let loopRunning = false
-
-    const resize = () => {
-      const dpr = window.devicePixelRatio || 1
-      canvas.width = window.innerWidth * dpr
-      canvas.height = window.innerHeight * dpr
-      canvas.style.width = `${window.innerWidth}px`
-      canvas.style.height = `${window.innerHeight}px`
-      const ctx = canvas.getContext('2d')
-      if (ctx) ctx.scale(dpr, dpr)
-    }
-
-    const TRAIL_MS = 260
-
-    const draw = () => {
-      const ctx = canvas.getContext('2d')
-      const now = Date.now()
-
-      while (points.length > 0 && now - points[0].t > TRAIL_MS) {
-        points.shift()
-      }
-
-      const w = window.innerWidth
-      const h = window.innerHeight
-      ctx.clearRect(0, 0, w, h)
-
-      if (points.length < 2) {
-        loopRunning = false
-        return
-      }
-
-      ctx.lineCap = 'round'
-      ctx.lineJoin = 'round'
-
-      for (let i = 1; i < points.length; i++) {
-        const p0 = points[i - 1]
-        const p1 = points[i]
-        const age1 = now - p1.t
-        const t = i / points.length
-        const fade = Math.max(0, 1 - (age1 / TRAIL_MS) * 0.85)
-        const alpha = (0.2 + t * 0.5) * fade
-        const width = 2 + t * 2.5
-        ctx.strokeStyle = `rgba(34, 211, 238, ${alpha})`
-        ctx.lineWidth = width
-        ctx.beginPath()
-        ctx.moveTo(p0.x, p0.y)
-        ctx.lineTo(p1.x, p1.y)
-        ctx.stroke()
-      }
-
-      rafId = requestAnimationFrame(draw)
-    }
-
-    const handlePointerMove = (event) => {
-      const now = Date.now()
-      if (now - lastAddTime < THROTTLE_MS) return
-      lastAddTime = now
-      points.push({ x: event.clientX, y: event.clientY, t: now })
-      if (points.length > MAX_POINTS) points.shift()
-      if (points.length >= 2 && !loopRunning) {
-        loopRunning = true
-        rafId = requestAnimationFrame(draw)
-      }
-    }
-
-    resize()
-    window.addEventListener('resize', resize)
-    window.addEventListener('pointermove', handlePointerMove, { passive: true })
-
-    return () => {
-      window.removeEventListener('resize', resize)
-      window.removeEventListener('pointermove', handlePointerMove)
-      if (rafId) cancelAnimationFrame(rafId)
-    }
-  }, [])
-
-  useEffect(() => {
-    const layer = rippleLayerRef.current
-    if (!layer) return
-
-    // Disable ripple on mobile to save memory
-    let isTouchDevice = false
-    try {
-      if (window.matchMedia) {
-        isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-      }
-    } catch {
-      // Fallback: assume touch device if matchMedia fails
-      isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
-    }
-    
-    if (isTouchDevice) {
-      return
-    }
-
-    const ripplePool = []
-    const MAX_RIPPLES = 10 // Limit active ripples
-
-    const createRipple = () => {
-      const ripple = document.createElement('span')
-      ripple.className = 'ripple'
-      return ripple
-    }
-
-    const getRipple = () => {
-      return ripplePool.pop() || createRipple()
-    }
-
-    const spawnRipple = (event) => {
-      // Limit number of active ripples
-      const activeRipples = layer.querySelectorAll('.ripple').length
-      if (activeRipples >= MAX_RIPPLES) {
-        return
-      }
-
-      const ripple = getRipple()
-      ripple.style.left = `${event.clientX}px`
-      ripple.style.top = `${event.clientY}px`
-      layer.appendChild(ripple)
-      
-      const timeoutId = setTimeout(() => {
-        ripple.remove()
-        // Return to pool if pool is small
-        if (ripplePool.length < 5) {
-          ripplePool.push(ripple)
-        }
-      }, 1200)
-      
-      // Store timeout ID for cleanup
-      ripple.dataset.timeoutId = timeoutId
-    }
-
-    const handlePointerDown = (event) => {
-      if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
-        spawnRipple(event)
-      }
-    }
-
-    window.addEventListener('pointerdown', handlePointerDown, { passive: true })
-    return () => {
-      window.removeEventListener('pointerdown', handlePointerDown)
-      // Clean up all ripples and timeouts
-      if (layer) {
-        const ripples = layer.querySelectorAll('.ripple')
-        ripples.forEach((ripple) => {
-          const timeoutId = ripple.dataset.timeoutId
-          if (timeoutId) clearTimeout(parseInt(timeoutId, 10))
-          ripple.remove()
-        })
-      }
-      ripplePool.length = 0
     }
   }, [])
 
@@ -1301,10 +1124,6 @@ function Portfolio() {
         {!deferHeavyDecorations && (
           <>
             <canvas ref={backgroundCanvasRef} className="background-canvas" aria-hidden="true" />
-            <div ref={rippleLayerRef} className="ripple-layer" aria-hidden="true" />
-            <div ref={trailRef} className="cursor-trail" aria-hidden="true">
-              <canvas ref={trailCanvasRef} className="cursor-trail__canvas" />
-            </div>
           </>
         )}
         <div className="app__content">
@@ -1899,7 +1718,9 @@ function Portfolio() {
 
 function App() {
   return (
-    <Routes>
+    <>
+      <PointerAtmosphere />
+      <Routes>
       <Route path="/" element={<Portfolio />} />
       <Route path="/terms-of-service" element={<PortfolioTermsOfService />} />
       <Route path="/privacy-policy" element={<PortfolioPrivacyPolicy />} />
@@ -1910,6 +1731,7 @@ function App() {
       <Route path="/tiktok-callback" element={<TikTokCallback />} />
       <Route path="/executive-summary" element={<ExecutiveSummary />} />
     </Routes>
+    </>
   )
 }
 

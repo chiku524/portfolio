@@ -127,48 +127,6 @@ body.past-hero .hero__atmosphere {
   transition: opacity 0.8s ease, background 1s ease;
 }
 
-.cursor-trail {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-  mix-blend-mode: screen;
-  overflow: hidden;
-  contain: strict;
-  transform: translateZ(0);
-}
-
-.cursor-trail__canvas {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  pointer-events: none;
-  contain: strict;
-}
-
-.ripple-layer {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-  mix-blend-mode: screen;
-}
-
-.ripple {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  margin-left: -9px;
-  margin-top: -9px;
-  border-radius: 50%;
-  border: 1px solid rgba(148, 197, 255, 0.45);
-  animation: rippleExpand 1.2s ease-out forwards;
-  filter: blur(0.3px);
-}
-
 .ocean-orbs {
   position: fixed;
   top: 0;
@@ -2946,22 +2904,6 @@ body[data-depth='trench'] .nav-wrapper::after {
   }
 }
 
-@keyframes rippleExpand {
-  0% {
-    transform: scale(0.3);
-    opacity: 0.6;
-  }
-  70% {
-    transform: scale(6);
-    opacity: 0.35;
-  }
-  100% {
-    transform: scale(8.5);
-    opacity: 0;
-  }
-}
-
-
 @keyframes fishSwim {
   0% {
     offset-distance: 0%;
@@ -3250,15 +3192,6 @@ body[data-depth='trench'] .nav-wrapper::after {
     display: none !important;
   }
   
-  /* Disable heavy animations on mobile */
-  .cursor-trail {
-    display: none !important;
-  }
-  
-  .ripple-layer {
-    display: none !important;
-  }
-
   /* Disable all hero animations on mobile to eliminate lag */
   .hero__aurora,
   .hero__ripples,
@@ -3529,8 +3462,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   .project-card__video,
   .reveal,
   .nav-wrapper::after,
-  .ocean-orbs span,
-  .cursor-spark {
+  .ocean-orbs span {
     animation: none !important;
     transition: none !important;
   }
@@ -3553,14 +3485,6 @@ body[data-depth='trench'] .nav-wrapper::after {
   .hero__content h1 span,
   .hero__tagline {
     animation: none !important;
-  }
-
-  .cursor-trail {
-    display: none;
-  }
-
-  .ripple-layer {
-    display: none;
   }
 }
 
