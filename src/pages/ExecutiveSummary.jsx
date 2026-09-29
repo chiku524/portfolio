@@ -147,8 +147,8 @@ export default function ExecutiveSummary() {
               <li>
                 <strong>NFT Gallery</strong> — On-chain collection house with Loopkins, Afterimages, and
                 Inklings—trait studios, galleries, and ERC-721 launch paths.{' '}
-                <a href="https://nft-gallery.vercel.app/" target="_blank" rel="noreferrer">
-                  nft-gallery.vercel.app
+                <a href="https://nft-provider.vercel.app/" target="_blank" rel="noreferrer">
+                  nft-provider.vercel.app
                 </a>
               </li>
               <li>

@@ -704,7 +704,7 @@ function Portfolio() {
       },
       {
         name: 'NFT Gallery',
-        url: 'https://nft-gallery.vercel.app/',
+        url: 'https://nft-provider.vercel.app/',
         badge: 'NFT collections',
         description:
           'A house of on-chain collections—each drop with its own studio, traits, and launch path. Loopkins, Afterimages, and Inklings on OpenSea.',
