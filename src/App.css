@@ -688,7 +688,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   background: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.12), rgba(2, 6, 23, 0.6) 58%),
     radial-gradient(circle at 80% 0%, rgba(244, 114, 182, 0.16), rgba(2, 6, 23, 0.7) 60%),
     rgba(2, 6, 23, 0.85);
-  scroll-margin-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + 1rem);
+  scroll-margin-top: 0;
   transform: translateZ(0);
 }
 
@@ -1178,9 +1178,12 @@ body[data-depth='trench'] .nav-wrapper::after {
   position: relative;
   padding: 0 0 4rem;
   min-width: 0;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 500px;
-  scroll-margin-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + 1.25rem);
+  scroll-margin-top: 0;
+}
+
+[data-snappable='true'] {
+  content-visibility: visible;
+  scroll-margin-top: 0;
 }
 
 
@@ -3274,7 +3277,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   html {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: auto;
-    scroll-padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + 0.5rem);
+    scroll-padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + var(--snap-pad));
     touch-action: pan-y pinch-zoom;
   }
 

@@ -330,13 +330,23 @@ function Portfolio() {
     }
     if (isCoarseTouch) return
 
+    const readSnapPad = () => {
+      const raw = getComputedStyle(document.documentElement).getPropertyValue('--snap-pad').trim()
+      const value = parseFloat(raw)
+      if (!raw || Number.isNaN(value)) return 28
+      if (raw.endsWith('rem')) {
+        return value * parseFloat(getComputedStyle(document.documentElement).fontSize)
+      }
+      return value
+    }
+
     const getStops = () => {
       const sections = document.querySelectorAll('[data-snappable="true"]')
       if (!sections.length) return []
       const vh = window.innerHeight
       const navEl = document.querySelector('.nav-wrapper')
       const navHeight = navEl ? navEl.offsetHeight : 72
-      const offset = navHeight
+      const offset = navHeight + readSnapPad()
       const stops = []
 
       const collectRowTops = (section, selector) => {
@@ -353,35 +363,59 @@ function Portfolio() {
       sections.forEach((el) => {
         const top = el.getBoundingClientRect().top + window.scrollY
         const height = el.offsetHeight
+        const sectionStop = Math.max(0, Math.round(top - offset))
+        stops.push(sectionStop)
+
         const rowSelector = el.getAttribute('data-snap-rows')
         if (rowSelector) {
-          stops.push(Math.max(0, Math.round(top - offset)))
           collectRowTops(el, rowSelector).forEach((y, index) => {
             if (index === 0) return
             stops.push(Math.max(0, Math.round(y - offset)))
           })
           return
         }
-        if (height <= vh * 1.2) {
-          stops.push(Math.max(0, Math.round(top - offset)))
-        } else {
-          let y = top
+
+        if (height > vh - offset) {
           const step = Math.max(vh * 0.85, 1)
-          while (y < top + height - vh * 0.3) {
+          let y = top + step
+          const limit = top + height - vh * 0.45
+          while (y < limit) {
             stops.push(Math.max(0, Math.round(y - offset)))
             y += step
           }
-          stops.push(Math.max(0, Math.round(top + height - vh - offset)))
+          const end = Math.round(top + height - vh)
+          if (end > sectionStop + 48) stops.push(Math.max(0, end))
         }
       })
-      const maxScroll = document.documentElement.scrollHeight - vh
-      stops.push(maxScroll)
-      return [...new Set(stops)].map((s) => Math.max(0, Math.min(s, maxScroll))).sort((a, b) => a - b)
+
+      const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh)
+      const merged = []
+      ;[...stops, 0, maxScroll]
+        .map((stop) => Math.max(0, Math.min(Math.round(stop), maxScroll)))
+        .sort((a, b) => a - b)
+        .forEach((stop) => {
+          if (!merged.length || stop - merged[merged.length - 1] > 36) merged.push(stop)
+        })
+      if (merged[0] > 0 && merged[0] < 48) merged[0] = 0
+      return merged
     }
 
     let stops = getStops()
     let scrollAccum = 0
-    const TICK_THRESHOLD = 120
+    let accumTimer = null
+    let lockUntil = 0
+    // About two mouse-wheel notches. A light tick stays put; a deliberate scroll advances.
+    const TICK_THRESHOLD = 170
+    const MAX_STEPS = 2
+    const GESTURE_MS = 280
+    const LOCK_MS = 640
+    const NEAR = 28
+
+    const wheelDelta = (event) => {
+      if (event.deltaMode === 1) return event.deltaY * 34
+      if (event.deltaMode === 2) return event.deltaY * window.innerHeight * 0.85
+      return event.deltaY
+    }
 
     const handleWheel = (e) => {
       try {
@@ -389,44 +423,45 @@ function Portfolio() {
       } catch { /* ignore */ }
 
       const target = e.target
-      if (target.closest('textarea, [contenteditable="true"], input, select, iframe')) return
+      if (target instanceof Element && target.closest('textarea, [contenteditable="true"], input, select, iframe')) return
 
       stops = getStops()
       // No section snap targets (e.g. alternate routes): never hijack wheel — native scroll must work
       if (!stops.length) return
 
       e.preventDefault()
-      scrollAccum += e.deltaY
+      if (performance.now() < lockUntil) return
+
+      scrollAccum += wheelDelta(e)
+      if (accumTimer) clearTimeout(accumTimer)
+      accumTimer = setTimeout(() => {
+        scrollAccum = 0
+      }, GESTURE_MS)
 
       const scrollY = window.scrollY
-
+      let steps = 0
       if (scrollAccum >= TICK_THRESHOLD) {
-        const nextIdx = stops.findIndex((s) => s > scrollY + 15)
-        const fromIdx = nextIdx >= 0 ? nextIdx : stops.length - 1
-        const maxSteps = stops.length - fromIdx
-        const steps = Math.min(Math.floor(scrollAccum / TICK_THRESHOLD), maxSteps)
-        scrollAccum -= steps * TICK_THRESHOLD
-        if (steps > 0) {
-          const nextStop = stops[Math.min(fromIdx + steps - 1, stops.length - 1)]
-          window.scrollTo({ top: nextStop, behavior: 'smooth' })
-        }
+        steps = Math.min(Math.floor(scrollAccum / TICK_THRESHOLD), MAX_STEPS)
       } else if (scrollAccum <= -TICK_THRESHOLD) {
-        const prevStopVal = [...stops].reverse().find((s) => s < scrollY - 15)
-        const prevIdx = prevStopVal != null ? stops.indexOf(prevStopVal) : 0
-        const maxSteps = prevIdx + 1
-        const steps = Math.min(Math.floor(-scrollAccum / TICK_THRESHOLD), maxSteps)
-        scrollAccum += steps * TICK_THRESHOLD
-        if (steps > 0) {
-          const prevStop = stops[Math.max(prevIdx - steps + 1, 0)]
-          window.scrollTo({ top: prevStop, behavior: 'smooth' })
-        }
+        steps = -Math.min(Math.floor(-scrollAccum / TICK_THRESHOLD), MAX_STEPS)
       }
+      if (!steps) return
+
+      scrollAccum = 0
+      const currentIdx = stops.findIndex((stop) => stop > scrollY + NEAR)
+      const here = currentIdx === -1 ? stops.length - 1 : Math.max(0, currentIdx - 1)
+      const nextIdx = Math.max(0, Math.min(here + steps, stops.length - 1))
+      if (nextIdx === here) return
+
+      window.scrollTo({ top: stops[nextIdx], behavior: 'smooth' })
+      lockUntil = performance.now() + LOCK_MS
     }
 
     const onResize = () => { stops = getStops() }
     window.addEventListener('resize', onResize)
     document.addEventListener('wheel', handleWheel, { passive: false, capture: true })
     return () => {
+      if (accumTimer) clearTimeout(accumTimer)
       window.removeEventListener('resize', onResize)
       document.removeEventListener('wheel', handleWheel, { capture: true })
     }
@@ -1036,7 +1071,6 @@ function Portfolio() {
 
   useEffect(() => {
     const snappables = Array.from(document.querySelectorAll('[data-snappable="true"]'))
-      .filter((el) => !el.classList.contains('section--contact'))
     if (!snappables.length) return
 
     const getCurrentIndex = () => {
@@ -1661,7 +1695,7 @@ function Portfolio() {
           </section>
       </main>
 
-        <footer className="footer">
+        <footer className="footer" data-snappable="true" data-depth="trench">
           <div className="footer__inner page-shell reveal" data-reveal-step="0">
             <div className="footer__brand">
               <img className="footer__logo" src={logoMark} alt="nico.builds logo" loading="lazy" />
