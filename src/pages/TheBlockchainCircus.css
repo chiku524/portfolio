@@ -112,8 +112,8 @@
 }
 
 .badge--ai {
-  background: rgba(125, 211, 252, 0.1);
-  border-color: rgba(125, 211, 252, 0.3);
+  background: rgba(212, 207, 192, 0.1);
+  border-color: rgba(212, 207, 192, 0.3);
   color: #d4cfc0;
 }
 
@@ -364,8 +364,8 @@
 }
 
 .blockchain-circus-section--contact {
-  background: rgba(125, 211, 252, 0.05);
-  border-color: rgba(125, 211, 252, 0.2);
+  background: rgba(212, 207, 192, 0.05);
+  border-color: rgba(212, 207, 192, 0.2);
 }
 
 .blockchain-circus-page__footer {

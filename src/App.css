@@ -299,18 +299,18 @@ body[data-depth='reef'] .nav-wrapper {
 }
 
 body[data-depth='mid'] .nav-wrapper {
-  background: rgba(2, 14, 30, 0.82);
+  background: rgba(6, 7, 10, 0.82);
   box-shadow: 0 20px 42px -28px rgba(160, 156, 140, 0.45);
 }
 
 body[data-depth='deep'] .nav-wrapper {
-  background: rgba(1, 14, 28, 0.86);
+  background: rgba(5, 6, 9, 0.86);
   border-bottom-color: rgba(200, 196, 184, 0.18);
-  box-shadow: 0 24px 46px -26px rgba(30, 64, 175, 0.58);
+  box-shadow: 0 24px 46px -26px rgba(55, 56, 62, 0.58);
 }
 
 body[data-depth='trench'] .nav-wrapper {
-  background: rgba(1, 12, 24, 0.92);
+  background: rgba(4, 5, 8, 0.92);
   border-bottom-color: rgba(36, 38, 44, 0.28);
   box-shadow: 0 30px 60px -30px rgba(22, 24, 30, 0.78);
 }
@@ -411,7 +411,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   height: 56px;
   border-radius: 0;
   object-fit: contain;
-  filter: drop-shadow(0 6px 18px rgba(232, 228, 212, 0.35));
+  filter: grayscale(1) contrast(1.15) drop-shadow(0 6px 18px rgba(232, 228, 212, 0.35));
   background: transparent;
   border: none;
   transition: transform 0.3s ease;
@@ -655,7 +655,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   border-radius: 50%;
   border: 1px solid rgba(200, 196, 184, 0.25);
   background: rgba(5, 6, 8, 0.55);
-  color: rgba(226, 232, 240, 0.82);
+  color: rgba(232, 228, 212, 0.82);
   font-size: 1.05rem;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
@@ -912,7 +912,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(226, 232, 240, 0.78);
+  color: rgba(232, 228, 212, 0.78);
   margin-bottom: 1.5rem;
   box-shadow: 0 0 20px -18px rgba(220, 216, 200, 0.75);
 }
@@ -1009,7 +1009,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   margin: 1.5rem auto 0;
   max-width: 640px;
   font-size: 1.15rem;
-  color: rgba(203, 213, 225, 0.92);
+  color: rgba(196, 191, 179, 0.92);
   line-height: 1.6;
   animation: taglineDrift 14s ease-in-out infinite;
 }
@@ -1437,7 +1437,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   border-radius: 999px;
   padding: 0.45rem 1rem;
   font-size: 0.85rem;
-  color: rgba(226, 232, 240, 0.92);
+  color: rgba(232, 228, 212, 0.92);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   opacity: 0;
@@ -2213,7 +2213,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   object-fit: contain;
   border: none;
   background: transparent;
-  filter: drop-shadow(0 12px 28px rgba(232, 228, 212, 0.35));
+  filter: grayscale(1) contrast(1.15) drop-shadow(0 12px 28px rgba(232, 228, 212, 0.35));
   transition: transform 0.3s ease;
   transform: translateZ(0);
 }
@@ -2684,7 +2684,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .section__header p {
-  color: rgba(203, 213, 225, 0.85);
+  color: rgba(196, 191, 179, 0.85);
 }
 
 .card {
@@ -2700,14 +2700,14 @@ body[data-depth='trench'] .nav-wrapper::after {
 .card--contact,
 .card--column,
 .card--contact.card--calendly {
-  background: linear-gradient(160deg, rgba(22, 24, 30, 0.82), rgba(12, 55, 82, 0.75));
+  background: linear-gradient(160deg, rgba(22, 24, 30, 0.82), rgba(22, 24, 30, 0.75));
   border: 1px solid rgba(220, 216, 200, 0.18);
   box-shadow: 0 18px 38px -28px rgba(110, 112, 120, 0.55);
 }
 
 .card__badge {
   background: rgba(220, 216, 200, 0.18);
-  color: rgba(125, 211, 252, 0.92);
+  color: rgba(212, 207, 192, 0.92);
 }
 
 .card__badge--signal {
@@ -2717,11 +2717,11 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .card__badge--orbit {
   background: rgba(90, 92, 100, 0.18);
-  color: rgba(125, 211, 252, 0.95);
+  color: rgba(212, 207, 192, 0.95);
 }
 
 .card__badge--spark {
-  background: rgba(251, 113, 133, 0.18);
+  background: rgba(160, 150, 140, 0.18);
   color: var(--accent-soft);
 }
 
@@ -2732,8 +2732,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .button--primary {
   background: linear-gradient(135deg, rgba(220, 216, 200, 0.95), rgba(110, 112, 120, 0.75));
-  color: #031b2b;
-  box-shadow: 0 18px 35px -18px rgba(6, 182, 212, 0.95);
+  color: #08090c;
+  box-shadow: 0 18px 35px -18px rgba(122, 117, 104, 0.95);
 }
 
 .button--primary:hover {
@@ -2794,26 +2794,26 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .card--column h3 {
-  color: rgba(226, 232, 240, 0.95);
+  color: rgba(232, 228, 212, 0.95);
 }
 
 .card--column ul {
-  color: rgba(203, 213, 225, 0.88);
+  color: rgba(196, 191, 179, 0.88);
 }
 
 .toolkit {
-  background: linear-gradient(135deg, rgba(220, 216, 200, 0.18), rgba(15, 118, 110, 0.16));
+  background: linear-gradient(135deg, rgba(220, 216, 200, 0.18), rgba(90, 88, 80, 0.16));
   border: 1px solid rgba(220, 216, 200, 0.25);
 }
 
 .toolkit__note {
-  color: rgba(203, 213, 225, 0.85);
+  color: rgba(196, 191, 179, 0.85);
 }
 
 .project-card__overlay {
   background: rgba(5, 6, 8, 0.72);
   border: 1px solid rgba(220, 216, 200, 0.4);
-  color: rgba(226, 232, 240, 0.92);
+  color: rgba(232, 228, 212, 0.92);
 }
 
 .project-card__body {
@@ -2844,7 +2844,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .aspirations__card p {
-  color: rgba(203, 213, 225, 0.88);
+  color: rgba(196, 191, 179, 0.88);
 }
 
 .aspirations__label {
