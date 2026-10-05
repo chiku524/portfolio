@@ -4,8 +4,8 @@
   "description": "Full-stack developer building web3, AI, and product systems that perform and scale.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#11172b",
-  "theme_color": "#12f6ff",
+  "background_color": "#07080b",
+  "theme_color": "#07080b",
   "icons": [
     {
       "src": "/favicon.png",

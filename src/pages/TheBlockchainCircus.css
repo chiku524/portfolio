@@ -1,8 +1,8 @@
 .blockchain-circus-page {
   min-height: 100vh;
   min-height: 100dvh;
-  background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-  color: #e2e8f0;
+  background: linear-gradient(180deg, #050608 0%, #0a0b0e 50%, #030304 100%);
+  color: #f7f2e8;
   padding: calc(2rem + env(safe-area-inset-top, 0px)) calc(1rem + env(safe-area-inset-right, 0px))
     calc(2rem + env(safe-area-inset-bottom, 0px)) calc(1rem + env(safe-area-inset-left, 0px));
   line-height: 1.7;

@@ -7,22 +7,25 @@
   font-family: var(--font-body);
   line-height: 1.6;
   font-weight: 400;
-  color: #f4f8ff;
-  background-color: #11172b;
+  /* Cream paper text on ink ground */
+  color: #f7f2e8;
+  background-color: #07080b;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --bg: #11172b;
-  --text-primary: #f4f8ff;
-  --text-secondary: #c5d8ff;
-  --text-tertiary: #9fb4d8;
+  /* Willie ink stage */
+  --bg: #07080b;
+  --text-primary: #f7f2e8;
+  --text-secondary: #e0d8c8;
+  --text-tertiary: #b0a894;
+  /* Restored colorful foreground accents */
   --accent: #12f6ff;
   --accent-soft: #ff906f;
   --accent-deep: #14c9c9;
   --accent-lagoon: #14c9c9;
   --brand-indigo: #153b6d;
-  --brand-midnight: #0b1224;
+  --brand-midnight: #050608;
   --brand-sand: #ff906f;
   --scroll-progress: 0;
   --snap-pad: 1.75rem;
@@ -53,10 +56,11 @@ body {
   margin: 0;
   min-height: 100vh;
   min-height: 100dvh;
-  background: radial-gradient(circle at 15% 20%, rgba(20, 201, 201, 0.14), transparent 55%),
-    radial-gradient(circle at 78% 8%, rgba(255, 144, 111, 0.12), transparent 52%),
-    radial-gradient(circle at 40% 88%, rgba(18, 246, 255, 0.08), transparent 60%),
-    linear-gradient(180deg, var(--brand-midnight), #0d1a33 55%, #071021);
+  /* Steamboat Willie ink stage — cream washes on near-black, no blue glow */
+  background: radial-gradient(circle at 18% 16%, rgba(247, 242, 232, 0.07), transparent 48%),
+    radial-gradient(circle at 78% 10%, rgba(232, 228, 212, 0.05), transparent 46%),
+    radial-gradient(circle at 42% 90%, rgba(160, 155, 140, 0.08), transparent 55%),
+    linear-gradient(180deg, #050608 0%, #0a0b0e 48%, #030304 100%);
   padding-top: calc(var(--nav-height) + env(safe-area-inset-top, 0px) + var(--page-padding));
   padding-right: calc(var(--page-padding) + env(safe-area-inset-right, 0px));
   padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
@@ -66,6 +70,26 @@ body {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overflow-anchor: auto;
+}
+
+/* Steamboat Willie film grain / ink texture (stage only; UI stays vivid) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  opacity: 0.085;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 160px 160px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    opacity: 0.05;
+  }
 }
 
 a {

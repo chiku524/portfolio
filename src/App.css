@@ -49,6 +49,19 @@ button {
   pointer-events: none;
 }
 
+/*
+ * Steamboat Willie stage: background atmosphere stays ink B&W.
+ * Foreground UI (nav, buttons, cards, logos) keeps full brand color.
+ */
+.ocean-layers-wrapper,
+.background-canvas,
+.depth-overlay,
+.ocean-orbs,
+.hero__atmosphere,
+.ocean-bg {
+  filter: grayscale(1) contrast(1.12) brightness(0.92);
+}
+
 /* Pause full-experience animations while user is actively scrolling to prevent lag */
 body.is-scrolling .hero__aurora,
 body.is-scrolling .hero__ripples,

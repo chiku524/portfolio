@@ -32,8 +32,8 @@ export default function TikTokCallback() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 100%)',
-        color: '#e2e8f0',
+        background: 'linear-gradient(180deg, #050608 0%, #0a0b0e 100%)',
+        color: '#f7f2e8',
         fontFamily: 'system-ui, sans-serif',
         padding:
           'env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px)',

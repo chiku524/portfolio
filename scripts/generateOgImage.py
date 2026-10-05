@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate modern, symmetrical oceanic social preview images for nico.builds.
+Generate social preview images for nico.builds — ink stage + colorful accents.
   - public/og-image.png       (1200x630, Open Graph / Discord / Twitter)
   - public/social-image.png   (1200x1200, Instagram / LinkedIn / profile)
 
@@ -16,18 +16,18 @@ try:
 except ImportError:
     Image = ImageDraw = ImageFilter = ImageFont = None
 
-IMAGE_VERSION = "3"
+IMAGE_VERSION = "5"
 
-# Portfolio theme (brand-kit/colors/palette.json)
-BG_DARK = (17, 23, 43)
-BG_MIDNIGHT = (11, 18, 36)
+# Portfolio theme (brand-kit/colors/palette.json) — ink stage + color cast
+BG_DARK = (7, 8, 11)
+BG_MIDNIGHT = (5, 6, 8)
 BG_INDIGO = (21, 59, 109)
 ACCENT_CYAN = (18, 246, 255)
 ACCENT_CORAL = (255, 144, 111)
 ACCENT_TEAL = (20, 201, 201)
-TEXT_PRIMARY = (244, 248, 255)
-TEXT_SECONDARY = (197, 216, 255)
-TEXT_TERTIARY = (159, 180, 216)
+TEXT_PRIMARY = (247, 242, 232)
+TEXT_SECONDARY = (224, 216, 200)
+TEXT_TERTIARY = (176, 168, 148)
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent
