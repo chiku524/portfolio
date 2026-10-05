@@ -7,14 +7,14 @@ function FishSVG({ id }) {
     <svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
         <linearGradient id={`hero-fish-${id}`} x1="0.9" y1="0.2" x2="0.1" y2="0.9">
-          <stop stopColor="rgba(34, 211, 238, 0.85)" />
-          <stop offset="1" stopColor="rgba(14, 165, 233, 0.45)" />
+          <stop stopColor="rgba(220, 216, 200, 0.85)" />
+          <stop offset="1" stopColor="rgba(110, 112, 120, 0.45)" />
         </linearGradient>
       </defs>
       <ellipse cx="46" cy="16" rx="24" ry="11" fill={`url(#hero-fish-${id})`} />
       <path d="M22 16 L2 5 L9 16 L2 27 Z" fill={`url(#hero-fish-${id})`} />
       <path d="M50 7 Q44 16 50 25" stroke="rgba(255,255,255,0.18)" strokeWidth="1.4" fill="none" />
-      <circle cx="60" cy="14" r="2.1" fill="rgba(8, 47, 73, 0.75)" />
+      <circle cx="60" cy="14" r="2.1" fill="rgba(22, 24, 30, 0.75)" />
       <circle cx="59.3" cy="13.3" r="0.7" fill="rgba(255,255,255,0.65)" />
     </svg>
   )

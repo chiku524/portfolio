@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate modern, symmetrical oceanic social preview images for nico.builds.
+Generate Steamboat Willie–styled social preview images for nico.builds.
   - public/og-image.png       (1200x630, Open Graph / Discord / Twitter)
   - public/social-image.png   (1200x1200, Instagram / LinkedIn / profile)
 
@@ -16,18 +16,21 @@ try:
 except ImportError:
     Image = ImageDraw = ImageFilter = ImageFont = None
 
-IMAGE_VERSION = "3"
+IMAGE_VERSION = "4"
 
 # Portfolio theme (brand-kit/colors/palette.json)
-BG_DARK = (17, 23, 43)
-BG_MIDNIGHT = (11, 18, 36)
-BG_INDIGO = (21, 59, 109)
-ACCENT_CYAN = (18, 246, 255)
-ACCENT_CORAL = (255, 144, 111)
-ACCENT_TEAL = (20, 201, 201)
-TEXT_PRIMARY = (244, 248, 255)
-TEXT_SECONDARY = (197, 216, 255)
-TEXT_TERTIARY = (159, 180, 216)
+BG_DARK = (10, 11, 14)
+BG_MIDNIGHT = (5, 6, 8)
+BG_INDIGO = (26, 27, 32)
+ACCENT_INK = (232, 228, 212)
+ACCENT_WARM = (184, 168, 144)
+ACCENT_ASH = (122, 117, 104)
+ACCENT_CYAN = ACCENT_INK
+ACCENT_CORAL = ACCENT_WARM
+ACCENT_TEAL = ACCENT_ASH
+TEXT_PRIMARY = (240, 235, 224)
+TEXT_SECONDARY = (196, 191, 179)
+TEXT_TERTIARY = (138, 133, 120)
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent

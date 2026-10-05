@@ -19,26 +19,26 @@ brand-kit/
 - **Name:** nico.builds
 - **Tagline:** Flow Beyond Limits
 - **Owner:** Nico Chikuji
-- **Theme:** Oceanic, modern, tech-focused
+- **Theme:** Steamboat Willie — classic 1928 black-and-white ink (bluish-black, charcoal, cream paper)
 
 ### Primary colors
 
-- **Cyan Accent:** `#12f6ff` — Primary CTAs, links
-- **Coral Accent:** `#ff906f` — Hover states, warmth
-- **Teal Lagoon:** `#14c9c9` — Depth effects, gradients
-- **Deep Ocean:** `#11172b` — Primary background
-- **Midnight Depths:** `#0b1224` — Deepest backgrounds
-- **Light Surface:** `#f4f8ff` — Primary text
+- **Cream Ink:** `#e8e4d4` — Primary CTAs, links
+- **Warm Ash:** `#b8a890` — Hover states, warmth
+- **Charcoal Silver:** `#7a7568` — Depth effects, gradients
+- **Bluish Black:** `#0a0b0e` — Primary background
+- **Near Black:** `#050608` — Deepest backgrounds
+- **Cream Paper:** `#f0ebe0` — Primary text
 
 ### Quick reference (CSS variables)
 
 ```css
---brand-accent: #12f6ff;
---brand-accent-soft: #ff906f;
---brand-accent-deep: #14c9c9;
---brand-bg: #11172b;
---brand-midnight: #0b1224;
---brand-text-primary: #f4f8ff;
+--brand-accent: #e8e4d4;
+--brand-accent-soft: #b8a890;
+--brand-accent-deep: #7a7568;
+--brand-bg: #0a0b0e;
+--brand-midnight: #050608;
+--brand-text-primary: #f0ebe0;
 ```
 
 Import: `@import url('./brand-kit/colors/palette.css');`
@@ -82,20 +82,20 @@ Import: `@import url('./brand-kit/colors/palette.css');`
 - **Precise** — Attention to detail
 - **Playful** — Light tone, professional
 - **Community-First** — Collaboration, transparency
-- **Oceanic** — Depth, flow, nautical theme
+- **Ink & Contrast** — Steamboat Willie high-contrast black-and-white atmosphere
 
 ### Visual principles
 
-1. **Depth & dimension** — Gradients, shadows, glow
+1. **Depth & dimension** — Gradients, shadows, soft ink wash
 2. **Fluid motion** — Smooth transitions, wave patterns
-3. **Contrast & clarity** — Readability, hierarchy
+3. **Contrast & clarity** — Near-black grounds, cream paper text
 4. **Modern minimalism** — Clean layouts, breathing room
 
 ### Usage do's and don'ts
 
-**Do:** Use brand colors consistently; follow typography hierarchy; maintain oceanic theme subtly; keep voice professional yet approachable.
+**Do:** Use brand colors consistently; follow typography hierarchy; keep the palette near-black / charcoal / cream; keep voice professional yet approachable.
 
-**Don't:** Modify logo colors/effects; use fonts outside the system; overuse oceanic metaphors; compromise accessibility.
+**Don't:** Modify logo colors/effects; use fonts outside the system; reintroduce saturated blues/cyans/purples; compromise accessibility.
 
 ---
 
@@ -117,10 +117,10 @@ Import: `@import url('./brand-kit/colors/palette.css');`
 - "Capabilities"
 - "Contact"
 
-### Oceanic metaphors (visual theme only)
+### Ink metaphors (visual theme only)
 
-The site’s visual language is aquatic. UI copy stays professional and direct—reserve nautical phrasing for
-the slogan and brand mark, not section titles or CTAs.
+The site’s visual language is Steamboat Willie black-and-white ink. UI copy stays professional and direct—
+reserve playful period phrasing for the slogan and brand mark, not section titles or CTAs.
 
 ### By context
 
@@ -134,7 +134,7 @@ the slogan and brand mark, not section titles or CTAs.
 ## Logo
 
 - **Files:** `brand-kit/logos/logo-primary.png`
-- **Usage:** Dark backgrounds (#11172b, #0b1224); maintain clear space; preserve aspect ratio.
+- **Usage:** Dark backgrounds (#0a0b0e, #050608); maintain clear space; preserve aspect ratio.
 - **Processing:** `npm run logo:process [path-to-logo]` (removes white background, outputs to `brand-kit/logos/logo-primary.png` and `src/assets/generated-image.png`).
 
 **Sizes:** Favicon 32–64px; Nav 40–48px; Hero 120–200px; Social 512px.
@@ -143,7 +143,7 @@ the slogan and brand mark, not section titles or CTAs.
 
 ## Icons
 
-- **Style:** Modern, minimal, geometric; stroke 1.5–2px; brand colors (#12f6ff, #ff906f, #14c9c9).
+- **Style:** Modern, minimal, geometric; stroke 1.5–2px; brand colors (#e8e4d4, #b8a890, #7a7568).
 - **Sizes:** Small 16–20px; Medium 24–32px; Large 48–64px.
 - **Libraries:** Heroicons, Lucide, Tabler (customize stroke and colors to match brand).
 - **Accessibility:** Use `aria-label` and sufficient contrast.
@@ -181,15 +181,15 @@ Use brand colors and Comfortaa; dark backgrounds.
 
 ### Colors
 
-- Background: #11172b or #0b1224
-- Primary text: #f4f8ff
-- Accents: #12f6ff, #ff906f
-- Secondary: #c5d8ff
+- Background: #0a0b0e or #050608
+- Primary text: #f0ebe0
+- Accents: #e8e4d4, #b8a890
+- Secondary: #c4bfb3
 
 ### Slide types
 
-- **Title:** Logo, title (Comfortaa Bold, #12f6ff), tagline "Flow Beyond Limits"
-- **Section:** Large section number (#12f6ff), title 36px
+- **Title:** Logo, title (Comfortaa Bold, #e8e4d4), tagline "Flow Beyond Limits"
+- **Section:** Large section number (#e8e4d4), title 36px
 - **Content:** Heading 32px, body 18px, bullets
 - **Contact:** "Let's Build Together", email, website, CTA button
 

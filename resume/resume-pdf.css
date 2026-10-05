@@ -5,14 +5,14 @@ body {
   font-family: 'Comfortaa', sans-serif;
   font-size: 10.5pt;
   line-height: 1.5;
-  color: #1e293b;
+  color: #141518;
   max-width: 100%;
 }
 
 h1 {
   font-size: 22pt;
   font-weight: 700;
-  color: #0f172a;
+  color: #0a0b0e;
   margin: 0 0 6px 0;
   border: none;
   padding: 0;
@@ -21,23 +21,23 @@ h1 {
 h2 {
   font-size: 12pt;
   font-weight: 700;
-  color: #0891b2;
+  color: #6e6a62;
   margin: 16px 0 8px 0;
   padding-bottom: 4px;
-  border-bottom: 1px solid #22d3ee;
+  border-bottom: 1px solid #c8c4b4;
 }
 
 h2 .section-kicker,
 .section-kicker {
   font-size: 8.5pt;
   font-weight: 500;
-  color: #64748b;
+  color: #6e6a62;
 }
 
 h3 {
   font-size: 10.5pt;
   font-weight: 600;
-  color: #0e7490;
+  color: #5a564e;
   margin: 8px 0 4px 0;
 }
 
@@ -46,13 +46,13 @@ p {
 }
 
 strong {
-  color: #0f172a;
+  color: #0a0b0e;
   font-weight: 600;
 }
 
 hr {
   border: none;
-  border-top: 1px solid #cbd5e1;
+  border-top: 1px solid #c4bfb3;
   margin: 12px 0;
 }
 
@@ -77,7 +77,7 @@ th {
 }
 
 a {
-  color: #0891b2;
+  color: #6e6a62;
   text-decoration: none;
 }
 
@@ -92,7 +92,7 @@ li {
 
 h1 + p {
   font-size: 10.5pt;
-  color: #64748b;
+  color: #6e6a62;
   margin-top: 0;
   margin-bottom: 4px;
 }
@@ -112,5 +112,5 @@ body > p:last-of-type {
   margin-top: 16px;
   margin-bottom: 0;
   font-size: 9.5pt;
-  color: #64748b;
+  color: #6e6a62;
 }

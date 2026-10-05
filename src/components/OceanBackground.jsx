@@ -53,17 +53,17 @@ function BrainCoralSVG({ className, style }) {
     <svg className={className} style={style} viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
         <radialGradient id={`rc-brain-${style?.['--coral-id'] || 0}`} cx="0.4" cy="0.25" r="0.85">
-          <stop stopColor="rgba(180, 201, 120, 0.55)" />
-          <stop offset="1" stopColor="rgba(96, 130, 70, 0.35)" />
+          <stop stopColor="rgba(170, 168, 155, 0.45)" />
+          <stop offset="1" stopColor="rgba(90, 88, 80, 0.35)" />
         </radialGradient>
       </defs>
       <path
         d="M4 80 Q0 42 28 30 Q42 6 70 14 Q100 4 116 32 Q122 56 98 70 Q68 86 40 78 Q16 84 4 80 Z"
         fill={`url(#rc-brain-${style?.['--coral-id'] || 0})`}
       />
-      <path d="M16 62 Q30 46 44 58 Q58 42 74 56 Q90 44 104 56" stroke="rgba(60, 90, 45, 0.4)" strokeWidth="2" fill="none" strokeLinecap="round" />
-      <path d="M22 48 Q34 34 48 44 Q62 30 78 42 Q92 32 102 42" stroke="rgba(60, 90, 45, 0.35)" strokeWidth="2" fill="none" strokeLinecap="round" />
-      <path d="M30 68 Q44 58 56 68 Q70 56 86 66" stroke="rgba(60, 90, 45, 0.3)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M16 62 Q30 46 44 58 Q58 42 74 56 Q90 44 104 56" stroke="rgba(70, 68, 60, 0.4)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M22 48 Q34 34 48 44 Q62 30 78 42 Q92 32 102 42" stroke="rgba(70, 68, 60, 0.35)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M30 68 Q44 58 56 68 Q70 56 86 66" stroke="rgba(70, 68, 60, 0.3)" strokeWidth="2" fill="none" strokeLinecap="round" />
     </svg>
   )
 }
@@ -73,8 +73,8 @@ function StaghornCoralSVG({ className, style }) {
     <svg className={className} style={style} viewBox="0 0 100 140" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
         <linearGradient id={`rc-stag-${style?.['--coral-id'] || 0}`} x1="0.3" y1="1" x2="0.6" y2="0">
-          <stop stopColor="rgba(255, 144, 111, 0.55)" />
-          <stop offset="1" stopColor="rgba(255, 176, 140, 0.3)" />
+          <stop stopColor="rgba(184, 168, 144, 0.55)" />
+          <stop offset="1" stopColor="rgba(200, 190, 170, 0.3)" />
         </linearGradient>
       </defs>
       <g className="ocean-bg__coral-sway">
@@ -95,8 +95,8 @@ function FanCoralSVG({ className, style }) {
     <svg className={className} style={style} viewBox="0 0 100 90" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
         <linearGradient id={`rc-fan-${style?.['--coral-id'] || 0}`} x1="0.5" y1="1" x2="0.5" y2="0">
-          <stop stopColor="rgba(244, 114, 182, 0.5)" />
-          <stop offset="1" stopColor="rgba(232, 150, 210, 0.18)" />
+          <stop stopColor="rgba(150, 145, 135, 0.5)" />
+          <stop offset="1" stopColor="rgba(160, 155, 145, 0.18)" />
         </linearGradient>
       </defs>
       <g className="ocean-bg__coral-fan">
@@ -108,12 +108,12 @@ function FanCoralSVG({ className, style }) {
           d="M50 90 C 78 84 96 56 90 18 C 74 38 60 54 50 90 Z"
           fill={`url(#rc-fan-${style?.['--coral-id'] || 0})`}
         />
-        <path d="M50 90 L18 28" stroke="rgba(255, 214, 235, 0.3)" strokeWidth="1.2" />
-        <path d="M50 90 L30 20" stroke="rgba(255, 214, 235, 0.28)" strokeWidth="1.2" />
-        <path d="M50 90 L44 16" stroke="rgba(255, 214, 235, 0.26)" strokeWidth="1.2" />
-        <path d="M50 90 L56 16" stroke="rgba(255, 214, 235, 0.26)" strokeWidth="1.2" />
-        <path d="M50 90 L70 20" stroke="rgba(255, 214, 235, 0.28)" strokeWidth="1.2" />
-        <path d="M50 90 L82 28" stroke="rgba(255, 214, 235, 0.3)" strokeWidth="1.2" />
+        <path d="M50 90 L18 28" stroke="rgba(220, 215, 200, 0.3)" strokeWidth="1.2" />
+        <path d="M50 90 L30 20" stroke="rgba(220, 215, 200, 0.28)" strokeWidth="1.2" />
+        <path d="M50 90 L44 16" stroke="rgba(220, 215, 200, 0.26)" strokeWidth="1.2" />
+        <path d="M50 90 L56 16" stroke="rgba(220, 215, 200, 0.26)" strokeWidth="1.2" />
+        <path d="M50 90 L70 20" stroke="rgba(220, 215, 200, 0.28)" strokeWidth="1.2" />
+        <path d="M50 90 L82 28" stroke="rgba(220, 215, 200, 0.3)" strokeWidth="1.2" />
       </g>
     </svg>
   )
@@ -125,8 +125,8 @@ function AnemoneSVG({ className, style }) {
     <svg className={className} style={style} viewBox="0 0 100 70" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
         <radialGradient id={`rc-anem-${style?.['--coral-id'] || 0}`} cx="0.5" cy="1" r="0.9">
-          <stop stopColor="rgba(232, 150, 210, 0.5)" />
-          <stop offset="1" stopColor="rgba(180, 110, 170, 0.25)" />
+          <stop stopColor="rgba(160, 155, 145, 0.5)" />
+          <stop offset="1" stopColor="rgba(130, 125, 118, 0.25)" />
         </radialGradient>
       </defs>
       <ellipse cx="50" cy="66" rx="32" ry="6" fill={`url(#rc-anem-${style?.['--coral-id'] || 0})`} />
@@ -139,7 +139,7 @@ function AnemoneSVG({ className, style }) {
             className="ocean-bg__anemone-tentacle"
             style={{ '--tentacle-delay': `${i * 0.28}s`, '--tentacle-sway': `${sway}deg` }}
             d={`M${x} 64 Q ${x - 4} 40 ${x + 2} 20 Q ${x + 5} 10 ${x} 2`}
-            stroke="rgba(255, 200, 232, 0.4)"
+            stroke="rgba(210, 205, 190, 0.4)"
             strokeWidth="3"
             fill="none"
             strokeLinecap="round"
@@ -153,9 +153,9 @@ function AnemoneSVG({ className, style }) {
 function SeaGrassSVG({ className, style }) {
   return (
     <svg className={className} style={style} viewBox="0 0 60 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--1" d="M10 100 Q4 62 16 24 Q19 12 22 2" stroke="rgba(45, 212, 191, 0.4)" strokeWidth="4" fill="none" strokeLinecap="round" />
-      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--2" d="M30 100 Q36 58 24 20 Q21 8 25 -4" stroke="rgba(20, 201, 201, 0.36)" strokeWidth="4" fill="none" strokeLinecap="round" />
-      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--3" d="M46 100 Q52 64 40 28 Q36 16 40 4" stroke="rgba(45, 212, 191, 0.32)" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--1" d="M10 100 Q4 62 16 24 Q19 12 22 2" stroke="rgba(160, 156, 140, 0.4)" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--2" d="M30 100 Q36 58 24 20 Q21 8 25 -4" stroke="rgba(122, 117, 104, 0.36)" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__grass-blade ocean-bg__grass-blade--3" d="M46 100 Q52 64 40 28 Q36 16 40 4" stroke="rgba(160, 156, 140, 0.32)" strokeWidth="4" fill="none" strokeLinecap="round" />
     </svg>
   )
 }
@@ -201,13 +201,13 @@ function DriftFishSVG({ id, className }) {
     <svg className={className} viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
         <linearGradient id={`ob-drift-${id}`} x1="0.1" y1="0.2" x2="0.9" y2="0.85">
-          <stop stopColor="rgba(34, 211, 238, 0.55)" />
-          <stop offset="1" stopColor="rgba(14, 165, 233, 0.22)" />
+          <stop stopColor="rgba(220, 216, 200, 0.55)" />
+          <stop offset="1" stopColor="rgba(110, 112, 120, 0.22)" />
         </linearGradient>
       </defs>
       <ellipse cx="46" cy="16" rx="24" ry="11" fill={`url(#ob-drift-${id})`} />
       <path d="M22 16 L2 5 L9 16 L2 27 Z" fill={`url(#ob-drift-${id})`} />
-      <circle cx="60" cy="14" r="2" fill="rgba(8, 47, 73, 0.55)" />
+      <circle cx="60" cy="14" r="2" fill="rgba(22, 24, 30, 0.55)" />
     </svg>
   )
 }
@@ -228,21 +228,21 @@ function SeaTurtleSVG({ className }) {
     <svg className={className} viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
       <defs>
         <linearGradient id="ob-turtle-shell" x1="0.4" y1="0.15" x2="0.6" y2="0.9">
-          <stop stopColor="rgba(90, 140, 95, 0.5)" />
-          <stop offset="1" stopColor="rgba(45, 85, 52, 0.35)" />
+          <stop stopColor="rgba(140, 138, 128, 0.45)" />
+          <stop offset="1" stopColor="rgba(70, 68, 62, 0.35)" />
         </linearGradient>
         <linearGradient id="ob-turtle-head" x1="0.2" y1="0.3" x2="0.8" y2="0.9">
-          <stop stopColor="rgba(150, 175, 135, 0.5)" />
-          <stop offset="1" stopColor="rgba(70, 95, 68, 0.3)" />
+          <stop stopColor="rgba(160, 158, 148, 0.45)" />
+          <stop offset="1" stopColor="rgba(90, 88, 82, 0.3)" />
         </linearGradient>
       </defs>
       <ellipse cx="100" cy="56" rx="54" ry="36" fill="url(#ob-turtle-shell)" />
       <ellipse cx="164" cy="52" rx="16" ry="12" fill="url(#ob-turtle-head)" />
-      <circle cx="168" cy="50" r="3" fill="rgba(25, 35, 28, 0.6)" />
-      <path d="M 50 86 Q 24 90 18 104 Q 28 96 48 90 Z" fill="rgba(90, 135, 88, 0.4)" />
-      <path d="M 150 86 Q 176 90 182 104 Q 172 96 152 90 Z" fill="rgba(90, 135, 88, 0.4)" />
-      <path d="M 52 40 Q 32 46 28 58 Q 36 50 50 44 Z" fill="rgba(90, 135, 88, 0.4)" />
-      <path d="M 148 40 Q 168 46 172 58 Q 164 50 150 44 Z" fill="rgba(90, 135, 88, 0.4)" />
+      <circle cx="168" cy="50" r="3" fill="rgba(20, 20, 22, 0.65)" />
+      <path d="M 50 86 Q 24 90 18 104 Q 28 96 48 90 Z" fill="rgba(110, 108, 100, 0.4)" />
+      <path d="M 150 86 Q 176 90 182 104 Q 172 96 152 90 Z" fill="rgba(110, 108, 100, 0.4)" />
+      <path d="M 52 40 Q 32 46 28 58 Q 36 50 50 44 Z" fill="rgba(110, 108, 100, 0.4)" />
+      <path d="M 148 40 Q 168 46 172 58 Q 164 50 150 44 Z" fill="rgba(110, 108, 100, 0.4)" />
     </svg>
   )
 }
@@ -253,14 +253,14 @@ function JellyfishSVG({ className, jellyId = '1' }) {
       <defs>
         <linearGradient id={`ob-jelly-body-${jellyId}`} x1="0.4" y1="0.1" x2="0.6" y2="0.95">
           <stop stopColor="rgba(255,252,255,0.35)" />
-          <stop offset="0.7" stopColor="rgba(160,195,215,0.2)" />
-          <stop offset="1" stopColor="rgba(100,150,180,0.06)" />
+          <stop offset="0.7" stopColor="rgba(190,186,174,0.2)" />
+          <stop offset="1" stopColor="rgba(120,118,110,0.06)" />
         </linearGradient>
       </defs>
       <path className="ocean-bg__jelly-bell" d="M 40 8 Q 62 10 66 32 Q 68 48 40 52 Q 12 48 14 32 Q 18 10 40 8 Z" fill={`url(#ob-jelly-body-${jellyId})`} />
-      <path className="ocean-bg__jelly-tentacle" d="M 20 50 Q 12 78 16 136" stroke="rgba(200,220,235,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
-      <path className="ocean-bg__jelly-tentacle ocean-bg__jelly-tentacle--2" d="M 40 52 Q 36 88 40 136" stroke="rgba(200,220,235,0.22)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-      <path className="ocean-bg__jelly-tentacle ocean-bg__jelly-tentacle--3" d="M 60 50 Q 68 80 64 132" stroke="rgba(200,220,235,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__jelly-tentacle" d="M 20 50 Q 12 78 16 136" stroke="rgba(210,206,194,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__jelly-tentacle ocean-bg__jelly-tentacle--2" d="M 40 52 Q 36 88 40 136" stroke="rgba(210,206,194,0.22)" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+      <path className="ocean-bg__jelly-tentacle ocean-bg__jelly-tentacle--3" d="M 60 50 Q 68 80 64 132" stroke="rgba(210,206,194,0.25)" strokeWidth="2" fill="none" strokeLinecap="round" />
     </svg>
   )
 }

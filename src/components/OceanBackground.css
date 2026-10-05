@@ -40,7 +40,7 @@
   height: min(70vw, 520px);
   top: -15%;
   left: -10%;
-  background: radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.45), transparent 65%);
+  background: radial-gradient(circle at 50% 50%, rgba(220, 216, 200, 0.45), transparent 65%);
   animation-duration: 50s, 9s;
   animation-delay: 0s, 0s;
 }
@@ -50,7 +50,7 @@
   height: min(55vw, 400px);
   top: 25%;
   right: -8%;
-  background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.35), transparent 65%);
+  background: radial-gradient(circle at 50% 50%, rgba(200, 196, 184, 0.35), transparent 65%);
   animation-duration: 42s, 7s;
   animation-delay: -8s, -1.5s;
   animation-direction: reverse, normal;
@@ -61,7 +61,7 @@
   height: min(50vw, 360px);
   bottom: 15%;
   left: 5%;
-  background: radial-gradient(circle at 50% 50%, rgba(45, 212, 191, 0.3), transparent 65%);
+  background: radial-gradient(circle at 50% 50%, rgba(160, 156, 140, 0.3), transparent 65%);
   animation-duration: 48s, 10s;
   animation-delay: -16s, -3s;
 }
@@ -71,7 +71,7 @@
   height: min(45vw, 320px);
   top: 50%;
   left: 30%;
-  background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.25), transparent 65%);
+  background: radial-gradient(circle at 50% 50%, rgba(90, 92, 100, 0.25), transparent 65%);
   animation-duration: 52s, 8s;
   animation-delay: -24s, -5s;
   animation-direction: reverse, normal;
@@ -82,7 +82,7 @@
   height: min(40vw, 280px);
   bottom: 25%;
   right: 15%;
-  background: radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.28), transparent 65%);
+  background: radial-gradient(circle at 50% 50%, rgba(220, 216, 200, 0.28), transparent 65%);
   animation-duration: 44s, 11s;
   animation-delay: -12s, -2s;
 }
@@ -118,8 +118,8 @@
   width: var(--bubble-size, 6px);
   height: var(--bubble-size, 6px);
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), rgba(56, 189, 248, 0.12));
-  box-shadow: 0 0 6px rgba(34, 211, 238, 0.2);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), rgba(200, 196, 184, 0.12));
+  box-shadow: 0 0 6px rgba(220, 216, 200, 0.2);
   animation: oceanBgBubbleRise var(--bubble-duration, 20s) ease-in-out infinite,
     oceanBgBubbleTwinkle 2.5s ease-in-out infinite;
   animation-delay: var(--bubble-delay, 0s), calc(var(--bubble-delay, 0s) * 0.4);
@@ -180,10 +180,10 @@
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(56, 189, 248, 0.06) 22%,
-    rgba(34, 211, 238, 0.14) 50%,
-    rgba(34, 211, 238, 0.22) 80%,
-    rgba(12, 74, 110, 0.12) 100%
+    rgba(200, 196, 184, 0.06) 22%,
+    rgba(220, 216, 200, 0.14) 50%,
+    rgba(220, 216, 200, 0.22) 80%,
+    rgba(36, 38, 44, 0.12) 100%
   );
   animation: oceanBgSurfaceMotion 12s ease-in-out infinite;
 }
@@ -217,8 +217,8 @@
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(12, 74, 110, 0.08) 40%,
-    rgba(8, 47, 73, 0.22) 100%
+    rgba(36, 38, 44, 0.08) 40%,
+    rgba(22, 24, 30, 0.22) 100%
   );
 }
 
@@ -232,7 +232,7 @@
 }
 
 .ocean-bg__reef-back {
-  filter: blur(1.5px) saturate(0.85);
+  filter: blur(1.5px) saturate(0.35) grayscale(0.55);
   opacity: 0.55;
 }
 
@@ -531,7 +531,7 @@ body[data-depth='trench'] .ocean-bg__reef {
   height: 78%;
   width: 14vw;
   max-width: 220px;
-  background: linear-gradient(180deg, rgba(186, 230, 253, 0.16), rgba(34, 211, 238, 0.04) 45%, transparent 75%);
+  background: linear-gradient(180deg, rgba(232, 228, 212, 0.16), rgba(220, 216, 200, 0.04) 45%, transparent 75%);
   clip-path: polygon(35% 0, 65% 0, 100% 100%, 0 100%);
   filter: blur(14px);
   animation: oceanBgShaftSway 20s ease-in-out infinite;
