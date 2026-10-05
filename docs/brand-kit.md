@@ -19,26 +19,26 @@ brand-kit/
 - **Name:** nico.builds
 - **Tagline:** Flow Beyond Limits
 - **Owner:** Nico Chikuji
-- **Theme:** Steamboat Willie — classic 1928 black-and-white ink (bluish-black, charcoal, cream paper)
+- **Theme:** Steamboat Willie **ink stage** (B&W background) + colorful foreground UI
 
 ### Primary colors
 
-- **Cream Ink:** `#e8e4d4` — Primary CTAs, links
-- **Warm Ash:** `#b8a890` — Hover states, warmth
-- **Charcoal Silver:** `#7a7568` — Depth effects, gradients
-- **Bluish Black:** `#0a0b0e` — Primary background
-- **Near Black:** `#050608` — Deepest backgrounds
-- **Cream Paper:** `#f0ebe0` — Primary text
+- **Cyan Accent:** `#12f6ff` — CTAs, links, UI highlights
+- **Coral Accent:** `#ff906f` — Hover states, warmth
+- **Teal Lagoon:** `#14c9c9` — UI depth accents
+- **Bluish Black:** `#07080b` — Stage background (Willie ink)
+- **Near Black:** `#050608` — Deepest stage
+- **Cream Paper:** `#f7f2e8` — Primary text
 
 ### Quick reference (CSS variables)
 
 ```css
---brand-accent: #e8e4d4;
---brand-accent-soft: #b8a890;
---brand-accent-deep: #7a7568;
---brand-bg: #0a0b0e;
+--brand-accent: #12f6ff;
+--brand-accent-soft: #ff906f;
+--brand-accent-deep: #14c9c9;
+--brand-bg: #07080b;
 --brand-midnight: #050608;
---brand-text-primary: #f0ebe0;
+--brand-text-primary: #f7f2e8;
 ```
 
 Import: `@import url('./brand-kit/colors/palette.css');`
@@ -82,20 +82,20 @@ Import: `@import url('./brand-kit/colors/palette.css');`
 - **Precise** — Attention to detail
 - **Playful** — Light tone, professional
 - **Community-First** — Collaboration, transparency
-- **Ink & Contrast** — Steamboat Willie high-contrast black-and-white atmosphere
+- **Ink stage + color cast** — Willie B&W atmosphere behind colorful UI
 
 ### Visual principles
 
-1. **Depth & dimension** — Gradients, shadows, soft ink wash
-2. **Fluid motion** — Smooth transitions, wave patterns
-3. **Contrast & clarity** — Near-black grounds, cream paper text
-4. **Modern minimalism** — Clean layouts, breathing room
+1. **Stage vs cast** — Background stays ink B&W; foreground keeps cyan/coral/teal
+2. **Cream on ink** — Cream paper text for Willie balance
+3. **Fluid motion** — Smooth transitions, wave patterns
+4. **Contrast & clarity** — Readability, hierarchy
 
 ### Usage do's and don'ts
 
-**Do:** Use brand colors consistently; follow typography hierarchy; keep the palette near-black / charcoal / cream; keep voice professional yet approachable.
+**Do:** Keep the stage near-black with cream text and grain; use cyan/coral/teal on UI chrome, logos, and cards.
 
-**Don't:** Modify logo colors/effects; use fonts outside the system; reintroduce saturated blues/cyans/purples; compromise accessibility.
+**Don't:** Colorize the background atmosphere; wash out foreground accents to gray; compromise accessibility.
 
 ---
 
@@ -117,10 +117,10 @@ Import: `@import url('./brand-kit/colors/palette.css');`
 - "Capabilities"
 - "Contact"
 
-### Ink metaphors (visual theme only)
+### Stage vs cast (visual theme only)
 
-The site’s visual language is Steamboat Willie black-and-white ink. UI copy stays professional and direct—
-reserve playful period phrasing for the slogan and brand mark, not section titles or CTAs.
+The **stage** (page background / atmosphere) is Steamboat Willie ink B&W. The **cast** (UI, logos, cards,
+accents) stays colorful. Copy stays professional and direct.
 
 ### By context
 
@@ -134,7 +134,7 @@ reserve playful period phrasing for the slogan and brand mark, not section title
 ## Logo
 
 - **Files:** `brand-kit/logos/logo-primary.png`
-- **Usage:** Dark backgrounds (#0a0b0e, #050608); maintain clear space; preserve aspect ratio.
+- **Usage:** Dark ink backgrounds (#07080b, #050608); maintain clear space; preserve aspect ratio. Keep logo colors.
 - **Processing:** `npm run logo:process [path-to-logo]` (removes white background, outputs to `brand-kit/logos/logo-primary.png` and `src/assets/generated-image.png`).
 
 **Sizes:** Favicon 32–64px; Nav 40–48px; Hero 120–200px; Social 512px.

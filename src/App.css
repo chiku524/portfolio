@@ -49,6 +49,19 @@ button {
   pointer-events: none;
 }
 
+/*
+ * Steamboat Willie stage: background atmosphere stays ink B&W.
+ * Foreground UI (nav, buttons, cards, logos) keeps full brand color.
+ */
+.ocean-layers-wrapper,
+.background-canvas,
+.depth-overlay,
+.ocean-orbs,
+.hero__atmosphere,
+.ocean-bg {
+  filter: grayscale(1) contrast(1.12) brightness(0.92);
+}
+
 /* Pause full-experience animations while user is actively scrolling to prevent lag */
 body.is-scrolling .hero__aurora,
 body.is-scrolling .hero__ripples,
@@ -123,7 +136,7 @@ body.past-hero .hero__atmosphere {
   pointer-events: none;
   opacity: 0;
   mix-blend-mode: screen;
-  background: radial-gradient(circle at 50% 40%, rgba(200, 196, 184, 0.2), transparent 70%);
+  background: radial-gradient(circle at 50% 40%, rgba(56, 189, 248, 0.2), transparent 70%);
   transition: opacity 0.8s ease, background 1s ease;
 }
 
@@ -147,7 +160,7 @@ body.past-hero .hero__atmosphere {
   width: clamp(140px, 18vw, 260px);
   height: clamp(140px, 18vw, 260px);
   border-radius: 50%;
-  background: radial-gradient(circle at 32% 28%, rgba(220, 216, 200, 0.22), transparent 68%);
+  background: radial-gradient(circle at 32% 28%, rgba(34, 211, 238, 0.22), transparent 68%);
   filter: blur(4px);
   opacity: 0.32;
   animation: orbDrift 28s ease-in-out infinite;
@@ -192,7 +205,7 @@ body[data-depth='surface'] .background-canvas {
 
 body[data-depth='surface'] .depth-overlay {
   opacity: 0.22;
-  background: radial-gradient(circle at 40% 35%, rgba(220, 216, 200, 0.28), transparent 65%);
+  background: radial-gradient(circle at 40% 35%, rgba(34, 211, 238, 0.28), transparent 65%);
 }
 
 body[data-depth='reef'] .background-canvas {
@@ -201,8 +214,8 @@ body[data-depth='reef'] .background-canvas {
 
 body[data-depth='reef'] .depth-overlay {
   opacity: 0.32;
-  background: radial-gradient(circle at 60% 30%, rgba(160, 156, 140, 0.28), transparent 62%),
-    radial-gradient(circle at 25% 65%, rgba(150, 145, 135, 0.18), transparent 70%);
+  background: radial-gradient(circle at 60% 30%, rgba(45, 212, 191, 0.28), transparent 62%),
+    radial-gradient(circle at 25% 65%, rgba(244, 114, 182, 0.18), transparent 70%);
 }
 
 body[data-depth='mid'] .background-canvas {
@@ -211,8 +224,8 @@ body[data-depth='mid'] .background-canvas {
 
 body[data-depth='mid'] .depth-overlay {
   opacity: 0.42;
-  background: radial-gradient(circle at 55% 45%, rgba(90, 92, 100, 0.3), transparent 60%),
-    radial-gradient(circle at 25% 70%, rgba(36, 38, 44, 0.26), transparent 68%);
+  background: radial-gradient(circle at 55% 45%, rgba(59, 130, 246, 0.3), transparent 60%),
+    radial-gradient(circle at 25% 70%, rgba(12, 74, 110, 0.26), transparent 68%);
 }
 
 body[data-depth='deep'] .background-canvas {
@@ -221,8 +234,8 @@ body[data-depth='deep'] .background-canvas {
 
 body[data-depth='deep'] .depth-overlay {
   opacity: 0.48;
-  background: radial-gradient(circle at 50% 55%, rgba(36, 38, 44, 0.42), transparent 65%),
-    radial-gradient(circle at 20% 30%, rgba(200, 196, 184, 0.18), transparent 70%);
+  background: radial-gradient(circle at 50% 55%, rgba(12, 74, 110, 0.42), transparent 65%),
+    radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.18), transparent 70%);
 }
 
 body[data-depth='trench'] .background-canvas {
@@ -231,8 +244,8 @@ body[data-depth='trench'] .background-canvas {
 
 body[data-depth='trench'] .depth-overlay {
   opacity: 0.55;
-  background: radial-gradient(circle at 50% 65%, rgba(22, 24, 30, 0.6), transparent 65%),
-    radial-gradient(circle at 30% 35%, rgba(90, 92, 100, 0.2), transparent 72%);
+  background: radial-gradient(circle at 50% 65%, rgba(8, 47, 73, 0.6), transparent 65%),
+    radial-gradient(circle at 30% 35%, rgba(59, 130, 246, 0.2), transparent 72%);
 }
 
 body[data-depth='surface'] .hero__fish-squad {
@@ -277,42 +290,42 @@ body[data-depth='surface'] .jellyfish__tentacle {
 }
 
 body[data-depth='reef'] .jellyfish__body {
-  box-shadow: 0 0 36px rgba(150, 148, 140, 0.38), 0 0 58px rgba(130, 125, 118, 0.32);
+  box-shadow: 0 0 36px rgba(129, 140, 248, 0.38), 0 0 58px rgba(236, 72, 153, 0.32);
 }
 
 body[data-depth='deep'] .jellyfish__body {
-  box-shadow: 0 0 55px rgba(130, 125, 118, 0.45), 0 0 80px rgba(200, 196, 184, 0.35);
+  box-shadow: 0 0 55px rgba(236, 72, 153, 0.45), 0 0 80px rgba(56, 189, 248, 0.35);
 }
 
 body[data-depth='trench'] .jellyfish__tentacle {
-  background: linear-gradient(180deg, rgba(150, 148, 140, 0.8), rgba(110, 112, 120, 0));
+  background: linear-gradient(180deg, rgba(129, 140, 248, 0.8), rgba(14, 165, 233, 0));
 }
 
 body[data-depth='surface'] .nav-wrapper {
-  background: rgba(5, 6, 8, 0.68);
-  box-shadow: 0 12px 30px -24px rgba(110, 112, 120, 0.35);
+  background: rgba(2, 6, 23, 0.68);
+  box-shadow: 0 12px 30px -24px rgba(14, 165, 233, 0.35);
 }
 
 body[data-depth='reef'] .nav-wrapper {
-  background: rgba(8, 9, 12, 0.78);
-  box-shadow: 0 16px 38px -26px rgba(200, 196, 184, 0.45);
+  background: rgba(3, 12, 26, 0.78);
+  box-shadow: 0 16px 38px -26px rgba(56, 189, 248, 0.45);
 }
 
 body[data-depth='mid'] .nav-wrapper {
-  background: rgba(6, 7, 10, 0.82);
-  box-shadow: 0 20px 42px -28px rgba(160, 156, 140, 0.45);
+  background: rgba(2, 14, 30, 0.82);
+  box-shadow: 0 20px 42px -28px rgba(45, 212, 191, 0.45);
 }
 
 body[data-depth='deep'] .nav-wrapper {
-  background: rgba(5, 6, 9, 0.86);
-  border-bottom-color: rgba(200, 196, 184, 0.18);
-  box-shadow: 0 24px 46px -26px rgba(55, 56, 62, 0.58);
+  background: rgba(1, 14, 28, 0.86);
+  border-bottom-color: rgba(56, 189, 248, 0.18);
+  box-shadow: 0 24px 46px -26px rgba(30, 64, 175, 0.58);
 }
 
 body[data-depth='trench'] .nav-wrapper {
-  background: rgba(4, 5, 8, 0.92);
-  border-bottom-color: rgba(36, 38, 44, 0.28);
-  box-shadow: 0 30px 60px -30px rgba(22, 24, 30, 0.78);
+  background: rgba(1, 12, 24, 0.92);
+  border-bottom-color: rgba(12, 74, 110, 0.28);
+  box-shadow: 0 30px 60px -30px rgba(8, 47, 73, 0.78);
 }
 
 body[data-depth='surface'] .nav-wrapper::after {
@@ -343,7 +356,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   right: 0;
   height: 3px;
   z-index: 21;
-  background: rgba(5, 6, 8, 0.3);
+  background: rgba(2, 6, 23, 0.3);
   pointer-events: none;
   contain: layout style paint;
 }
@@ -353,8 +366,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   width: 100%;
   transform-origin: left;
   transform: scaleX(var(--scroll-progress));
-  background: linear-gradient(90deg, rgba(232, 228, 212, 0.8), rgba(184, 168, 144, 0.8));
-  box-shadow: 0 0 8px rgba(232, 228, 212, 0.5);
+  background: linear-gradient(90deg, rgba(18, 246, 255, 0.8), rgba(255, 144, 111, 0.8));
+  box-shadow: 0 0 8px rgba(18, 246, 255, 0.5);
   contain: paint;
   transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
   will-change: transform;
@@ -372,8 +385,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   padding: env(safe-area-inset-top, 0px) calc(var(--page-padding) + env(safe-area-inset-right, 0px)) 0
     calc(var(--page-padding) + env(safe-area-inset-left, 0px));
   z-index: 20;
-  background: rgba(5, 6, 8, 0.92);
-  border-bottom: 1px solid rgba(138, 133, 120, 0.1);
+  background: rgba(2, 6, 23, 0.92);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
   transition: background 0.6s ease, border-color 0.6s ease, box-shadow 0.6s ease;
   overflow: visible;
 }
@@ -383,7 +396,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   position: absolute;
   inset: auto var(--page-padding) 0 var(--page-padding);
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(200, 196, 184, 0.45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.45), transparent);
   opacity: 0.55;
   animation: navPulse 14s ease-in-out infinite;
 }
@@ -411,7 +424,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   height: 56px;
   border-radius: 0;
   object-fit: contain;
-  filter: grayscale(1) contrast(1.15) drop-shadow(0 6px 18px rgba(232, 228, 212, 0.35));
+  filter: drop-shadow(0 6px 18px rgba(18, 246, 255, 0.35));
   background: transparent;
   border: none;
   transition: transform 0.3s ease;
@@ -444,7 +457,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   font-size: 0.62rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(240, 235, 224, 0.6);
+  color: rgba(244, 248, 255, 0.6);
 }
 
 .nav__links {
@@ -563,7 +576,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   bottom: 0.2rem;
   height: 2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent, rgba(220, 216, 200, 0.85), transparent);
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.85), transparent);
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
@@ -613,18 +626,18 @@ body[data-depth='trench'] .nav-wrapper::after {
 .nav__links a:hover {
   color: var(--accent);
   transform: translateY(-1px);
-  text-shadow: 0 0 12px rgba(220, 216, 200, 0.4);
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.4);
 }
 
 .nav__cta {
-  background: linear-gradient(120deg, rgba(232, 228, 212, 0.32), rgba(184, 168, 144, 0.32));
-  color: rgba(10, 11, 14, 0.92);
+  background: linear-gradient(120deg, rgba(18, 246, 255, 0.32), rgba(255, 144, 111, 0.32));
+  color: rgba(17, 23, 43, 0.92);
   padding: 0.65rem 1.4rem;
   border-radius: 999px;
   font-weight: 600;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
-  box-shadow: 0 0 0 0 rgba(232, 228, 212, 0.3);
+  box-shadow: 0 0 0 0 rgba(18, 246, 255, 0.3);
   white-space: nowrap;
   flex-shrink: 0;
   font-size: clamp(0.8rem, 2vw, 0.95rem);
@@ -636,7 +649,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .nav__cta:hover {
   transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 18px 32px -18px rgba(232, 228, 212, 0.65);
+  box-shadow: 0 18px 32px -18px rgba(18, 246, 255, 0.65);
 }
 
 .nav__actions {
@@ -653,9 +666,9 @@ body[data-depth='trench'] .nav-wrapper::after {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  border: 1px solid rgba(200, 196, 184, 0.25);
-  background: rgba(5, 6, 8, 0.55);
-  color: rgba(232, 228, 212, 0.82);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(2, 6, 23, 0.55);
+  color: rgba(226, 232, 240, 0.82);
   font-size: 1.05rem;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
@@ -663,18 +676,18 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .nav__audio:hover {
   transform: translateY(-1px);
-  border-color: rgba(220, 216, 200, 0.4);
-  box-shadow: 0 12px 32px -24px rgba(220, 216, 200, 0.7);
+  border-color: rgba(34, 211, 238, 0.4);
+  box-shadow: 0 12px 32px -24px rgba(34, 211, 238, 0.7);
 }
 
 .nav__audio[aria-pressed='true'] {
-  background: linear-gradient(135deg, rgba(220, 216, 200, 0.85), rgba(110, 112, 120, 0.65));
-  color: #08090c;
-  box-shadow: 0 16px 38px -26px rgba(110, 112, 120, 0.8);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.85), rgba(14, 165, 233, 0.65));
+  color: #02131f;
+  box-shadow: 0 16px 38px -26px rgba(14, 165, 233, 0.8);
 }
 
 .nav__audio:focus-visible {
-  outline: 3px solid rgba(220, 216, 200, 0.6);
+  outline: 3px solid rgba(34, 211, 238, 0.6);
   outline-offset: 3px;
 }
 
@@ -685,9 +698,9 @@ body[data-depth='trench'] .nav-wrapper::after {
   overflow: hidden;
   --px: 0;
   --py: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(200, 196, 184, 0.12), rgba(5, 6, 8, 0.6) 58%),
-    radial-gradient(circle at 80% 0%, rgba(150, 145, 135, 0.16), rgba(5, 6, 8, 0.7) 60%),
-    rgba(5, 6, 8, 0.85);
+  background: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.12), rgba(2, 6, 23, 0.6) 58%),
+    radial-gradient(circle at 80% 0%, rgba(244, 114, 182, 0.16), rgba(2, 6, 23, 0.7) 60%),
+    rgba(2, 6, 23, 0.85);
   scroll-margin-top: 0;
   transform: translateZ(0);
 }
@@ -715,7 +728,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   height: 130%;
   width: 16vw;
   max-width: 260px;
-  background: linear-gradient(180deg, rgba(235, 230, 218, 0.2) 0%, rgba(220, 216, 200, 0.08) 40%, transparent 75%);
+  background: linear-gradient(180deg, rgba(224, 242, 254, 0.2) 0%, rgba(34, 211, 238, 0.08) 40%, transparent 75%);
   clip-path: polygon(38% 0, 62% 0, 94% 100%, 6% 100%);
   filter: blur(12px);
   animation: causticSway 18s ease-in-out infinite;
@@ -755,17 +768,17 @@ body[data-depth='trench'] .nav-wrapper::after {
   left: 8%;
   top: 18%;
   border-radius: 50%;
-  background: rgba(232, 228, 212, 0.45);
+  background: rgba(186, 230, 253, 0.45);
   box-shadow:
-    12vw 16vh 0 0 rgba(232, 228, 212, 0.32),
-    22vw 7vh 0 1px rgba(220, 216, 200, 0.22),
+    12vw 16vh 0 0 rgba(186, 230, 253, 0.32),
+    22vw 7vh 0 1px rgba(34, 211, 238, 0.22),
     38vw 26vh 0 0 rgba(255, 255, 255, 0.28),
-    54vw 12vh 0 1px rgba(232, 228, 212, 0.24),
-    68vw 30vh 0 0 rgba(220, 216, 200, 0.2),
+    54vw 12vh 0 1px rgba(186, 230, 253, 0.24),
+    68vw 30vh 0 0 rgba(34, 211, 238, 0.2),
     78vw 9vh 0 0 rgba(255, 255, 255, 0.22),
-    16vw 40vh 0 1px rgba(232, 228, 212, 0.18),
-    46vw 46vh 0 0 rgba(220, 216, 200, 0.18),
-    84vw 38vh 0 0 rgba(232, 228, 212, 0.26),
+    16vw 40vh 0 1px rgba(186, 230, 253, 0.18),
+    46vw 46vh 0 0 rgba(34, 211, 238, 0.18),
+    84vw 38vh 0 0 rgba(186, 230, 253, 0.26),
     30vw 5vh 0 0 rgba(255, 255, 255, 0.2);
   animation: planktonDrift 28s ease-in-out infinite;
   pointer-events: none;
@@ -791,11 +804,11 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .hero__tide-path--back {
-  fill: rgba(22, 24, 30, 0.42);
+  fill: rgba(8, 47, 73, 0.42);
 }
 
 .hero__tide-path--front {
-  fill: rgba(5, 6, 8, 0.5);
+  fill: rgba(2, 6, 23, 0.5);
 }
 
 .hero-enter {
@@ -824,7 +837,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   background: none;
   clip-path: none;
   opacity: 0.82;
-  filter: drop-shadow(0 0 8px rgba(220, 216, 200, 0.35));
+  filter: drop-shadow(0 0 8px rgba(34, 211, 238, 0.35));
   offset-distance: 0%;
   offset-rotate: auto;
   offset-anchor: center;
@@ -907,14 +920,14 @@ body[data-depth='trench'] .nav-wrapper::after {
   padding: 0.4rem 0.9rem;
   line-height: 1.2;
   border-radius: 999px;
-  background: rgba(22, 24, 30, 0.7);
-  border: 1px solid rgba(220, 216, 200, 0.22);
+  background: rgba(8, 47, 73, 0.7);
+  border: 1px solid rgba(34, 211, 238, 0.22);
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(232, 228, 212, 0.78);
+  color: rgba(226, 232, 240, 0.78);
   margin-bottom: 1.5rem;
-  box-shadow: 0 0 20px -18px rgba(220, 216, 200, 0.75);
+  box-shadow: 0 0 20px -18px rgba(34, 211, 238, 0.75);
 }
 
 .hero__eyebrow-icon {
@@ -922,7 +935,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: rgba(220, 216, 200, 0.9);
+  color: rgba(34, 211, 238, 0.9);
 }
 
 .hero__aurora {
@@ -945,7 +958,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   max-height: 820px;
   top: -35vw;
   left: -25vw;
-  background: radial-gradient(circle, rgba(200, 196, 184, 0.65), rgba(90, 92, 100, 0));
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.65), rgba(59, 130, 246, 0));
   animation-duration: 22s;
   opacity: calc(0.45 + var(--scroll-progress) * 0.3);
 }
@@ -957,7 +970,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   max-height: 640px;
   bottom: -30vw;
   right: -20vw;
-  background: radial-gradient(circle, rgba(150, 145, 135, 0.7), rgba(90, 92, 100, 0));
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.7), rgba(59, 130, 246, 0));
   animation-duration: 18s;
   opacity: calc(0.35 + var(--scroll-progress) * 0.25);
 }
@@ -969,7 +982,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   max-height: 520px;
   top: 10%;
   right: 25%;
-  background: radial-gradient(circle, rgba(232, 228, 212, 0.35), rgba(90, 92, 100, 0));
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.4), rgba(59, 130, 246, 0));
   animation-duration: 26s;
   opacity: calc(0.4 + var(--scroll-progress) * 0.35);
 }
@@ -992,7 +1005,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .hero__content h1 span {
   color: var(--accent);
-  text-shadow: 0 0 42px rgba(220, 216, 200, 0.28);
+  text-shadow: 0 0 42px rgba(34, 211, 238, 0.28);
   animation: titlePulse 9s ease-in-out infinite;
 }
 
@@ -1002,14 +1015,14 @@ body[data-depth='trench'] .nav-wrapper::after {
   text-transform: uppercase;
   letter-spacing: 0.26em;
   font-size: 0.78rem;
-  color: rgba(240, 235, 224, 0.68);
+  color: rgba(244, 248, 255, 0.68);
 }
 
 .hero__tagline {
   margin: 1.5rem auto 0;
   max-width: 640px;
   font-size: 1.15rem;
-  color: rgba(196, 191, 179, 0.92);
+  color: rgba(203, 213, 225, 0.92);
   line-height: 1.6;
   animation: taglineDrift 14s ease-in-out infinite;
 }
@@ -1059,24 +1072,24 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .button--primary {
-  background: linear-gradient(135deg, rgba(232, 228, 212, 0.95), rgba(122, 117, 104, 0.75));
-  color: #050608;
-  box-shadow: 0 18px 35px -20px rgba(232, 228, 212, 0.95);
+  background: linear-gradient(135deg, rgba(18, 246, 255, 0.95), rgba(20, 201, 201, 0.75));
+  color: #020617;
+  box-shadow: 0 18px 35px -20px rgba(18, 246, 255, 0.95);
 }
 
 .button--primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 26px 45px -20px rgba(232, 228, 212, 0.9);
+  box-shadow: 0 26px 45px -20px rgba(18, 246, 255, 0.9);
 }
 
 .button--ghost {
-  border: 1px solid rgba(184, 168, 144, 0.45);
+  border: 1px solid rgba(255, 144, 111, 0.45);
   color: var(--accent-soft);
-  background: rgba(10, 11, 14, 0.65);
+  background: rgba(17, 23, 43, 0.65);
 }
 
 .button--ghost:hover {
-  border-color: rgba(184, 168, 144, 0.65);
+  border-color: rgba(255, 144, 111, 0.65);
   transform: translateY(-2px);
 }
 
@@ -1106,11 +1119,11 @@ body[data-depth='trench'] .nav-wrapper::after {
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(240, 235, 224, 0.78);
-  background: linear-gradient(120deg, rgba(232, 228, 212, 0.14), rgba(122, 117, 104, 0.1));
-  border: 1px solid rgba(232, 228, 212, 0.25);
+  color: rgba(244, 248, 255, 0.78);
+  background: linear-gradient(120deg, rgba(18, 246, 255, 0.14), rgba(20, 201, 201, 0.1));
+  border: 1px solid rgba(18, 246, 255, 0.25);
   font-family: var(--font-body);
-  box-shadow: 0 14px 30px -24px rgba(232, 228, 212, 0.55);
+  box-shadow: 0 14px 30px -24px rgba(18, 246, 255, 0.55);
   max-width: 100%;
   flex-wrap: wrap;
   row-gap: 0.35rem;
@@ -1199,7 +1212,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   width: 5.5rem;
   height: 2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(232, 228, 212, 0.9), rgba(184, 168, 144, 0.25), transparent);
+  background: linear-gradient(90deg, rgba(18, 246, 255, 0.9), rgba(255, 144, 111, 0.25), transparent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s;
@@ -1219,7 +1232,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
-  background: linear-gradient(120deg, rgba(232, 228, 212, 0.95), rgba(184, 168, 144, 0.85));
+  background: linear-gradient(120deg, rgba(18, 246, 255, 0.95), rgba(255, 144, 111, 0.85));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1233,8 +1246,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .card {
   position: relative;
-  background: rgba(14, 15, 18, 0.75);
-  border: 1px solid rgba(138, 133, 120, 0.15);
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.15);
   border-radius: 24px;
   padding: 2rem;
   transition: transform 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
@@ -1244,15 +1257,15 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .card:hover {
   transform: translateY(-6px);
-  border-color: rgba(232, 228, 212, 0.45);
-  box-shadow: 0 22px 40px -30px rgba(232, 228, 212, 0.7);
+  border-color: rgba(18, 246, 255, 0.45);
+  box-shadow: 0 22px 40px -30px rgba(18, 246, 255, 0.7);
 }
 
 .card__badge {
   display: inline-flex;
   padding: 0.4rem 0.85rem;
-  background: rgba(232, 228, 212, 0.16);
-  color: #e8e4d4;
+  background: rgba(18, 246, 255, 0.16);
+  color: #12f6ff;
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -1262,18 +1275,18 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .card__badge--signal {
-  background: rgba(122, 117, 104, 0.2);
-  color: #e8e4d4;
+  background: rgba(20, 201, 201, 0.2);
+  color: #12f6ff;
 }
 
 .card__badge--orbit {
-  background: rgba(184, 168, 144, 0.22);
-  color: #d4c8b8;
+  background: rgba(255, 144, 111, 0.22);
+  color: #ffd0c0;
 }
 
 .card__badge--spark {
-  background: rgba(232, 228, 212, 0.18);
-  color: #e8e4d4;
+  background: rgba(18, 246, 255, 0.18);
+  color: #12f6ff;
 }
 
 .card--project h3 {
@@ -1342,8 +1355,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   display: block;
   border-radius: 28px;
   overflow: hidden;
-  border: 1px solid rgba(138, 133, 120, 0.25);
-  box-shadow: 0 26px 60px -40px rgba(200, 196, 184, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 26px 60px -40px rgba(56, 189, 248, 0.6);
   min-height: 260px;
   background-image: var(--project-thumb, none);
   background-size: cover;
@@ -1360,10 +1373,10 @@ body[data-depth='trench'] .nav-wrapper::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #050608;
-  background-image: linear-gradient(160deg, rgba(5, 6, 8, 0.98) 0%, rgba(22, 24, 30, 0.95) 35%, rgba(14, 15, 18, 0.96) 70%, rgba(10, 12, 16, 0.95) 100%),
-    radial-gradient(circle at 25% 35%, rgba(232, 228, 212, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 75% 65%, rgba(90, 92, 100, 0.08) 0%, transparent 45%);
+  background-color: #020617;
+  background-image: linear-gradient(160deg, rgba(2, 6, 23, 0.98) 0%, rgba(8, 47, 73, 0.95) 35%, rgba(15, 23, 42, 0.96) 70%, rgba(6, 28, 50, 0.95) 100%),
+    radial-gradient(circle at 25% 35%, rgba(18, 246, 255, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 75% 65%, rgba(59, 130, 246, 0.08) 0%, transparent 45%);
   background-size: cover, cover, cover;
   background-position: center, center, center;
 }
@@ -1373,19 +1386,19 @@ body[data-depth='trench'] .nav-wrapper::after {
   font-family: var(--font-heading);
   font-size: clamp(4rem, 12vw, 7rem);
   font-weight: 700;
-  color: #c8c4b4;
+  color: #22d3ee;
   letter-spacing: 0.02em;
   text-transform: uppercase;
   pointer-events: none;
   text-shadow:
-    0 0 8px rgba(232, 228, 212, 0.9),
-    0 0 20px rgba(232, 228, 212, 0.6),
-    0 0 40px rgba(220, 216, 200, 0.4),
-    0 0 60px rgba(220, 216, 200, 0.25);
+    0 0 8px rgba(18, 246, 255, 0.9),
+    0 0 20px rgba(18, 246, 255, 0.6),
+    0 0 40px rgba(34, 211, 238, 0.4),
+    0 0 60px rgba(34, 211, 238, 0.25);
 }
 
 .project-card__preview:focus-visible {
-  outline: 3px solid rgba(200, 196, 184, 0.6);
+  outline: 3px solid rgba(56, 189, 248, 0.6);
   outline-offset: 4px;
 }
 
@@ -1397,7 +1410,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   object-fit: cover;
   display: block;
   transform: scale(1.02) translateZ(0);
-  filter: saturate(0.45) grayscale(0.35);
+  filter: saturate(1.1);
   transition: transform 0.25s ease-out, filter 0.25s ease-out;
   transform-origin: center;
   backface-visibility: hidden;
@@ -1407,20 +1420,20 @@ body[data-depth='trench'] .nav-wrapper::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(160deg, rgba(14, 15, 18, 0.1), rgba(5, 6, 8, 0.7));
+  background: linear-gradient(160deg, rgba(15, 23, 42, 0.1), rgba(2, 6, 23, 0.7));
   opacity: 0;
   transition: opacity 0.2s ease-out;
 }
 
 .project-card__preview:hover {
   transform: perspective(920px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) translateY(-6px) scale(1.015);
-  box-shadow: 0 32px 70px -40px rgba(200, 196, 184, 0.8);
+  box-shadow: 0 32px 70px -40px rgba(56, 189, 248, 0.8);
 }
 
 .project-card__preview:hover .project-card__video,
 .project-card__preview:focus-visible .project-card__video {
   transform: scale(1.08);
-  filter: saturate(0.55) grayscale(0.25);
+  filter: saturate(1.25);
 }
 
 .project-card__preview:hover::after,
@@ -1432,12 +1445,12 @@ body[data-depth='trench'] .nav-wrapper::after {
   position: absolute;
   bottom: 18px;
   right: 18px;
-  background: rgba(5, 6, 8, 0.72);
-  border: 1px solid rgba(220, 216, 200, 0.4);
+  background: rgba(2, 6, 23, 0.72);
+  border: 1px solid rgba(34, 211, 238, 0.4);
   border-radius: 999px;
   padding: 0.45rem 1rem;
   font-size: 0.85rem;
-  color: rgba(232, 228, 212, 0.92);
+  color: rgba(226, 232, 240, 0.92);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   opacity: 0;
@@ -1472,7 +1485,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   opacity: 0;
   background: radial-gradient(
     420px circle at var(--glare-x, 50%) var(--glare-y, 50%),
-    rgba(232, 228, 212, 0.22),
+    rgba(186, 230, 253, 0.22),
     transparent 55%
   );
   mix-blend-mode: screen;
@@ -1504,8 +1517,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   gap: 1rem;
   padding: 2rem;
   border-radius: 28px;
-  background: rgba(22, 24, 30, 0.78);
-  border: 1px solid rgba(220, 216, 200, 0.18);
+  background: rgba(8, 47, 73, 0.78);
+  border: 1px solid rgba(34, 211, 238, 0.18);
   position: relative;
 }
 
@@ -1514,7 +1527,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   position: absolute;
   inset: 1px;
   border-radius: 27px;
-  background: linear-gradient(135deg, rgba(220, 216, 200, 0.16), transparent 70%);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.16), transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -1543,7 +1556,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   justify-content: space-between;
   gap: 0.75rem;
   font-size: 0.95rem;
-  color: rgba(138, 133, 120, 0.9);
+  color: rgba(148, 163, 184, 0.9);
 }
 
 .project-card__meta a {
@@ -1565,7 +1578,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  color: rgba(232, 228, 212, 0.85);
+  color: rgba(18, 246, 255, 0.85);
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -1579,7 +1592,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 .project-card__ecosystem {
   margin-top: 0.25rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(220, 216, 200, 0.2);
+  border-top: 1px solid rgba(34, 211, 238, 0.2);
 }
 
 .project-card__ecosystem-label {
@@ -1587,7 +1600,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: rgba(138, 133, 120, 0.8);
+  color: rgba(148, 163, 184, 0.8);
   margin-bottom: 0.6rem;
 }
 
@@ -1600,8 +1613,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 .project-card__ecosystem-link {
   padding: 0.3rem 0.75rem;
   border-radius: 999px;
-  background: rgba(232, 228, 212, 0.1);
-  border: 1px solid rgba(220, 216, 200, 0.3);
+  background: rgba(18, 246, 255, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.3);
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--accent-soft);
@@ -1610,8 +1623,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .project-card__ecosystem-link:hover {
-  background: rgba(232, 228, 212, 0.2);
-  border-color: rgba(220, 216, 200, 0.5);
+  background: rgba(18, 246, 255, 0.2);
+  border-color: rgba(34, 211, 238, 0.5);
   color: var(--accent);
 }
 
@@ -1641,8 +1654,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .toolkit {
-  background: linear-gradient(135deg, rgba(90, 92, 100, 0.18), rgba(200, 196, 184, 0.1));
-  border: 1px solid rgba(200, 196, 184, 0.25);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(56, 189, 248, 0.1));
+  border: 1px solid rgba(56, 189, 248, 0.25);
   border-radius: 24px;
   padding: 2rem;
   display: grid;
@@ -1676,8 +1689,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 .chip {
   padding: 0.35rem 0.9rem;
   border-radius: 999px;
-  background: rgba(14, 15, 18, 0.7);
-  border: 1px solid rgba(138, 133, 120, 0.25);
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.25);
   font-size: 0.85rem;
   color: var(--text-tertiary);
   letter-spacing: 0.03em;
@@ -1686,9 +1699,9 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .chip:hover {
   transform: translateY(-2px);
-  border-color: rgba(220, 216, 200, 0.45);
+  border-color: rgba(34, 211, 238, 0.45);
   color: var(--accent);
-  box-shadow: 0 10px 22px -16px rgba(220, 216, 200, 0.8);
+  box-shadow: 0 10px 22px -16px rgba(34, 211, 238, 0.8);
 }
 
 .toolkit__note {
@@ -1701,8 +1714,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 .github-activity {
   margin-top: 2.5rem;
   padding: 1.5rem 1.25rem;
-  background: rgba(22, 24, 30, 0.4);
-  border: 1px solid rgba(200, 196, 184, 0.18);
+  background: rgba(8, 47, 73, 0.4);
+  border: 1px solid rgba(56, 189, 248, 0.18);
   border-radius: 16px;
   position: relative;
   overflow: hidden;
@@ -1712,7 +1725,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 70% 30%, rgba(220, 216, 200, 0.08), transparent 55%);
+  background: radial-gradient(circle at 70% 30%, rgba(34, 211, 238, 0.08), transparent 55%);
   pointer-events: none;
 }
 
@@ -1818,7 +1831,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .github-activity__cell:hover {
   transform: scale(1.15);
-  box-shadow: 0 0 12px rgba(220, 216, 200, 0.35);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.35);
 }
 
 .github-activity__cell--0 {
@@ -1826,20 +1839,20 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .github-activity__cell--1 {
-  background: rgba(220, 216, 200, 0.35);
+  background: rgba(34, 211, 238, 0.35);
 }
 
 .github-activity__cell--2 {
-  background: rgba(220, 216, 200, 0.55);
+  background: rgba(34, 211, 238, 0.55);
 }
 
 .github-activity__cell--3 {
-  background: rgba(220, 216, 200, 0.75);
+  background: rgba(34, 211, 238, 0.75);
 }
 
 .github-activity__cell--4 {
-  background: rgba(232, 228, 212, 0.9);
-  box-shadow: 0 0 8px rgba(232, 228, 212, 0.4);
+  background: rgba(18, 246, 255, 0.9);
+  box-shadow: 0 0 8px rgba(18, 246, 255, 0.4);
 }
 
 .github-activity__legend {
@@ -1864,19 +1877,19 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .github-activity__legend-cell--1 {
-  background: rgba(220, 216, 200, 0.35);
+  background: rgba(34, 211, 238, 0.35);
 }
 
 .github-activity__legend-cell--2 {
-  background: rgba(220, 216, 200, 0.55);
+  background: rgba(34, 211, 238, 0.55);
 }
 
 .github-activity__legend-cell--3 {
-  background: rgba(220, 216, 200, 0.75);
+  background: rgba(34, 211, 238, 0.75);
 }
 
 .github-activity__legend-cell--4 {
-  background: rgba(232, 228, 212, 0.9);
+  background: rgba(18, 246, 255, 0.9);
 }
 
 .github-activity__link {
@@ -1918,8 +1931,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .aspirations__card {
   position: relative;
-  background: rgba(14, 15, 18, 0.7);
-  border: 1px solid rgba(138, 133, 120, 0.2);
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 24px;
   padding: 2rem;
   padding-top: 2.75rem;
@@ -1941,7 +1954,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .aspirations__card:hover {
   transform: translateY(-4px);
-  border-color: rgba(150, 145, 135, 0.4);
+  border-color: rgba(244, 114, 182, 0.4);
 }
 
 .aspirations__card h3 {
@@ -2018,7 +2031,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   border-radius: 16px;
   padding: 0.75rem;
   transition: background 0.2s ease;
-  background: rgba(14, 15, 18, 0.35);
+  background: rgba(15, 23, 42, 0.35);
 }
 
 .contact-social-icon {
@@ -2038,7 +2051,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .contact-socials li a:hover {
-  background: rgba(200, 196, 184, 0.15);
+  background: rgba(56, 189, 248, 0.15);
 }
 
 .contact-label {
@@ -2105,8 +2118,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 .form-field select,
 .form-field textarea {
   border-radius: 14px;
-  border: 1px solid rgba(138, 133, 120, 0.3);
-  background: rgba(14, 15, 18, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.6);
   color: var(--text-primary);
   padding: 0.75rem 1rem;
   font-family: inherit;
@@ -2117,15 +2130,15 @@ body[data-depth='trench'] .nav-wrapper::after {
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
-  border-color: rgba(200, 196, 184, 0.6);
+  border-color: rgba(56, 189, 248, 0.6);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(200, 196, 184, 0.15);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.15);
 }
 
 .form-field select {
   appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, rgba(138, 133, 120, 0.6) 50%),
-    linear-gradient(135deg, rgba(138, 133, 120, 0.6) 50%, transparent 50%);
+  background-image: linear-gradient(45deg, transparent 50%, rgba(148, 163, 184, 0.6) 50%),
+    linear-gradient(135deg, rgba(148, 163, 184, 0.6) 50%, transparent 50%);
   background-position: calc(100% - 18px) calc(50% + 4px), calc(100% - 13px) calc(50% + 4px);
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
@@ -2156,8 +2169,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
-  border: 1px solid rgba(220, 216, 200, 0.24);
-  background: rgba(5, 6, 8, 0.82);
+  border: 1px solid rgba(34, 211, 238, 0.24);
+  background: rgba(2, 6, 23, 0.82);
   min-width: 0;
   touch-action: pan-x pan-y;
 }
@@ -2188,8 +2201,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   width: min(1760px, 100%);
   max-width: 100%;
   margin-inline: auto;
-  background: rgba(14, 15, 18, 0.8);
-  border: 1px solid rgba(138, 133, 120, 0.2);
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 32px;
   padding: 3rem;
   display: grid;
@@ -2213,7 +2226,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   object-fit: contain;
   border: none;
   background: transparent;
-  filter: grayscale(1) contrast(1.15) drop-shadow(0 12px 28px rgba(232, 228, 212, 0.35));
+  filter: drop-shadow(0 12px 28px rgba(18, 246, 255, 0.35));
   transition: transform 0.3s ease;
   transform: translateZ(0);
 }
@@ -2238,7 +2251,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .footer__brand-motto {
   font-size: 0.9rem;
-  color: rgba(240, 235, 224, 0.72);
+  color: rgba(244, 248, 255, 0.72);
   letter-spacing: 0.06em;
 }
 
@@ -2292,7 +2305,7 @@ body[data-depth='trench'] .nav-wrapper::after {
     display: flex;
     order: 3;
     pointer-events: auto;
-    -webkit-tap-highlight-color: rgba(232, 228, 212, 0.2);
+    -webkit-tap-highlight-color: rgba(18, 246, 255, 0.2);
     overflow: visible;
   }
 
@@ -2311,7 +2324,7 @@ body[data-depth='trench'] .nav-wrapper::after {
     top: calc(var(--nav-height) + env(safe-area-inset-top, 0px));
     left: 0;
     right: 0;
-    background: rgba(5, 6, 8, 0.98);
+    background: rgba(2, 6, 23, 0.98);
     flex-direction: column;
     align-items: stretch;
     padding: 0;
@@ -2325,7 +2338,7 @@ body[data-depth='trench'] .nav-wrapper::after {
                 opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
                 visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1),
                 padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    border-bottom: 1px solid rgba(138, 133, 120, 0.1);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     order: 4;
     width: 100%;
@@ -2349,7 +2362,7 @@ body[data-depth='trench'] .nav-wrapper::after {
     text-align: center;
     font-size: 1rem;
     border-radius: 12px;
-    background: rgba(14, 15, 18, 0.5);
+    background: rgba(15, 23, 42, 0.5);
     transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
   }
 
@@ -2359,7 +2372,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 
   .nav__links a:hover,
   .nav__links a:focus-visible {
-    background: rgba(232, 228, 212, 0.15);
+    background: rgba(18, 246, 255, 0.15);
     color: var(--accent);
     transform: translateX(4px);
   }
@@ -2373,8 +2386,8 @@ body[data-depth='trench'] .nav-wrapper::after {
     margin-top: 0.35rem;
     text-align: center;
     justify-content: center;
-    background: linear-gradient(120deg, rgba(232, 228, 212, 0.32), rgba(184, 168, 144, 0.32));
-    color: rgba(10, 11, 14, 0.92);
+    background: linear-gradient(120deg, rgba(18, 246, 255, 0.32), rgba(255, 144, 111, 0.32));
+    color: rgba(17, 23, 43, 0.92);
     box-shadow: none;
     text-transform: none;
     letter-spacing: normal;
@@ -2382,8 +2395,8 @@ body[data-depth='trench'] .nav-wrapper::after {
 
   .nav__links a.nav__cta--menu:hover,
   .nav__links a.nav__cta--menu:focus-visible {
-    background: linear-gradient(120deg, rgba(232, 228, 212, 0.45), rgba(184, 168, 144, 0.45));
-    color: rgba(10, 11, 14, 0.95);
+    background: linear-gradient(120deg, rgba(18, 246, 255, 0.45), rgba(255, 144, 111, 0.45));
+    color: rgba(17, 23, 43, 0.95);
     transform: none;
   }
 
@@ -2488,11 +2501,11 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 
-/* Steamboat Willie ink atmosphere */
+/* Oceanic theme enhancements */
 .hero__ripples {
   position: absolute;
   inset: -20%;
-  background: radial-gradient(circle at 50% 50%, rgba(220, 216, 200, 0.08), transparent 55%);
+  background: radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.08), transparent 55%);
   filter: blur(20px);
   opacity: 0.8;
   animation: rippleDrift 22s ease-in-out infinite;
@@ -2502,7 +2515,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 .hero__ripples--two {
   animation-duration: 28s;
   animation-direction: reverse;
-  background: radial-gradient(circle at 40% 60%, rgba(160, 156, 140, 0.1), transparent 60%);
+  background: radial-gradient(circle at 40% 60%, rgba(45, 212, 191, 0.1), transparent 60%);
 }
 
 .hero__spray {
@@ -2518,7 +2531,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   width: clamp(140px, 16vw, 220px);
   height: 2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(232, 228, 212, 0), rgba(232, 228, 212, 0.5), rgba(232, 228, 212, 0));
+  background: linear-gradient(90deg, rgba(191, 219, 254, 0), rgba(191, 219, 254, 0.5), rgba(191, 219, 254, 0));
   filter: blur(1px);
   animation: sprayDrift 14s ease-in-out infinite;
 }
@@ -2606,7 +2619,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   width: clamp(12px, 1.6vw, 22px);
   height: clamp(12px, 1.6vw, 22px);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(232, 228, 212, 0.55), rgba(232, 228, 212, 0));
+  background: radial-gradient(circle, rgba(191, 219, 254, 0.55), rgba(191, 219, 254, 0));
   filter: blur(0.6px);
   animation: heroBubbleRise 12s ease-in-out infinite;
 }
@@ -2650,7 +2663,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .dot--cyan {
-  color: rgba(220, 216, 200, 0.9);
+  color: rgba(34, 211, 238, 0.9);
   animation: sonarPing 2.6s ease-out infinite;
 }
 
@@ -2673,55 +2686,55 @@ body[data-depth='trench'] .nav-wrapper::after {
 .hero__wave {
   flex: 1;
   height: 100%;
-  background: radial-gradient(circle at 30% 90%, rgba(220, 216, 200, 0.28), transparent 65%);
+  background: radial-gradient(circle at 30% 90%, rgba(34, 211, 238, 0.28), transparent 65%);
   filter: blur(40px);
   animation: waveGlow 14s ease-in-out infinite;
 }
 
 .hero__wave--right {
   animation-delay: 4s;
-  background: radial-gradient(circle at 70% 90%, rgba(90, 92, 100, 0.26), transparent 65%);
+  background: radial-gradient(circle at 70% 90%, rgba(59, 130, 246, 0.26), transparent 65%);
 }
 
 .section__header p {
-  color: rgba(196, 191, 179, 0.85);
+  color: rgba(203, 213, 225, 0.85);
 }
 
 .card {
-  background: rgba(22, 24, 30, 0.72);
-  border: 1px solid rgba(220, 216, 200, 0.12);
+  background: rgba(8, 47, 73, 0.72);
+  border: 1px solid rgba(34, 211, 238, 0.12);
 }
 
 .card:hover {
-  border-color: rgba(220, 216, 200, 0.38);
-  box-shadow: 0 22px 40px -30px rgba(110, 112, 120, 0.7);
+  border-color: rgba(34, 211, 238, 0.38);
+  box-shadow: 0 22px 40px -30px rgba(14, 165, 233, 0.7);
 }
 
 .card--contact,
 .card--column,
 .card--contact.card--calendly {
-  background: linear-gradient(160deg, rgba(22, 24, 30, 0.82), rgba(22, 24, 30, 0.75));
-  border: 1px solid rgba(220, 216, 200, 0.18);
-  box-shadow: 0 18px 38px -28px rgba(110, 112, 120, 0.55);
+  background: linear-gradient(160deg, rgba(8, 47, 73, 0.82), rgba(12, 55, 82, 0.75));
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  box-shadow: 0 18px 38px -28px rgba(14, 165, 233, 0.55);
 }
 
 .card__badge {
-  background: rgba(220, 216, 200, 0.18);
-  color: rgba(212, 207, 192, 0.92);
+  background: rgba(34, 211, 238, 0.18);
+  color: rgba(125, 211, 252, 0.92);
 }
 
 .card__badge--signal {
-  background: rgba(160, 156, 140, 0.15);
-  color: rgba(160, 156, 140, 0.95);
+  background: rgba(45, 212, 191, 0.15);
+  color: rgba(45, 212, 191, 0.95);
 }
 
 .card__badge--orbit {
-  background: rgba(90, 92, 100, 0.18);
-  color: rgba(212, 207, 192, 0.95);
+  background: rgba(59, 130, 246, 0.18);
+  color: rgba(125, 211, 252, 0.95);
 }
 
 .card__badge--spark {
-  background: rgba(160, 150, 140, 0.18);
+  background: rgba(251, 113, 133, 0.18);
   color: var(--accent-soft);
 }
 
@@ -2731,23 +2744,23 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .button--primary {
-  background: linear-gradient(135deg, rgba(220, 216, 200, 0.95), rgba(110, 112, 120, 0.75));
-  color: #08090c;
-  box-shadow: 0 18px 35px -18px rgba(122, 117, 104, 0.95);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.95), rgba(14, 165, 233, 0.75));
+  color: #031b2b;
+  box-shadow: 0 18px 35px -18px rgba(6, 182, 212, 0.95);
 }
 
 .button--primary:hover {
-  box-shadow: 0 26px 45px -22px rgba(110, 112, 120, 0.9);
+  box-shadow: 0 26px 45px -22px rgba(14, 165, 233, 0.9);
 }
 
 .button--ghost {
-  border: 1px solid rgba(160, 156, 140, 0.25);
-  background: rgba(5, 6, 8, 0.6);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  background: rgba(2, 6, 23, 0.6);
 }
 
 .button--ghost:hover {
-  border-color: rgba(220, 216, 200, 0.4);
-  box-shadow: 0 18px 32px -22px rgba(220, 216, 200, 0.6);
+  border-color: rgba(34, 211, 238, 0.4);
+  box-shadow: 0 18px 32px -22px rgba(34, 211, 238, 0.6);
 }
 
 .button__icon,
@@ -2789,44 +2802,44 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .card--column {
-  background: rgba(22, 24, 30, 0.78);
-  border: 1px solid rgba(220, 216, 200, 0.16);
+  background: rgba(8, 47, 73, 0.78);
+  border: 1px solid rgba(34, 211, 238, 0.16);
 }
 
 .card--column h3 {
-  color: rgba(232, 228, 212, 0.95);
+  color: rgba(226, 232, 240, 0.95);
 }
 
 .card--column ul {
-  color: rgba(196, 191, 179, 0.88);
+  color: rgba(203, 213, 225, 0.88);
 }
 
 .toolkit {
-  background: linear-gradient(135deg, rgba(220, 216, 200, 0.18), rgba(90, 88, 80, 0.16));
-  border: 1px solid rgba(220, 216, 200, 0.25);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(15, 118, 110, 0.16));
+  border: 1px solid rgba(34, 211, 238, 0.25);
 }
 
 .toolkit__note {
-  color: rgba(196, 191, 179, 0.85);
+  color: rgba(203, 213, 225, 0.85);
 }
 
 .project-card__overlay {
-  background: rgba(5, 6, 8, 0.72);
-  border: 1px solid rgba(220, 216, 200, 0.4);
-  color: rgba(232, 228, 212, 0.92);
+  background: rgba(2, 6, 23, 0.72);
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  color: rgba(226, 232, 240, 0.92);
 }
 
 .project-card__body {
-  background: rgba(22, 24, 30, 0.78);
-  border: 1px solid rgba(220, 216, 200, 0.18);
+  background: rgba(8, 47, 73, 0.78);
+  border: 1px solid rgba(34, 211, 238, 0.18);
 }
 
 .project-card__body::after {
-  background: linear-gradient(135deg, rgba(220, 216, 200, 0.16), transparent 70%);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.16), transparent 70%);
 }
 
 .project-card__meta {
-  color: rgba(138, 133, 120, 0.9);
+  color: rgba(148, 163, 184, 0.9);
 }
 
 .project-card__meta a {
@@ -2834,17 +2847,17 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .aspirations__card {
-  background: linear-gradient(160deg, rgba(22, 24, 30, 0.85), rgba(14, 15, 18, 0.78));
-  border: 1px solid rgba(220, 216, 200, 0.16);
+  background: linear-gradient(160deg, rgba(8, 47, 73, 0.85), rgba(15, 23, 42, 0.78));
+  border: 1px solid rgba(34, 211, 238, 0.16);
 }
 
 .aspirations__card:hover {
-  border-color: rgba(220, 216, 200, 0.42);
-  box-shadow: 0 18px 36px -26px rgba(110, 112, 120, 0.65);
+  border-color: rgba(34, 211, 238, 0.42);
+  box-shadow: 0 18px 36px -26px rgba(14, 165, 233, 0.65);
 }
 
 .aspirations__card p {
-  color: rgba(196, 191, 179, 0.88);
+  color: rgba(203, 213, 225, 0.88);
 }
 
 .aspirations__label {
@@ -2853,12 +2866,12 @@ body[data-depth='trench'] .nav-wrapper::after {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-size: 0.75rem;
-  color: rgba(220, 216, 200, 0.75);
+  color: rgba(34, 211, 238, 0.75);
 }
 
 .contact-grid .card {
-  background: rgba(22, 24, 30, 0.78);
-  border: 1px solid rgba(220, 216, 200, 0.16);
+  background: rgba(8, 47, 73, 0.78);
+  border: 1px solid rgba(34, 211, 238, 0.16);
 }
 
 .contact-email,
@@ -2867,7 +2880,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 }
 
 .contact-tone {
-  color: rgba(138, 133, 120, 0.9);
+  color: rgba(148, 163, 184, 0.9);
 }
 
 @keyframes rippleDrift {
@@ -2936,10 +2949,10 @@ body[data-depth='trench'] .nav-wrapper::after {
 @keyframes titlePulse {
   0%,
   100% {
-    text-shadow: 0 0 32px rgba(220, 216, 200, 0.22);
+    text-shadow: 0 0 32px rgba(34, 211, 238, 0.22);
   }
   50% {
-    text-shadow: 0 0 52px rgba(220, 216, 200, 0.34);
+    text-shadow: 0 0 52px rgba(34, 211, 238, 0.34);
   }
 }
 
@@ -3048,13 +3061,13 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 @keyframes sonarPing {
   0% {
-    box-shadow: 0 0 0 0 rgba(220, 216, 200, 0.55);
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.55);
   }
   70% {
-    box-shadow: 0 0 0 12px rgba(220, 216, 200, 0);
+    box-shadow: 0 0 0 12px rgba(34, 211, 238, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(220, 216, 200, 0);
+    box-shadow: 0 0 0 0 rgba(34, 211, 238, 0);
   }
 }
 
@@ -3187,7 +3200,7 @@ body[data-depth='trench'] .nav-wrapper::after {
   }
 
   .scroll-progress__bar {
-    box-shadow: 0 0 4px rgba(232, 228, 212, 0.5);
+    box-shadow: 0 0 4px rgba(18, 246, 255, 0.5);
   }
 
   /* Disable canvas entirely on mobile to prevent crashes */
@@ -3327,8 +3340,8 @@ body[data-depth='trench'] .nav-wrapper::after {
   max-width: 600px;
   text-align: center;
   padding: 3rem;
-  background: rgba(14, 15, 18, 0.8);
-  border: 1px solid rgba(138, 133, 120, 0.2);
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 24px;
 }
 
@@ -3353,7 +3366,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 .error-boundary__details {
   margin-top: 2rem;
   padding: 1rem;
-  background: rgba(5, 6, 8, 0.8);
+  background: rgba(2, 6, 23, 0.8);
   border-radius: 12px;
   text-align: left;
   max-height: 300px;
@@ -3378,7 +3391,7 @@ body[data-depth='trench'] .nav-wrapper::after {
 .form-error {
   display: block;
   margin-top: 0.5rem;
-  color: #b8a890;
+  color: #ff906f;
   font-size: 0.85rem;
   animation: error-shake 0.3s ease;
 }
@@ -3391,20 +3404,20 @@ body[data-depth='trench'] .nav-wrapper::after {
 
 .form-field input:invalid:not(:placeholder-shown),
 .form-field textarea:invalid:not(:placeholder-shown) {
-  border-color: #b8a890;
+  border-color: #ff906f;
 }
 
 .form-field input:valid:not(:placeholder-shown),
 .form-field textarea:valid:not(:placeholder-shown) {
-  border-color: rgba(160, 156, 140, 0.4);
+  border-color: rgba(45, 212, 191, 0.4);
 }
 
 .form-success {
   padding: 1rem;
-  background: rgba(160, 156, 140, 0.15);
-  border: 1px solid rgba(160, 156, 140, 0.4);
+  background: rgba(45, 212, 191, 0.15);
+  border: 1px solid rgba(45, 212, 191, 0.4);
   border-radius: 12px;
-  color: rgba(160, 156, 140, 0.95);
+  color: rgba(45, 212, 191, 0.95);
   margin-bottom: 1rem;
   text-align: center;
   animation: success-fade-in 0.3s ease;

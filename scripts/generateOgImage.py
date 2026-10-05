@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate Steamboat Willie–styled social preview images for nico.builds.
+Generate social preview images for nico.builds — ink stage + colorful accents.
   - public/og-image.png       (1200x630, Open Graph / Discord / Twitter)
   - public/social-image.png   (1200x1200, Instagram / LinkedIn / profile)
 
@@ -16,21 +16,18 @@ try:
 except ImportError:
     Image = ImageDraw = ImageFilter = ImageFont = None
 
-IMAGE_VERSION = "4"
+IMAGE_VERSION = "5"
 
-# Portfolio theme (brand-kit/colors/palette.json)
-BG_DARK = (10, 11, 14)
+# Portfolio theme (brand-kit/colors/palette.json) — ink stage + color cast
+BG_DARK = (7, 8, 11)
 BG_MIDNIGHT = (5, 6, 8)
-BG_INDIGO = (26, 27, 32)
-ACCENT_INK = (232, 228, 212)
-ACCENT_WARM = (184, 168, 144)
-ACCENT_ASH = (122, 117, 104)
-ACCENT_CYAN = ACCENT_INK
-ACCENT_CORAL = ACCENT_WARM
-ACCENT_TEAL = ACCENT_ASH
-TEXT_PRIMARY = (240, 235, 224)
-TEXT_SECONDARY = (196, 191, 179)
-TEXT_TERTIARY = (138, 133, 120)
+BG_INDIGO = (21, 59, 109)
+ACCENT_CYAN = (18, 246, 255)
+ACCENT_CORAL = (255, 144, 111)
+ACCENT_TEAL = (20, 201, 201)
+TEXT_PRIMARY = (247, 242, 232)
+TEXT_SECONDARY = (224, 216, 200)
+TEXT_TERTIARY = (176, 168, 148)
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_DIR.parent

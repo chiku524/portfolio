@@ -223,28 +223,28 @@ function Portfolio() {
       const cx = width * 0.3
       const cy = height * 0.35
       const g1 = ctx.createRadialGradient(cx, cy, 0, cx, cy, r)
-      g1.addColorStop(0, 'rgba(200, 196, 184, 0.22)')
-      g1.addColorStop(0.4, 'rgba(220, 216, 200, 0.1)')
-      g1.addColorStop(0.7, 'rgba(220, 216, 200, 0.04)')
-      g1.addColorStop(1, 'rgba(14, 15, 18, 0)')
+      g1.addColorStop(0, 'rgba(56, 189, 248, 0.22)')
+      g1.addColorStop(0.4, 'rgba(34, 211, 238, 0.1)')
+      g1.addColorStop(0.7, 'rgba(34, 211, 238, 0.04)')
+      g1.addColorStop(1, 'rgba(15, 23, 42, 0)')
       ctx.fillStyle = g1
       ctx.fillRect(0, 0, width, height)
       const cx2 = width * 0.75
       const cy2 = height * 0.2
       const r2 = Math.max(width, height) * 0.8
       const g2 = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, r2)
-      g2.addColorStop(0, 'rgba(90, 92, 100, 0.16)')
-      g2.addColorStop(0.5, 'rgba(220, 216, 200, 0.05)')
-      g2.addColorStop(1, 'rgba(14, 15, 18, 0)')
+      g2.addColorStop(0, 'rgba(59, 130, 246, 0.16)')
+      g2.addColorStop(0.5, 'rgba(34, 211, 238, 0.05)')
+      g2.addColorStop(1, 'rgba(15, 23, 42, 0)')
       ctx.fillStyle = g2
       ctx.fillRect(0, 0, width, height)
       const cx3 = width * 0.5
       const cy3 = height * 0.7
       const r3 = Math.max(width, height) * 0.65
       const g3 = ctx.createRadialGradient(cx3, cy3, 0, cx3, cy3, r3)
-      g3.addColorStop(0, 'rgba(220, 216, 200, 0.1)')
-      g3.addColorStop(0.6, 'rgba(220, 216, 200, 0.03)')
-      g3.addColorStop(1, 'rgba(14, 15, 18, 0)')
+      g3.addColorStop(0, 'rgba(34, 211, 238, 0.1)')
+      g3.addColorStop(0.6, 'rgba(34, 211, 238, 0.03)')
+      g3.addColorStop(1, 'rgba(15, 23, 42, 0)')
       ctx.fillStyle = g3
       ctx.fillRect(0, 0, width, height)
     }
@@ -1344,8 +1344,8 @@ function Portfolio() {
                 const hasMedia = !!project.media?.thumbnail
                 const showFallback = !hasMedia && !isEcosystem
                 const gradientStyle = !hasMedia && !isEcosystem && {
-                  background: 'linear-gradient(135deg, rgba(5, 6, 8, 0.92) 0%, rgba(22, 24, 30, 0.88) 40%, rgba(14, 15, 18, 0.9) 70%, rgba(10, 12, 16, 0.9) 100%)',
-                  backgroundImage: 'radial-gradient(circle at 25% 35%, rgba(232, 228, 212, 0.18) 0%, transparent 50%), radial-gradient(circle at 75% 65%, rgba(90, 92, 100, 0.12) 0%, transparent 45%)',
+                  background: 'linear-gradient(135deg, rgba(2, 6, 23, 0.92) 0%, rgba(8, 47, 73, 0.88) 40%, rgba(15, 23, 42, 0.9) 70%, rgba(6, 28, 50, 0.9) 100%)',
+                  backgroundImage: 'radial-gradient(circle at 25% 35%, rgba(18, 246, 255, 0.18) 0%, transparent 50%), radial-gradient(circle at 75% 65%, rgba(59, 130, 246, 0.12) 0%, transparent 45%)',
                 }
                 const initial = showFallback ? project.name.charAt(0) : null
 

@@ -3,20 +3,17 @@ import { createPortal } from 'react-dom'
 import { prefersFinePointer, prefersReducedMotion } from '../utils/motion'
 import './PointerAtmosphere.css'
 
-const INK = '232, 228, 212'
-const ASH = '122, 117, 104'
-const WARM = '184, 168, 144'
-const CYAN = INK
-const TEAL = ASH
-const CORAL = WARM
+const CYAN = '18, 246, 255'
+const TEAL = '20, 201, 201'
+const CORAL = '255, 144, 111'
 const TRAIL_MS = 820
 const MAX_POINTS = 36
 const MAX_SPARKS = 48
 const MAX_RIPPLES = 6
 
 /**
- * Ink-wash pointer wake + click ripples.
- * Cream ink / charcoal silver / warm ash — Steamboat Willie theme.
+ * Bioluminescent pointer wake + click ripples.
+ * Brand cyan / teal lagoon / coral, matching the ocean theme.
  * Fine pointers only; skipped when the user prefers reduced motion.
  */
 export default function PointerAtmosphere() {
@@ -74,7 +71,7 @@ export default function PointerAtmosphere() {
 
     const drawHalo = () => {
       const glow = ctx.createRadialGradient(halo.x, halo.y, 0, halo.x, halo.y, 22)
-      glow.addColorStop(0, 'rgba(240, 235, 224, 0.9)')
+      glow.addColorStop(0, 'rgba(244, 248, 255, 0.9)')
       glow.addColorStop(0.16, `rgba(${CYAN}, 0.72)`)
       glow.addColorStop(0.42, `rgba(${TEAL}, 0.18)`)
       glow.addColorStop(1, `rgba(${CYAN}, 0)`)

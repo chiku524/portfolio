@@ -32,8 +32,8 @@ export default function TikTokCallback() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(180deg, #0a0b0e 0%, #141518 100%)',
-        color: '#e8e4d4',
+        background: 'linear-gradient(180deg, #050608 0%, #0a0b0e 100%)',
+        color: '#f7f2e8',
         fontFamily: 'system-ui, sans-serif',
         padding:
           'env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px)',
@@ -45,15 +45,15 @@ export default function TikTokCallback() {
           style={{
             width: '40px',
             height: '40px',
-            border: '3px solid rgba(232, 228, 212, 0.3)',
-            borderTopColor: '#e8e4d4',
+            border: '3px solid rgba(18, 246, 255, 0.3)',
+            borderTopColor: '#12f6ff',
             borderRadius: '50%',
             animation: 'spin 0.8s linear infinite',
             margin: '0 auto 1rem',
           }}
         />
         <p>Processing TikTok OAuth callback...</p>
-        <p style={{ fontSize: '0.9rem', color: '#8a8578', marginTop: '0.5rem' }}>
+        <p style={{ fontSize: '0.9rem', color: '#94a3b8', marginTop: '0.5rem' }}>
           Redirecting to n8n...
         </p>
       </div>

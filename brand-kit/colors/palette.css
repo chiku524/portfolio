@@ -1,38 +1,39 @@
-/* nico.builds Brand Color Palette — Steamboat Willie (1928 ink) */
+/* nico.builds Brand Color Palette
+ * Stage: Steamboat Willie ink (B&W backgrounds)
+ * Foreground: original cyan / coral / teal accents
+ */
 
 :root {
-  /* Primary Colors */
-  --brand-accent: #e8e4d4;
-  --brand-accent-soft: #b8a890;
-  --brand-accent-deep: #7a7568;
-  --brand-accent-lagoon: #7a7568;
+  /* Primary Colors — colorful UI */
+  --brand-accent: #12f6ff;
+  --brand-accent-soft: #ff906f;
+  --brand-accent-deep: #14c9c9;
+  --brand-accent-lagoon: #14c9c9;
   
-  /* Background Colors */
-  --brand-bg: #0a0b0e;
+  /* Background Colors — Willie ink stage */
+  --brand-bg: #07080b;
   --brand-midnight: #050608;
-  --brand-indigo: #1a1b20;
+  --brand-indigo: #153b6d;
   
-  /* Text Colors */
-  --brand-text-primary: #f0ebe0;
-  --brand-text-secondary: #c4bfb3;
-  --brand-text-tertiary: #8a8578;
+  /* Text Colors — cream paper on ink */
+  --brand-text-primary: #f7f2e8;
+  --brand-text-secondary: #e0d8c8;
+  --brand-text-tertiary: #b0a894;
   
   /* Accent Variations */
-  --brand-sand: #b8a890;
+  --brand-sand: #ff906f;
   
-  /* Gradient Backgrounds */
+  /* Gradient Backgrounds — ink */
   --gradient-midnight-start: #050608;
-  --gradient-midnight-mid: #0c0d10;
+  --gradient-midnight-mid: #0a0b0e;
   --gradient-midnight-end: #030304;
   
-  /* Glow Effects (ink wash) */
-  --glow-ink: rgba(232, 228, 212, 0.22);
-  --glow-ash: rgba(122, 117, 104, 0.14);
-  --glow-warm: rgba(184, 168, 144, 0.12);
-  /* Legacy aliases */
-  --glow-cyan: var(--glow-ink);
-  --glow-teal: var(--glow-ash);
-  --glow-orange: var(--glow-warm);
+  /* Glow Effects — colorful UI glows */
+  --glow-cyan: rgba(18, 246, 255, 0.28);
+  --glow-teal: rgba(20, 201, 201, 0.14);
+  --glow-orange: rgba(255, 144, 111, 0.12);
+  /* Stage ink wash (background atmosphere) */
+  --glow-ink: rgba(247, 242, 232, 0.08);
 }
 
 /* Color Usage Classes */
