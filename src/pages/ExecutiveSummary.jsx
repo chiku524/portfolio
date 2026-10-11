@@ -92,9 +92,16 @@ export default function ExecutiveSummary() {
               </li>
               <li>
                 <strong>Micro Paywall</strong> — Blockchain-native monetization: multi-chain payments,
-                low-friction widgets, operator dashboard.{' '}
+                  low-friction widgets, operator dashboard.{' '}
                 <a href="https://micropaywall.app/" target="_blank" rel="noreferrer">
                   micropaywall.app
+                </a>
+              </li>
+              <li>
+                <strong>Token Ledger</strong> — Accounting and financial-data layer for digital assets: one
+                audit-ready ledger across wallets, chains, custodians, and exchanges.{' '}
+                <a href="https://token-ledger-olive.vercel.app/" target="_blank" rel="noreferrer">
+                  token-ledger-olive.vercel.app
                 </a>
               </li>
               <li>
@@ -125,15 +132,7 @@ export default function ExecutiveSummary() {
                 </a>
               </li>
               <li>
-                <strong>Immersive Labs</strong> — Text-to-Unity game asset studio and marketing site for the
-                Video Game Generation Studio.{' '}
-                <a href="https://immersivelabs.space/" target="_blank" rel="noreferrer">
-                  immersivelabs.space
-                </a>
-              </li>
-              <li>
-                <strong>SnappyPie</strong> — AI micro-tutor that turns a photo into a structured visual lesson.{' '}
-                <a href="https://snappypie.app/" target="_blank" rel="noreferrer">
+                <strong>SnappyPie</strong> — AI micro-tutor that turns a photo into a structured visual lesson.{' '}                <a href="https://snappypie.app/" target="_blank" rel="noreferrer">
                   snappypie.app
                 </a>
               </li>
@@ -152,29 +151,10 @@ export default function ExecutiveSummary() {
                 </a>
               </li>
               <li>
-                <strong>VibeMiner</strong> — Accessible mining: minimal setup across multiple chains and
-                environments.{' '}
-                <a href="https://vibeminer.tech/" target="_blank" rel="noreferrer">
-                  vibeminer.tech
-                </a>
-              </li>
-              <li>
                 <strong>Albion Silver Helper</strong> — Client-side Albion Online profit tools for flips,
                 refining, and crafting.{' '}
                 <a href="https://albion-silver-helper.vercel.app/" target="_blank" rel="noreferrer">
                   albion-silver-helper.vercel.app
-                </a>
-              </li>
-              <li>
-                <strong>GW2 TP Profit</strong> — Guild Wars 2 trading post scanner and profit calculator.{' '}
-                <a href="https://gw2-tp-profit.vercel.app/" target="_blank" rel="noreferrer">
-                  gw2-tp-profit.vercel.app
-                </a>
-              </li>
-              <li>
-                <strong>Fab Products</strong> — Unreal Engine editor plugins and starter kits for Epic Fab.{' '}
-                <a href="https://github.com/chiku524/fab-products" target="_blank" rel="noreferrer">
-                  github.com/chiku524/fab-products
                 </a>
               </li>
               <li>

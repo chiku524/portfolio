@@ -28,11 +28,11 @@ Full-stack developer shipping **web3** and **AI-powered** products: design syste
 |--------|------------|
 | **Blockchain Vibe** [blockchainvibe.news](https://blockchainvibe.news/) | Automation, AI content, on-chain analytics |
 | **Micro Paywall** [micropaywall.app](https://micropaywall.app/) | Multi-chain payments; widgets, dashboard |
+| **Token Ledger** [token-ledger-olive.vercel.app](https://token-ledger-olive.vercel.app/) | Crypto accounting; multi-chain audit ledger |
 | **Motion** [motion.productions](https://motion.productions/) | Script-to-video; procedural engine |
 | **Dice Express** [dice.express](https://dice.express/) | Prediction markets, forecasting |
 | **The Studio Circus** [thestudiocircus.io](https://thestudiocircus.io/) | AI education series; Tech, Sports, Blockchain |
 | **BountyHub** [bountyhub.tech](https://bountyhub.tech/) | Web3 bounties, growth, dashboards |
-| **VibeMiner** [vibeminer.tech](https://vibeminer.tech/) | One-click mining; Boing, Monero, Kaspa, Ergo |
 | **Boing Network** [boing.network](https://boing.network/) | L1 ecosystem; account abstraction, DeFi |
 
 *nico.builds · © Nico Chikuji*
