@@ -675,8 +675,16 @@ function Portfolio() {
         media: null,
       },
       {
-        name: 'Motion',
-        url: 'https://motion.productions/',
+        name: 'Token Ledger',
+        url: 'https://token-ledger-olive.vercel.app/',
+        badge: 'Crypto accounting',
+        description:
+          'Audit-ready double-entry subledger for digital assets—wallets, custodians, and exchanges across Ethereum, Solana, Polygon, Bitcoin, and Sui.',
+        highlight: 'IFRS reporting, ERP sync path, multi-chain connectors.',
+        media: null,
+      },
+      {
+        name: 'Motion',        url: 'https://motion.productions/',
         badge: 'Video generation',
         description:
           'Turn your script into video. One prompt, one video. Procedural engine—no external models. From prompt to production.',

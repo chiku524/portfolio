@@ -92,9 +92,16 @@ export default function ExecutiveSummary() {
               </li>
               <li>
                 <strong>Micro Paywall</strong> — Blockchain-native monetization: multi-chain payments,
-                low-friction widgets, operator dashboard.{' '}
+                  low-friction widgets, operator dashboard.{' '}
                 <a href="https://micropaywall.app/" target="_blank" rel="noreferrer">
                   micropaywall.app
+                </a>
+              </li>
+              <li>
+                <strong>Token Ledger</strong> — Accounting and financial-data layer for digital assets: one
+                audit-ready ledger across wallets, chains, custodians, and exchanges.{' '}
+                <a href="https://token-ledger-olive.vercel.app/" target="_blank" rel="noreferrer">
+                  token-ledger-olive.vercel.app
                 </a>
               </li>
               <li>
