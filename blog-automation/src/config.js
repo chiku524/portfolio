@@ -18,7 +18,6 @@ export const PROJECTS = [
   { name: "Dice Express", github: { owner: "chiku524", repo: "dice.express" }, notionHubId: "313c0750-e6ae-8175-8bf3-e2f668361c1d", domain: "dice.express" },
   { name: "The Studio Circus", github: { owner: "chiku524", repo: "the-studio-circus" }, notionHubId: "313c0750-e6ae-8131-85d4-f885ef8ee305", domain: "thestudiocircus.io" },
   { name: "BountyHub", github: { owner: "chiku524", repo: "bountyhub" }, notionHubId: "313c0750-e6ae-8175-b1ed-c1698ef1985c", domain: "bountyhub.tech" },
-  { name: "VibeMiner", github: { owner: "chiku524", repo: "VibeMiner" }, notionHubId: "313c0750-e6ae-8195-b018-f281ad31ac13", domain: "vibeminer.tech" },
   { name: "Boing Network", github: { owner: "chiku524", repo: "boing-network" }, notionHubId: "313c0750-e6ae-810e-a428-f04ad5a570b2", domain: "boing.network" },
   { name: "Boing Express", github: { owner: "chiku524", repo: "boing.express" }, notionHubId: "313c0750-e6ae-8190-9057-f9309bff4709", domain: "boing.express" },
   { name: "Boing Explorer", github: { owner: "chiku524", repo: "boing-explorer" }, notionHubId: "313c0750-e6ae-81ee-9a88-fbfa056be74c", domain: "boing.observer" },

@@ -711,17 +711,7 @@ function Portfolio() {
         media: null,
       },
       {
-        name: 'Immersive Labs',
-        url: 'https://immersivelabs.space/',
-        badge: 'Game generation studio',
-        description:
-          'Text-to-Unity asset pipeline and studio UI—spec generation, ComfyUI textures, pack export, and a marketing site for the Video Game Generation Studio.',
-        highlight: 'Vite studio UI, Python worker, Unity importer.',
-        media: null,
-      },
-      {
-        name: 'SnappyPie',
-        url: 'https://snappypie.app/',
+        name: 'SnappyPie',        url: 'https://snappypie.app/',
         badge: 'AI micro-tutor',
         description:
           'Snap a photo, get a structured visual lesson. Expo mobile + web with vision explanations, animated lessons, and a local knowledge timeline.',
@@ -747,17 +737,7 @@ function Portfolio() {
         media: null,
       },
       {
-        name: 'VibeMiner',
-        url: 'https://vibeminer.tech/',
-        badge: 'One-click mining',
-        description:
-          'Mine without the grind. No terminal, no config. Choose a blockchain, click start, and contribute hashrate—on desktop or web.',
-        highlight: 'Boing testnet, Monero, Kaspa, Ergo. Web & desktop.',
-        media: null,
-      },
-      {
-        name: 'Albion Silver Helper',
-        url: 'https://albion-silver-helper.vercel.app/',
+        name: 'Albion Silver Helper',        url: 'https://albion-silver-helper.vercel.app/',
         badge: 'Game economy tools',
         description:
           'Client-side Albion Online profit helper for market flips, refining, crafting, farms, and optional local price capture—no game automation.',
@@ -765,26 +745,7 @@ function Portfolio() {
         media: null,
       },
       {
-        name: 'GW2 TP Profit',
-        url: 'https://gw2-tp-profit.vercel.app/',
-        badge: 'Trading tools',
-        description:
-          'Guild Wars 2 trading post helper with flip scanning, fee-aware profit math, open orders, delivery box, and crafting trees via the official API.',
-        highlight: 'Live commerce data, P&L history, local API key.',
-        media: null,
-      },
-      {
-        name: 'Fab Products',
-        url: 'https://github.com/chiku524/fab-products',
-        badge: 'Unreal Engine plugins',
-        description:
-          'Epic Fab marketplace suite—Harbor Suite, Level Selection Sets, World Builder tools, Workflow Toolkit, and Immersive Labs UE bundles.',
-        highlight: 'Editor plugins, starter kits, Fab packaging.',
-        media: null,
-      },
-      {
-        name: 'Schmiedeler & Associates',
-        url: 'https://schmiedeler.com/',
+        name: 'Schmiedeler & Associates',        url: 'https://schmiedeler.com/',
         badge: 'Client website',
         description:
           'Institutional site for Schmiedeler & Associates Inc.—services, product lines, manufacturers, and contact flows on Cloudflare Pages.',
