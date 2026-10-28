@@ -98,10 +98,14 @@ export default function ExecutiveSummary() {
                 </a>
               </li>
               <li>
-                <strong>Token Ledger</strong> — Accounting and financial-data layer for digital assets: one
-                audit-ready ledger across wallets, chains, custodians, and exchanges.{' '}
-                <a href="https://token-ledger-olive.vercel.app/" target="_blank" rel="noreferrer">
-                  token-ledger-olive.vercel.app
+                <strong>Token Ledger</strong> — Latest crypto accounting work: one audit-ready ledger across
+                wallets, chains, custodians, and exchanges.{' '}
+                <a href="https://app.tokenledger.win/" target="_blank" rel="noreferrer">
+                  app.tokenledger.win
+                </a>
+                {' · '}
+                <a href="https://github.com/chiku524/token-ledger" target="_blank" rel="noreferrer">
+                  GitHub
                 </a>
               </li>
               <li>

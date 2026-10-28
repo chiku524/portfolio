@@ -28,7 +28,7 @@ Full-stack developer shipping **web3** and **AI-powered** products: design syste
 |--------|------------|
 | **Blockchain Vibe** [blockchainvibe.news](https://blockchainvibe.news/) | Automation, AI content, on-chain analytics |
 | **Micro Paywall** [micropaywall.app](https://micropaywall.app/) | Multi-chain payments; widgets, dashboard |
-| **Token Ledger** [token-ledger-olive.vercel.app](https://token-ledger-olive.vercel.app/) | Crypto accounting; multi-chain audit ledger |
+| **Token Ledger** [app.tokenledger.win](https://app.tokenledger.win/) · [repo](https://github.com/chiku524/token-ledger) | Latest: crypto accounting; multi-chain audit ledger |
 | **Motion** [motion.productions](https://motion.productions/) | Script-to-video; procedural engine |
 | **Dice Express** [dice.express](https://dice.express/) | Prediction markets, forecasting |
 | **The Studio Circus** [thestudiocircus.io](https://thestudiocircus.io/) | AI education series; Tech, Sports, Blockchain |
