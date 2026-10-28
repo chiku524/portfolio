@@ -676,10 +676,10 @@ function Portfolio() {
       },
       {
         name: 'Token Ledger',
-        url: 'https://token-ledger-olive.vercel.app/',
+        url: 'https://app.tokenledger.win/',
         badge: 'Crypto accounting',
         description:
-          'Audit-ready double-entry subledger for digital assets—wallets, custodians, and exchanges across Ethereum, Solana, Polygon, Bitcoin, and Sui.',
+          'Latest build: audit-ready double-entry subledger for digital assets—wallets, custodians, and exchanges across Ethereum, Solana, Polygon, Bitcoin, and Sui.',
         highlight: 'IFRS reporting, ERP sync path, multi-chain connectors.',
         media: null,
       },
