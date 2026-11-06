@@ -1,6 +1,6 @@
 # Nico Chikuji
 
-**Full-Stack Developer** · Flow Beyond Limits · nico.builds@outlook.com · [LinkedIn](https://www.linkedin.com/in/nico-chikuji/) · [GitHub](https://github.com/chiku524) · [nicochikuji-portfolio.vercel.app](https://nicochikuji-portfolio.vercel.app) · [Calendly](https://calendly.com/nico-chikuji/30min)
+**Full-Stack Developer** · Flow Beyond Limits · nico.builds@outlook.com · [LinkedIn](https://www.linkedin.com/in/nico-chikuji/) · [GitHub](https://github.com/chiku524) · [nicochikuji-digital-portfolio.vercel.app](https://nicochikuji-digital-portfolio.vercel.app) · [Calendly](https://calendly.com/nico-chikuji/30min)
 
 ## Profile
 
