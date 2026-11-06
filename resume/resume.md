@@ -1,6 +1,6 @@
 # Nico Chikuji
 
-**Full-Stack Developer** · Flow Beyond Limits · nico.builds@outlook.com · [LinkedIn](https://www.linkedin.com/in/nico-chikuji/) · [GitHub](https://github.com/chiku524) · [nicochikuji-portfolio.vercel.app](https://nicochikuji-portfolio.vercel.app) · [Calendly](https://calendly.com/nico-chikuji/30min)
+**Full-Stack Developer** · Flow Beyond Limits · nico.builds@outlook.com · [LinkedIn](https://www.linkedin.com/in/nico-chikuji/) · [GitHub](https://github.com/chiku524) · [nicochikuji-digital-portfolio.vercel.app](https://nicochikuji-digital-portfolio.vercel.app) · [Calendly](https://calendly.com/nico-chikuji/30min)
 
 ## Profile
 
@@ -26,13 +26,13 @@ Full-stack developer shipping **web3** and **AI-powered** products: design syste
 
 | Project | Highlights |
 |--------|------------|
+| **Boing Network** [boing.network](https://boing.network/) | L1 ecosystem; account abstraction, DeFi |
+| **Token Ledger** [app.tokenledger.win](https://app.tokenledger.win/) · [repo](https://github.com/chiku524/token-ledger) | Latest: crypto accounting; multi-chain audit ledger |
+| **BountyHub** [bountyhub.tech](https://bountyhub.tech/) | Web3 bounties, growth, dashboards |
 | **Blockchain Vibe** [blockchainvibe.news](https://blockchainvibe.news/) | Automation, AI content, on-chain analytics |
 | **Micro Paywall** [micropaywall.app](https://micropaywall.app/) | Multi-chain payments; widgets, dashboard |
-| **Token Ledger** [app.tokenledger.win](https://app.tokenledger.win/) · [repo](https://github.com/chiku524/token-ledger) | Latest: crypto accounting; multi-chain audit ledger |
 | **Motion** [motion.productions](https://motion.productions/) | Script-to-video; procedural engine |
 | **Dice Express** [dice.express](https://dice.express/) | Prediction markets, forecasting |
 | **The Studio Circus** [thestudiocircus.io](https://thestudiocircus.io/) | AI education series; Tech, Sports, Blockchain |
-| **BountyHub** [bountyhub.tech](https://bountyhub.tech/) | Web3 bounties, growth, dashboards |
-| **Boing Network** [boing.network](https://boing.network/) | L1 ecosystem; account abstraction, DeFi |
 
 *nico.builds · © Nico Chikuji*
